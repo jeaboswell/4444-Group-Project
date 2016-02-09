@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SocketHelper.cs" />
     <Page Include="Server.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

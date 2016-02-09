@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="OMS-Server" Height="350" Width="525">
     <Grid>
-        
+        <Button x:Name="button" Content="Start Listening" HorizontalAlignment="Left" Margin="206,49,0,0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="158" Margin="89,90,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="324"/>
+
     </Grid>
 </Window>
