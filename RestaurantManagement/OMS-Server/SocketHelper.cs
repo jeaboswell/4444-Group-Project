@@ -26,7 +26,7 @@ namespace OMS
             }
             else
             {
-                mstrResponse = "What?";
+                mstrResponse = "Permission: 3";
             }
             bytesSent = Encoding.ASCII.GetBytes(mstrResponse);
             stream.Write(bytesSent, 0, bytesSent.Length);

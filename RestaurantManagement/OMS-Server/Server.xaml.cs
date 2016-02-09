@@ -24,6 +24,7 @@ namespace OMS
     public partial class MainWindow : Window
 	{
 		private List<IPAddress> clients = new List<IPAddress>();
+		private SocketHelper socketHelper = new SocketHelper();
 		public Thread listener;
 
 		public MainWindow()
@@ -121,9 +122,9 @@ namespace OMS
 				NetworkStream stream = tcpClient.GetStream();
 				stream.Read(bytes, 0, bytes.Length);
 				//SocketHelper helper = new SocketHelper();
-				//helper.processMsg(tcpClient, stream, bytes);
+				socketHelper.processMsg(tcpClient, stream, bytes);
 				string mstrMessage = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-				//MessageBox.Show(mstrMessage);
+				MessageBox.Show(mstrMessage);
 			}
 		}
 
