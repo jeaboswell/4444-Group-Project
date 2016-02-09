@@ -26,12 +26,13 @@ namespace OMS
         public Client()
         {
             InitializeComponent();
+			
         }
 
         void Connect(string serverIP, string message)
         {
             Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            int wantedPort = 4444;    //this is the port you want
+            int wantedPort = 44445;    //this is the port you want
 
             byte[] msg = Encoding.ASCII.GetBytes("Are you my server?");
 
@@ -53,137 +54,122 @@ namespace OMS
                 //Console.WriteLine("IP Address(es):");
 
                 //get current IP Address(es)
-                foreach (UnicastIPAddressInformation uniIpInfo in netwIntrf.GetIPProperties().UnicastAddresses)
+                foreach (UnicastIPAddressInformation currentIpInfo in netwIntrf.GetIPProperties().UnicastAddresses)
                 {
-                    //get the subnet mask and the IP address as bytes
-                    byte[] subnetMask = uniIpInfo.IPv4Mask.GetAddressBytes();
-                    byte[] ipAddr = uniIpInfo.Address.GetAddressBytes();
-
-                    // we reverse the byte-array if we are dealing with littl endian.
-                    if (BitConverter.IsLittleEndian)
+                    if (currentIpInfo.Address.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        Array.Reverse(subnetMask);
-                        Array.Reverse(ipAddr);
-                    }
+                        //get the subnet mask and the IP address as bytes
+                        byte[] subnetMask = currentIpInfo.IPv4Mask.GetAddressBytes();
+                        byte[] ipAddr = currentIpInfo.Address.GetAddressBytes();//localIP.GetAddressBytes(); ; //uniIpInfo.Address.GetAddressBytes();
 
-                    //we convert the subnet mask as uint (just for didactic purposes (to check everything is ok now and next - use thecalculator in programmer mode)
-                    uint maskAsInt = BitConverter.ToUInt32(subnetMask, 0);
-                    //Console.WriteLine("\t subnet={0}", Convert.ToString(maskAsInt, 2));
-
-                    //we convert the ip addres as uint (just for didactic purposes (to check everything is ok now and next - use thecalculator in programmer mode)
-                    uint ipAsInt = BitConverter.ToUInt32(ipAddr, 0);
-                    //Console.WriteLine("\t ip={0}", Convert.ToString(ipAsInt, 2));
-
-                    //we negate the subnet to determine the maximum number of host possible in this subnet
-                    uint validHostsEndingMax = ~BitConverter.ToUInt32(subnetMask, 0);
-                    //Console.WriteLine("\t !subnet={0}", Convert.ToString(validHostsEndingMax, 2));
-
-                    //we convert the start of the ip addres as uint (the part that is fixed wrt the subnet mask - from here we calculate each new address by incrementing with 1 and converting to byte[] afterwards 
-                    uint validHostsStart = BitConverter.ToUInt32(ipAddr, 0) & BitConverter.ToUInt32(subnetMask, 0);
-                    //Console.WriteLine("\t IP & subnet={0}", Convert.ToString(validHostsStart, 2));
-
-                    //we increment the startIp to the number of maximum valid hosts in this subnet and for each we check the intended port (refactoring needed)
-                    for (uint i = 1; i <= validHostsEndingMax; i++)
-                    {
-                        uint host = validHostsStart + i;
-                        //byte[] hostAsBytes = BitConverter.GetBytes(host);
-                        byte[] hostBytes = BitConverter.GetBytes(host);
+                        // we reverse the byte-array if we are dealing with littl endian.
                         if (BitConverter.IsLittleEndian)
                         {
-                            Array.Reverse(hostBytes);
+                            Array.Reverse(subnetMask);
+                            Array.Reverse(ipAddr);
                         }
 
-                        //this is the candidate IP address in "readable format" 
-                        String ipCandidate = Convert.ToString(hostBytes[0]) + "." + Convert.ToString(hostBytes[1]) + "." + Convert.ToString(hostBytes[2]) + "." + Convert.ToString(hostBytes[3]);
-                        //Console.WriteLine("Trying: " + ipCandidate);
-                        textBox.Text += "Trying: " + ipCandidate + "\n";
+                        //we convert the subnet mask as uint (just for didactic purposes (to check everything is ok now and next - use thecalculator in programmer mode)
+                        uint maskAsInt = BitConverter.ToUInt32(subnetMask, 0);
+                        //Console.WriteLine("\t subnet={0}", Convert.ToString(maskAsInt, 2));
 
-                        try
+                        //we convert the ip addres as uint (just for didactic purposes (to check everything is ok now and next - use thecalculator in programmer mode)
+                        uint ipAsInt = BitConverter.ToUInt32(ipAddr, 0);
+                        //Console.WriteLine("\t ip={0}", Convert.ToString(ipAsInt, 2));
+
+                        //we negate the subnet to determine the maximum number of host possible in this subnet
+                        uint validHostsEndingMax = ~BitConverter.ToUInt32(subnetMask, 0);
+                        //Console.WriteLine("\t !subnet={0}", Convert.ToString(validHostsEndingMax, 2));
+
+                        //we convert the start of the ip addres as uint (the part that is fixed wrt the subnet mask - from here we calculate each new address by incrementing with 1 and converting to byte[] afterwards 
+                        uint validHostsStart = BitConverter.ToUInt32(ipAddr, 0) & BitConverter.ToUInt32(subnetMask, 0);
+                        //Console.WriteLine("\t IP & subnet={0}", Convert.ToString(validHostsStart, 2));
+
+                        //we increment the startIp to the number of maximum valid hosts in this subnet and for each we check the intended port (refactoring needed)
+                        for (uint i = 1; i <= validHostsEndingMax; i++)
                         {
-                            //try to connect
-                            sock.Connect(ipCandidate, wantedPort);
-                            if (sock.Connected == true)  // if succesful => something is listening on this port
+                            uint host = validHostsStart + i;
+                            //byte[] hostAsBytes = BitConverter.GetBytes(host);
+                            byte[] hostBytes = BitConverter.GetBytes(host);
+                            if (BitConverter.IsLittleEndian)
                             {
-                                textBox.Text += "\tIt worked at " + ipCandidate + "\n";
-                                //Console.WriteLine("\tIt worked at " + ipCandidate);
-                                sock.Close();
-                                sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                                Array.Reverse(hostBytes);
                             }
-                            //else -. goes to exception
-                        }
-                        catch (SocketException ex)
-                        {
-                            //TODO: if you want, do smth here
-                            textBox.Text += "\tDIDN'T work at " + ipCandidate + "\n";
-                            //Console.WriteLine("\tDIDN'T work at " + ipCandidate);
+
+                            //this is the candidate IP address in "readable format" 
+                            String ipCandidate = Convert.ToString(hostBytes[0]) + "." + Convert.ToString(hostBytes[1]) + "." + Convert.ToString(hostBytes[2]) + "." + Convert.ToString(hostBytes[3]);
+                            Console.WriteLine("Trying: " + ipCandidate);
+                            textBox.Text += "Trying: " + ipCandidate + "\n";
+
+                            try
+                            {
+                                //try to connect
+                                sock.Connect(ipCandidate, wantedPort);
+                                if (sock.Connected == true)  // if succesful => something is listening on this port
+                                {
+                                    textBox.Text += "\tIt worked at " + ipCandidate + "\n";
+                                    //Console.WriteLine("\tIt worked at " + ipCandidate);
+                                    sock.Close();
+                                    sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                                }
+                                //else -. goes to exception
+                            }
+                            catch (SocketException ex)
+                            {
+                                //TODO: if you want, do smth here
+                                textBox.Text += "\tDIDN'T work at " + ipCandidate + "\n";
+                                //Console.WriteLine("\tDIDN'T work at " + ipCandidate);
+                            }
                         }
                     }
                 }
                 Console.ReadLine();
             }
             sock.Close();
-            /*
-            string output = "";
-
-            try
-            {
-                // Create a TcpClient. 
-                // The client requires a TcpServer that is connected 
-                // to the same address specified by the server and port 
-                // combination.
-                Int32 port = 13;
-                TcpClient client = new TcpClient(serverIP, port);
-
-                // Translate the passed message into ASCII and store it as a byte array.
-                Byte[] data = new Byte[256];
-                data = System.Text.Encoding.ASCII.GetBytes(message);
-
-                // Get a client stream for reading and writing. 
-                // Stream stream = client.GetStream();
-                NetworkStream stream = client.GetStream();
-
-                // Send the message to the connected TcpServer. 
-                stream.Write(data, 0, data.Length);
-
-                output = "Sent: " + message;
-                MessageBox.Show(output);
-
-                // Buffer to store the response bytes.
-                data = new Byte[256];
-
-                // String to store the response ASCII representation.
-                String responseData = String.Empty;
-
-                // Read the first batch of the TcpServer response bytes.
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-                output = "Received: " + responseData;
-                MessageBox.Show(output);
-
-                // Close everything.
-                stream.Close();
-                client.Close();
-            }
-            catch (ArgumentNullException e)
-            {
-                output = "ArgumentNullException: " + e;
-                MessageBox.Show(output);
-            }
-            catch (SocketException e)
-            {
-                output = "SocketException: " + e.ToString();
-                MessageBox.Show(output);
-            }
-            */
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            
             // In this code example, use a hard-coded 
             // IP address and message. 
             string serverIP = "localhost";
             string message = "Hello";
             Connect(serverIP, message);
+            /*
+            Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            IPHostEntry hostT;
+            IPAddress localIP = null;
+            hostT = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in hostT.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip;
+                }
+            }
+
+            try
+            {
+                //try to connect
+                sock.Connect(localIP, 4444);
+                if (sock.Connected == true)  // if succesful => something is listening on this port
+                {
+                    textBox.Text += "\tIt worked at " + localIP + "\n";
+                    //Console.WriteLine("\tIt worked at " + ipCandidate);
+                    sock.Close();
+                    sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                }
+                //else -. goes to exception
+            }
+            catch (SocketException ex)
+            {
+                //TODO: if you want, do smth here
+                textBox.Text += "\tDIDN'T work at " + localIP + "\n";
+                //Console.WriteLine("\tDIDN'T work at " + ipCandidate);
+            }
+			*/
         }
     }
 }
