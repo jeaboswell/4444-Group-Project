@@ -26,7 +26,6 @@ namespace OMS
         public Client()
         {
             InitializeComponent();
-			
         }
 
         void Connect(string serverIP, string message)
