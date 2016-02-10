@@ -1,14 +1,26 @@
 
 Manager Requirements
-  1.  
-  2.  
+  1.  Managers shall be able to remove items from the menu when they run out of ingredients
+  2.  Managers shall be able to view system generated reports that include daily revenue, including breakdowns by each specific menu item ordered, tax, and gratuity
+  3.  Manager shall be able to view a daily system generated report that shows the top three most frequently ordered items in each category
+  4.  Managers shall be able to modify ticket, this includes discounting and comping items
+  5.  Managers shall recieve notifications from the system when bill adjustments are made for them to review at any times
+  6.  Managers shall be able to view a daily report of bill adjustments that includes wait staff name, description of the modification, and why the modification was made.
 
 
 Wait Staff Requirments
-  1.
+  1.  The system shall alert the wait staff when the customer chooses to pay in cash
+  2.  The waitstaff shall be able to mark a bill as paid if the customer pays in cash
+  3.  The system shall alert the waitstaff with the table number and drink type when a customer requests a refill
+  4.  The system shall alert the waitstaff when a customer indicates that they need help
+  5.  The waitstaff shall be able to view the status of all of their tables (status includes: open, reading menu, placed order and waiting, eating, help requested, and paid
+  6.  The waitstaff shall be able to place an order for the customer on their device
+  7.  The waitstaff shall be able to modify a ticket on their device 
 
 Kitchen Staff Requirements
-  1.  
+  1.  The kitchen staff shall be able to view submitted orders as they are submitted
+  2.  The kitchen staff shall be able to mark to status of a order (status includes: claimed-in progress and ready)
+  3.  The kitchen staff shall be able to remove items from the menu when they run out of ingredients
 
 Customer Requirements
   1.  Customers shall be able to place their order using the monitor
@@ -20,4 +32,14 @@ Customer Requirements
   7.  Customers shall be able to specify whether they would like their receipt emailed or printed
   8.  Customers shall be prompted to complete a survey about their food and service after they pay
   9.  Customers shall be able to sign up for a rewards program via the system
+  10.  Customers shall be able to sign in to their previously created rewards program account to recieve visit points and redeem credits
   10.  Customers shall be able to play games on the system
+  11.  Customers shall be able to indicate that they need help via the system to alert the server
+
+Menu requirements
+  1.  The system shall display the food separated into categories (categories include: Appetizers, Entrees, Desserts, and Drinks)
+  2.  When a customer selects a food category, the system shall display to food in that category
+  3.  The system shall display the name, description, photo, number of calories, and price of each item.
+  
+
+  
