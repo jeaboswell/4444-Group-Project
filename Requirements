@@ -5,10 +5,19 @@ Manager Requirements
 
 
 Wait Staff Requirments
-
+  1.
 
 Kitchen Staff Requirements
-
+  1.  
 
 Customer Requirements
-  1.  Customers shall
+  1.  Customers shall be able to place their order using the monitor
+  2.  Customers shall be able to edit their order only until they hit the submit button
+  3.  Customers shall have to option to specify allergies and special request when placing their order
+  4.  Customers shall be able to request specific drink refills using the monitor
+  5.  Customers shall be able to specify whether they plan to pay with credit card or cash
+  6.  Customers shall be able to enter their credit card information when paying with a credit card
+  7.  Customers shall be able to specify whether they would like their receipt emailed or printed
+  8.  Customers shall be prompted to complete a survey about their food and service after they pay
+  9.  Customers shall be able to sign up for a rewards program via the system
+  10.  Customers shall be able to play games on the system
