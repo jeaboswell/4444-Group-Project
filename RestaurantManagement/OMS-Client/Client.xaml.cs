@@ -19,15 +19,15 @@ using System.Windows.Shapes;
 
 namespace OMS
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class Client : Window
-    {
-        public Client()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class Client : Window
+	{
+		public Client()
+		{
+			InitializeComponent();
+		}
 
 		void Connect()
 		{
@@ -131,8 +131,8 @@ namespace OMS
 		}
 
 		private void button_Click(object sender, RoutedEventArgs e)
-        {
+		{
 			Connect();
-        }
-    }
+		}
+	}
 }
