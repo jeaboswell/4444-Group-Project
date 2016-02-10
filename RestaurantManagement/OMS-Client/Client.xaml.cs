@@ -139,7 +139,7 @@ namespace OMS
 
 		void NewConnect()
 		{
-			TcpClient client = new TcpClient(); //Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			TcpClient server = new TcpClient(); //Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			int wantedPort = 44445;    //this is the port you want
 
 			byte[] msg = Encoding.ASCII.GetBytes("Are you my server?");
@@ -212,19 +212,19 @@ namespace OMS
 							try
 							{
 								//try to connect
-								client.Connect(ipCandidate, wantedPort);
-								if (client.Connected == true)  // if succesful => something is listening on this port
+								server.Connect(ipCandidate, wantedPort);
+								if (server.Connected == true)  // if succesful => something is listening on this port
 								{
-									NetworkStream stream = client.GetStream();
-									byte[] greeting = Encoding.ASCII.GetBytes("Permission?");
+									NetworkStream stream = server.GetStream();
+									byte[] greeting = Encoding.ASCII.GetBytes("Permission Request");
 									byte[] response = new byte[256];
 									stream.Write(greeting, 0, greeting.Length);
-									stream.Read(response, 0, response.Length);
-									textBox.Text += "Response: " + Encoding.ASCII.GetString(response, 0, response.Length);
+									int bytes = stream.Read(response, 0, response.Length);
+									MessageBox.Show("Response: " + Encoding.ASCII.GetString(response, 0, bytes));
 
 									textBox.Text += "\tIt worked at " + ipCandidate + "\n";
 									//Console.WriteLine("\tIt worked at " + ipCandidate);
-									client.Close();
+									server.Close();
 									return;
 									//sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 								}
@@ -241,7 +241,7 @@ namespace OMS
 				}
 				Console.ReadLine();
 			}
-			client.Close();
+			server.Close();
 		}
 
 
