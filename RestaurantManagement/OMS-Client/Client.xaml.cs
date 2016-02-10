@@ -41,7 +41,7 @@ namespace OMS
 				// If the current interface doesn't have an IP, skip it
 				if (!(netwIntrf.GetIPProperties().GatewayAddresses.Count > 0))
 				{
-					break;
+					continue;
 				}
 
 				// Get current IP Address(es)
