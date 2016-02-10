@@ -38,6 +38,7 @@
                     <ListView x:Name="clientList" HorizontalAlignment="Left" Height="271" VerticalAlignment="Top" Width="491" HorizontalContentAlignment="Center">
                         <ListView.View>
                             <GridView>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
                                 <GridViewColumn Header="IP Address" DisplayMemberBinding="{Binding IP}" Width="100"/>
                                 <GridViewColumn Header="Permission" Width="100">
                                     <GridViewColumn.CellTemplate>

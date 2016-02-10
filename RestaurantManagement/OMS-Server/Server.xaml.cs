@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 class Client
 {
 	public IPAddress IP { get; set; }
-
+	public string Name { get; set; }
 	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Table" }; 
 }
 
@@ -44,7 +44,7 @@ namespace OMS
 
 		public void addClient(IPAddress ip)
 		{
-			if (clients == null || !clients.Exists(x => x == ip))
+			if (clients == null || !clients.Exists(x => x.Equals(ip)))
 				clients.Add(ip);
 			updateClientList();
 		}
@@ -55,14 +55,26 @@ namespace OMS
 			{
 				clientList.Items.Clear();
 				foreach (IPAddress client in clients)
-					clientList.Items.Add(new Client { IP = client });
+					clientList.Items.Add(new Client { IP = client, Name = getClientName(client) });
 			}));
 			
 		}
 
+		private string getClientName(IPAddress ip)
+		{
+			string machineName = string.Empty;
+			try
+			{
+				IPHostEntry hostEntry = Dns.GetHostEntry(ip);
+
+				machineName = hostEntry.HostName;
+			}
+			catch (Exception ex) { }
+			return machineName;
+		}
+
 		private void button_Click(object sender, RoutedEventArgs e)
         {
-			//createListener();
 			if (!listener.IsAlive)
 			{
 				setStop();
@@ -77,60 +89,21 @@ namespace OMS
         }
 
 		#region Listener
-		string output = "";
-
 		public void createListener()
 		{
-			// Create an instance of the TcpListener class.
-			TcpListener tcpListener = null;
-			IPAddress ipAddress = Dns.GetHostEntry("localhost").AddressList[0];
+			UdpClient client = new UdpClient(44445);
+			byte[] ResponseData = Encoding.ASCII.GetBytes("OMS-Server");
 
-			IPHostEntry hostT;
-			IPAddress localIP = null;
-			hostT = Dns.GetHostEntry(Dns.GetHostName());
-			foreach (IPAddress ip in hostT.AddressList)
-			{
-				if (ip.AddressFamily == AddressFamily.InterNetwork)
-				{
-					localIP = ip;
-				}
-			}
-
-			try
-			{
-				// Set the listener on the local IP address 
-				// and specify the port.
-				tcpListener = new TcpListener(localIP, 44445);
-				tcpListener.Start();
-				output = "Waiting for a connection...";
-			}
-			catch (Exception e)
-			{
-				output = "Error: " + e.ToString();
-				MessageBox.Show(output);
-			}
 			while (!stop)
 			{
-				// Always use a Sleep call in a while(true) loop 
-				// to avoid locking up your CPU.
-				Thread.Sleep(10);
-				// Create a TCP socket. 
-				// If you ran this server on the desktop, you could use 
-				// Socket socket = tcpListener.AcceptSocket() 
-				// for greater flexibility.
-				TcpClient tcpClient = tcpListener.AcceptTcpClient();
+				IPEndPoint ClientEp = new IPEndPoint(IPAddress.Any, 0);
+				byte[] ClientRequestData = client.Receive(ref ClientEp);
+				string ClientRequest = Encoding.ASCII.GetString(ClientRequestData);
 
-				IPEndPoint remoteIpEndPoint = tcpClient.Client.RemoteEndPoint as IPEndPoint;
-				addClient(remoteIpEndPoint.Address);
+				addClient(ClientEp.Address);
 
-				// Read the data stream from the client. 
-				byte[] bytes = new byte[256];
-				NetworkStream stream = tcpClient.GetStream();
-				stream.Read(bytes, 0, bytes.Length);
-				SocketHelper helper = new SocketHelper();
-				helper.processMsg(tcpClient, stream, bytes);
-				string mstrMessage = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-				MessageBox.Show(mstrMessage);
+				Console.WriteLine("Recived {0} from {1}, sending response", ClientRequest, ClientEp.Address.ToString());
+				client.Send(ResponseData, ResponseData.Length, ClientEp);
 			}
 		}
 
