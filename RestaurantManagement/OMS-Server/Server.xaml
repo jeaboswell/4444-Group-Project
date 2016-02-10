@@ -7,9 +7,30 @@
         mc:Ignorable="d"
         Title="OMS-Server" Height="350" Width="525">
     <Grid>
-        <Button x:Name="button" Content="Start Listening" HorizontalAlignment="Left" Margin="206,49,0,0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="158" Margin="10,95,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="253"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="158" Margin="268,95,0,0" VerticalAlignment="Top" Width="239"/>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="497">
+            <TabItem Header="Client List">
+                <Grid Background="#FFE5E5E5">
+                    <ListView x:Name="clientList" HorizontalAlignment="Left" Height="271" VerticalAlignment="Top" Width="491" HorizontalContentAlignment="Center">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="IP Address" DisplayMemberBinding="{Binding IP}" Width="100"/>
+                                <GridViewColumn Header="Permission" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox x:Name="permissionLevel" Width="88" SelectedValue="{Binding Path=selectedPermission}" ItemsSource="{Binding permissionList}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="button" Content="Start Listening" HorizontalAlignment="Left" Margin="407,10,0,0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
 
     </Grid>
 </Window>

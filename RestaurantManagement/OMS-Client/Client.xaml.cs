@@ -88,32 +88,39 @@ namespace OMS
 
 							// For debug purposes only
 							textBox.Text += "Trying: " + ipCandidate + "\n";
+							Console.WriteLine("Trying: " + ipCandidate);
 
-							try
+							Ping pingSender = new Ping();
+							PingReply reply = pingSender.Send(ipCandidate);
+
+							if (reply.Status == IPStatus.Success)
 							{
-								// Ty to connect to current candidate
-								server.Connect(ipCandidate, serverPort);
-								if (server.Connected == true)  // if succesful => something is listening on this port
+								try
 								{
-									NetworkStream stream = server.GetStream();
-									byte[] greeting = Encoding.ASCII.GetBytes("Permission Request");
-									byte[] response = new byte[256];
-									stream.Write(greeting, 0, greeting.Length);
-									int bytes = stream.Read(response, 0, response.Length);
+									// Ty to connect to current candidate
+									server.Connect(ipCandidate, serverPort);
+									if (server.Connected == true)  // if succesful => something is listening on this port
+									{
+										NetworkStream stream = server.GetStream();
+										byte[] greeting = Encoding.ASCII.GetBytes("Permission Request");
+										byte[] response = new byte[256];
+										stream.Write(greeting, 0, greeting.Length);
+										int bytes = stream.Read(response, 0, response.Length);
 
-									// For debug purposes only
-									MessageBox.Show("Response: " + Encoding.ASCII.GetString(response, 0, bytes));
-									textBox.Text += "\tIt worked at " + ipCandidate + "\n";
+										// For debug purposes only
+										MessageBox.Show("Response: " + Encoding.ASCII.GetString(response, 0, bytes));
+										textBox.Text += "\tIt worked at " + ipCandidate + "\n";
 
-									server.Close();
-									return;
+										server.Close();
+										return;
+									}
+									//else goes to exception
 								}
-								//else goes to exception
-							}
-							catch (SocketException ex)
-							{
-								// For debug purposes only
-								textBox.Text += "\tDIDN'T work at " + ipCandidate + "\n";
+								catch (Exception ex)
+								{
+									// For debug purposes only
+									textBox.Text += "\tDIDN'T work at " + ipCandidate + "\n";
+								}
 							}
 						}
 					}

@@ -16,6 +16,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+class Client
+{
+	public IPAddress IP { get; set; }
+
+	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Table" }; 
+}
+
 namespace OMS
 {
     /// <summary>
@@ -46,9 +53,9 @@ namespace OMS
 		{
 			this.Dispatcher.Invoke((Action)(() =>
 			{
-				listBox.Items.Clear();
+				clientList.Items.Clear();
 				foreach (IPAddress client in clients)
-					listBox.Items.Add(client);
+					clientList.Items.Add(new Client { IP = client });
 			}));
 			
 		}
