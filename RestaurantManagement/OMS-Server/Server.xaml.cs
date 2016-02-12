@@ -20,7 +20,7 @@ class Client
 {
 	public IPAddress IP { get; set; }
 	public string Name { get; set; }
-	//public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Reception","Table" };
+	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Reception","Table" };
 	public string selectedPermission { get; set; }
 }
 
@@ -42,6 +42,7 @@ namespace OMS
 			Thread temp = new Thread(createListener);
 			listener = temp;
 			listener.IsBackground = true;
+			listener.Start();
 		}
 
 		public void addClient(IPAddress ip)
@@ -122,30 +123,33 @@ namespace OMS
 		private volatile bool stop;
 		#endregion
 
-		private void permissionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
 		{
-			Client client = (Client)clientList.SelectedItem;
-
-			client.selectedPermission = selectedPermission.ToString();
+			var parent = VisualTreeHelper.GetParent(child);
+			if (parent != null && !(parent is T))
+				return (T)GetAncestorOfType<T>((FrameworkElement)parent);
+			return (T)parent;
 		}
 
 		private void syncClient_Click(object sender, RoutedEventArgs e)
 		{
-			Client client = (Client)clientList.SelectedItem;
-
-			UdpClient connection = new UdpClient(client.IP.ToString(), 44445);
+			requestStop();
+			Client client = (Client)GetAncestorOfType<ListViewItem>(sender as Button).Content;
+			IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
+			UdpClient connection = new UdpClient();
 
 			string command = "setPermission";
 			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length);
+			connection.Send(sendCmd, sendCmd.Length, clientIP);
 
 			command = client.selectedPermission;
 			sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length);
+			connection.Send(sendCmd, sendCmd.Length, clientIP);
 			
 			connection.Close();
+			setStop();
 		}
 	}
 }

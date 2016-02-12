@@ -32,7 +32,10 @@ namespace OMS
 		{
 			InitializeComponent();
 
+			Connect();
+
 			listener = new Thread(commandListener);
+			listener.IsBackground = true;
 			stop = false;
 			listener.Start();
 		}
@@ -69,21 +72,31 @@ namespace OMS
 
 		private void commandListener()
 		{
-			try {
-				IPEndPoint tempIp = new IPEndPoint(serverIp, 44445);
-				UdpClient server = new UdpClient(serverIp.ToString(), 44445);
+			IPEndPoint serverEp = new IPEndPoint(serverIp, 0);
+			UdpClient server = new UdpClient(44446);
 
-				byte[] command = server.Receive(ref tempIp);
-
-				switch (Encoding.ASCII.GetString(command))
+			while (!stop)
+			{
+				try
 				{
-					case "setPermission":
-						command = server.Receive(ref tempIp);
-						permLabel.Content = Encoding.ASCII.GetString(command);
-						break;
+					byte[] command = server.Receive(ref serverEp);
+					
+					switch (Encoding.ASCII.GetString(command))
+					{
+						case "setPermission":
+							command = server.Receive(ref serverEp);
+							this.Dispatcher.Invoke((Action)(() =>
+							{
+								permLabel.Content = Encoding.ASCII.GetString(command);
+							}));
+							break;
+						default:
+							break;
+					}
 				}
+				catch (Exception ex) { }
 			}
-			catch (Exception ex) { }
+			server.Close();
 		}
 
 		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)

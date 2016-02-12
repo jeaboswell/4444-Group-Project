@@ -36,16 +36,16 @@
                 </TabControl.Resources>
                 <TabItem Header="Client List">
                     <Grid Background="#FFE5E5E5">
-                        <Grid.Resources>
-                            <Style TargetType="ListViewItem" x:Key="itemStyle">
-                                <Style.Triggers>
-                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                        <Setter Property="IsSelected" Value="True" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Resources>
                         <ListView x:Name="clientList" HorizontalContentAlignment="Center">
+                            <ListView.Resources>
+                                <Style TargetType="ListViewItem" x:Key="itemStyle">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter Property="IsSelected" Value="True" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Resources>
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
@@ -53,12 +53,12 @@
                                     <GridViewColumn Header="Permission">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox x:Name="permissionSelector" Width="88" SelectedValue="{Binding selectedPermission}" SelectionChanged="permissionSelector_SelectionChanged">
-                                                    <ComboBoxItem Content="Manager"/>
+                                                <ComboBox x:Name="permissionSelector" Width="88" SelectedValue="{Binding selectedPermission}" ItemsSource="{Binding permissionList}">
+                                                    <!--<ComboBoxItem Content="Manager"/>
                                                     <ComboBoxItem Content="Reception"/>
                                                     <ComboBoxItem Content="Waiter"/>
                                                     <ComboBoxItem Content="Kitchen"/>
-                                                    <ComboBoxItem Content="Table"/>
+                                                    <ComboBoxItem Content="Table"/>-->
                                                 </ComboBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -66,7 +66,7 @@
                                     <GridViewColumn Header="Send to Client">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button x:Name="syncClient" Content="Sync" Width="88" Click="syncClient_Click" />
+                                                <Button x:Name="syncClient" Content="Sync" Width="88" Click="syncClient_Click"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
