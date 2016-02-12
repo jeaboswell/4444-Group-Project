@@ -56,3 +56,7 @@ Server Requirements
   3.  Pass data between clients (Pass notifications between tables and servers)
   4.  Generate coupon codes
   5.  Handle anything that would require access to internet (Email)
+  6.  Remeber previously connected clients, and permission levels
+  
+Client Requirements
+  1. Remember server granted permission level
