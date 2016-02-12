@@ -20,7 +20,7 @@ class Client
 {
 	public IPAddress IP { get; set; }
 	public string Name { get; set; }
-	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Table" }; 
+	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Reception","Table" }; 
 }
 
 namespace OMS

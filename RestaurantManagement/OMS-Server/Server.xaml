@@ -7,56 +7,65 @@
         mc:Ignorable="d"
         Title="OMS-Server" Height="350" Width="525">
     <Grid>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="497">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Grid Name="Panel">
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="10,2"/>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Panel" Property="Background" Value="White" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-            <TabItem Header="Client List">
-                <Grid Background="#FFE5E5E5">
-                    <ListView x:Name="clientList" HorizontalAlignment="Left" Height="271" VerticalAlignment="Top" Width="491" HorizontalContentAlignment="Center">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
-                                <GridViewColumn Header="IP Address" DisplayMemberBinding="{Binding IP}" Width="100"/>
-                                <GridViewColumn Header="Permission" Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox x:Name="permissionLevel" Width="88" SelectedValue="{Binding Path=selectedPermission}" ItemsSource="{Binding permissionList}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </Grid>
-            </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-        </TabControl>
-        <Button x:Name="button" Content="Start Listening" HorizontalAlignment="Left" Margin="407,10,0,0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
+        <Grid Margin="10">
+            <TabControl x:Name="tabControl">
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <Grid x:Name="Panel">
+                                        <ContentPresenter x:Name="ContentSite"
+    											VerticalAlignment="Center"
+    											HorizontalAlignment="Center"
+    											ContentSource="Header"
+    											Margin="10,2"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Panel" Property="Background" Value="White" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+                <TabItem Header="Client List">
+                    <Grid Background="#FFE5E5E5">
+                        <ListView x:Name="clientList" HorizontalContentAlignment="Center">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Header="IP Address" DisplayMemberBinding="{Binding IP}"/>
+                                    <GridViewColumn Header="Permission">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox x:Name="permissionLevel" Width="88" SelectedValue="{Binding selectedPermission}" ItemsSource="{Binding permissionList}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Send to Client">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Sync" Width="88" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Menu">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="button" Content="Start Listening" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
 
+        </Grid>
     </Grid>
 </Window>
