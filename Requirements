@@ -41,5 +41,9 @@ Menu requirements
   2.  When a customer selects a food category, the system shall display to food in that category
   3.  The system shall display the name, description, photo, number of calories, and price of each item.
   
-
+Extra requirements
+  1.  Managers shall be able to add, delete, and edit menu items
+  2.  Managers shall be able to approve or deny bill modifications made by servers within 10 minutes of being notified of the modification
+  
+  
   
