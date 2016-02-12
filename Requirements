@@ -41,5 +41,22 @@ Menu requirements
   2.  When a customer selects a food category, the system shall display to food in that category
   3.  The system shall display the name, description, photo, number of calories, and price of each item.
   
-
+Extra requirements
+  1.  Managers shall be able to add, delete, and edit menu items
+  2.  Managers shall be able to approve or deny bill modifications made by servers within 10 minutes of being notified of the modification
   
+Receptionist Requirements ("Extra")
+  1.  Mark tables as open
+  2.  Assign tables to servers
+  3.  Seat customers at tables
+  
+Server Requirements
+  1.  Assign client's permission levels
+  2.  Store all data for clients (Order List, Valid Coupon List, Menu, Server Table Assignments, Revenue Log, Bill change log, Reward member list, etc...)
+  3.  Pass data between clients (Pass notifications between tables and servers)
+  4.  Generate coupon codes
+  5.  Handle anything that would require access to internet (Email)
+  6.  Remeber previously connected clients, and permission levels
+  
+Client Requirements
+  1. Remember server granted permission level
