@@ -36,6 +36,15 @@
                 </TabControl.Resources>
                 <TabItem Header="Client List">
                     <Grid Background="#FFE5E5E5">
+                        <Grid.Resources>
+                            <Style TargetType="ListViewItem" x:Key="itemStyle">
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                        <Setter Property="IsSelected" Value="True" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
                         <ListView x:Name="clientList" HorizontalContentAlignment="Center">
                             <ListView.View>
                                 <GridView>
@@ -44,14 +53,20 @@
                                     <GridViewColumn Header="Permission">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox x:Name="permissionLevel" Width="88" SelectedValue="{Binding selectedPermission}" ItemsSource="{Binding permissionList}"/>
+                                                <ComboBox x:Name="permissionSelector" Width="88" SelectedValue="{Binding selectedPermission}" SelectionChanged="permissionSelector_SelectionChanged">
+                                                    <ComboBoxItem Content="Manager"/>
+                                                    <ComboBoxItem Content="Reception"/>
+                                                    <ComboBoxItem Content="Waiter"/>
+                                                    <ComboBoxItem Content="Kitchen"/>
+                                                    <ComboBoxItem Content="Table"/>
+                                                </ComboBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     <GridViewColumn Header="Send to Client">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="Sync" Width="88" />
+                                                <Button x:Name="syncClient" Content="Sync" Width="88" Click="syncClient_Click" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

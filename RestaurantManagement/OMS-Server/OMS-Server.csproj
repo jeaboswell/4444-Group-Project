@@ -64,11 +64,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Orders.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Orders.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Server.xaml.cs">
       <DependentUpon>Server.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -92,17 +87,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Orders.xsc">
-      <DependentUpon>Orders.xsd</DependentUpon>
-    </None>
-    <None Include="Orders.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Orders.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Orders.xss">
-      <DependentUpon>Orders.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

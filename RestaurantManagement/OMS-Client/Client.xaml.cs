@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,9 +25,16 @@ namespace OMS
 	/// </summary>
 	public partial class Client : Window
 	{
+		Thread listener;
+		private volatile bool stop;
+		IPAddress serverIp;
 		public Client()
 		{
 			InitializeComponent();
+
+			listener = new Thread(commandListener);
+			stop = false;
+			listener.Start();
 		}
 
 		void Connect()
@@ -45,6 +53,7 @@ namespace OMS
 				byte[] ServerResponseData = server.Receive(ref ServerEp);
 				string ServerResponse = Encoding.ASCII.GetString(ServerResponseData);
 				Console.WriteLine("Recived {0} from {1}", ServerResponse, ServerEp.Address.ToString());
+				serverIp = ServerEp.Address;
 			}
 			catch (Exception ex)
 			{
@@ -56,6 +65,30 @@ namespace OMS
 		private void button_Click(object sender, RoutedEventArgs e)
 		{
 			Connect();
+		}
+
+		private void commandListener()
+		{
+			try {
+				IPEndPoint tempIp = new IPEndPoint(serverIp, 44445);
+				UdpClient server = new UdpClient(serverIp.ToString(), 44445);
+
+				byte[] command = server.Receive(ref tempIp);
+
+				switch (Encoding.ASCII.GetString(command))
+				{
+					case "setPermission":
+						command = server.Receive(ref tempIp);
+						permLabel.Content = Encoding.ASCII.GetString(command);
+						break;
+				}
+			}
+			catch (Exception ex) { }
+		}
+
+		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			stop = true;
 		}
 	}
 }

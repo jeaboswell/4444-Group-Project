@@ -20,7 +20,8 @@ class Client
 {
 	public IPAddress IP { get; set; }
 	public string Name { get; set; }
-	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Reception","Table" }; 
+	//public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Reception","Table" };
+	public string selectedPermission { get; set; }
 }
 
 namespace OMS
@@ -32,6 +33,7 @@ namespace OMS
 	{
 		private List<IPAddress> clients = new List<IPAddress>();
 		public Thread listener;
+		public object selectedPermission { get; set; }
 
 		public MainWindow()
         {
@@ -119,5 +121,31 @@ namespace OMS
 
 		private volatile bool stop;
 		#endregion
+
+		private void permissionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Client client = (Client)clientList.SelectedItem;
+
+			client.selectedPermission = selectedPermission.ToString();
+		}
+
+		private void syncClient_Click(object sender, RoutedEventArgs e)
+		{
+			Client client = (Client)clientList.SelectedItem;
+
+			UdpClient connection = new UdpClient(client.IP.ToString(), 44445);
+
+			string command = "setPermission";
+			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+
+			connection.Send(sendCmd, sendCmd.Length);
+
+			command = client.selectedPermission;
+			sendCmd = Encoding.ASCII.GetBytes(command);
+
+			connection.Send(sendCmd, sendCmd.Length);
+			
+			connection.Close();
+		}
 	}
 }
