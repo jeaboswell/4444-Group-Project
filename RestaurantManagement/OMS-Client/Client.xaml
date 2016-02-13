@@ -5,11 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OMS"
         mc:Ignorable="d"
-        Title="OMS-Client" Height="350" Width="525" Closing="main_Closing">
+        Title="OMS-Client" Height="350" Width="525" Closing="main_Closing" Loaded="main_Loaded">
     <Grid>
-        <Button x:Name="button" Content="Connect" HorizontalAlignment="Left" Margin="432,10,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-        <Label x:Name="label" Content="Permission:" HorizontalAlignment="Left" Margin="162,67,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="permLabel" Content="#" HorizontalAlignment="Left" Margin="231,67,0,0" VerticalAlignment="Top"/>
+        <Grid x:Name="permissionGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Width="174">
+            <Label x:Name="permLabel" Content="Waiting on Server" HorizontalAlignment="Left" Margin="69,0,0,0" VerticalAlignment="Top" Width="105"/>
+            <Label x:Name="label" Content="Permission:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
+        </Grid>
+        <Grid x:Name="tableGrid">
+            <TabControl x:Name="tableUI" Margin="0,0,0,26">
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <Grid x:Name="Panel">
+                                        <ContentPresenter x:Name="ContentSite"
+        									VerticalAlignment="Center"
+        									HorizontalAlignment="Center"
+        									ContentSource="Header"
+        									Margin="10,2"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter TargetName="Panel" Property="Background" Value="White" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+                <TabItem Header="Menu">
+                    <Grid Background="#FFE5E5E5">
+                        <TabControl x:Name="tabControl1">
+                            <TabItem Header="Appetizers">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Header="Entrees">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Header="Desserts">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Header="Drinks">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="TabItem">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="refillButton" Content="Request Refill" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="90"/>
+            <Button x:Name="helpButton" Content="Request Help" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="90"/>
+        </Grid>
     </Grid>
 </Window>

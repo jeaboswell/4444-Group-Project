@@ -31,13 +31,18 @@ namespace OMS
 		public Client()
 		{
 			InitializeComponent();
+		}
 
-			Connect();
+		private void main_Loaded(object sender, RoutedEventArgs e)
+		{
+			Thread findServer = new Thread(Connect);
+			findServer.IsBackground = true;
+			findServer.Start();
+		}
 
-			listener = new Thread(commandListener);
-			listener.IsBackground = true;
-			stop = false;
-			listener.Start();
+		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			stop = true;
 		}
 
 		void Connect()
@@ -49,25 +54,30 @@ namespace OMS
 			server.EnableBroadcast = true;
 			server.Client.SendTimeout = 1000;
 			server.Client.ReceiveTimeout = 1000;
-			server.Send(RequestData, RequestData.Length, new IPEndPoint(IPAddress.Broadcast, 44445));
 
-			try
+			bool success = false;
+			while (!success)
 			{
-				byte[] ServerResponseData = server.Receive(ref ServerEp);
-				string ServerResponse = Encoding.ASCII.GetString(ServerResponseData);
-				Console.WriteLine("Recived {0} from {1}", ServerResponse, ServerEp.Address.ToString());
-				serverIp = ServerEp.Address;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Error: No Server Found");	// For debugging
+				server.Send(RequestData, RequestData.Length, new IPEndPoint(IPAddress.Broadcast, 44445));
+				try
+				{
+					byte[] ServerResponseData = server.Receive(ref ServerEp);
+					string ServerResponse = Encoding.ASCII.GetString(ServerResponseData);
+					Console.WriteLine("Recived {0} from {1}", ServerResponse, ServerEp.Address.ToString());
+					serverIp = ServerEp.Address;
+					success = true;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Error: No Server Found");    // For debugging
+				}
 			}
 			server.Close();
-		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
-		{
-			Connect();
+			listener = new Thread(commandListener);
+			listener.IsBackground = true;
+			stop = false;
+			listener.Start();
 		}
 
 		private void commandListener()
@@ -87,7 +97,7 @@ namespace OMS
 							command = server.Receive(ref serverEp);
 							this.Dispatcher.Invoke((Action)(() =>
 							{
-								permLabel.Content = Encoding.ASCII.GetString(command);
+								setPermission(Encoding.ASCII.GetString(command));
 							}));
 							break;
 						default:
@@ -99,9 +109,28 @@ namespace OMS
 			server.Close();
 		}
 
-		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void setPermission(string permission)
 		{
-			stop = true;
+			switch (permission)
+			{
+				case "Manager":
+					permLabel.Content = permission;
+					break;
+				case "Server":
+					permLabel.Content = permission;
+					break;
+				case "Kitchen":
+					permLabel.Content = permission;
+					break;
+				case "Reception":
+					permLabel.Content = permission;
+					break;
+				case "Table":
+					permLabel.Content = permission;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

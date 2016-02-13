@@ -53,13 +53,7 @@
                                     <GridViewColumn Header="Permission">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox x:Name="permissionSelector" Width="88" SelectedValue="{Binding selectedPermission}" ItemsSource="{Binding permissionList}">
-                                                    <!--<ComboBoxItem Content="Manager"/>
-                                                    <ComboBoxItem Content="Reception"/>
-                                                    <ComboBoxItem Content="Waiter"/>
-                                                    <ComboBoxItem Content="Kitchen"/>
-                                                    <ComboBoxItem Content="Table"/>-->
-                                                </ComboBox>
+                                                <ComboBox x:Name="permissionSelector" Width="88" SelectedValue="{Binding selectedPermission}" ItemsSource="{Binding permissionList}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
