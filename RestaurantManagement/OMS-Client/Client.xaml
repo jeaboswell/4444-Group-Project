@@ -41,7 +41,7 @@
                 </TabControl.Resources>
                 <TabItem Header="Menu">
                     <Grid Background="#FFE5E5E5">
-                        <TabControl x:Name="tabControl1">
+                        <TabControl x:Name="tabControl1" TabStripPlacement="Left">
                             <TabItem Header="Appetizers">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
@@ -57,11 +57,20 @@
                         </TabControl>
                     </Grid>
                 </TabItem>
-                <TabItem Header="TabItem">
+                <TabItem Header="Order Cart">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Payment">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Rewards">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Games">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
-            <Button x:Name="refillButton" Content="Request Refill" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="90"/>
+            <Button x:Name="refillButton" Content="Request Refill" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="90" Margin="0,296,95,0"/>
             <Button x:Name="helpButton" Content="Request Help" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="90"/>
         </Grid>
     </Grid>
