@@ -76,21 +76,6 @@ namespace OMS
 			return machineName;
 		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
-        {
-			if (!listener.IsAlive)
-			{
-				setStop();
-				listener.Start();
-				button.Content = "Stop Listening";
-			}
-			else 
-			{
-				requestStop();
-				button.Content = "Start Listening";
-			}
-        }
-
 		#region Listener
 		public void createListener()
 		{

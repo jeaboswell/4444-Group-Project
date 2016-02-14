@@ -70,8 +70,8 @@
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
-            <Button x:Name="refillButton" Content="Request Refill" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="90" Margin="0,296,95,0"/>
             <Button x:Name="helpButton" Content="Request Help" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="90"/>
+            <Button x:Name="refillButton" Content="Request Refill" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="90" Margin="0,0,95,0"/>
         </Grid>
     </Grid>
 </Window>

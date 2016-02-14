@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="OMS-Server" Height="350" Width="525">
     <Grid>
-        <Grid Margin="10">
+        <Grid>
             <TabControl x:Name="tabControl">
                 <TabControl.Resources>
                     <Style TargetType="{x:Type TabItem}">
@@ -57,10 +57,10 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Send to Client">
+                                    <GridViewColumn Header="Grant Permission">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button x:Name="syncClient" Content="Sync" Width="88" Click="syncClient_Click"/>
+                                                <Button x:Name="syncClient" Content="Send" Width="88" Click="syncClient_Click"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -73,7 +73,6 @@
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
-            <Button x:Name="button" Content="Start Listening" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="100" Click="button_Click"/>
 
         </Grid>
     </Grid>
