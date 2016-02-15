@@ -66,7 +66,13 @@
                     <TabItem Header="Pay" FontSize="40" Width="200">
                         <Grid Background="#FFE5E5E5"/>
                     </TabItem>
-                    <TabItem Header="" FontSize="26.667" Width="200">
+                    <TabItem FontSize="26.667" Width="200">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Request" Margin="0" VerticalAlignment="Center" FontSize="37.333" />
+                                <TextBlock Text="Refill" Margin="0" VerticalAlignment="Center" Width="78" FontSize="37.333" />
+                            </StackPanel>
+                        </TabItem.Header>
                         <Grid Background="#FFE5E5E5"/>
                     </TabItem>
                     <TabItem Header="Cart" FontSize="40" Width="130">
