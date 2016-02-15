@@ -115,18 +115,23 @@ namespace OMS
 			{
 				case "Manager":
 					permLabel.Content = permission;
+					tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Server":
 					permLabel.Content = permission;
+					tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
+					tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Reception":
 					permLabel.Content = permission;
+					tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Table":
 					permLabel.Content = permission;
+					tableGrid.Visibility = Visibility.Visible;
 					break;
 				default:
 					break;
