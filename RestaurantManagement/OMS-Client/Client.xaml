@@ -42,16 +42,16 @@
                     <TabItem Header="Menu" Height="130" Margin="0,0,-1,0" FontSize="40" Width="200">
                         <Grid Background="#FFE5E5E5">
                         <TabControl x:Name="tabControl" Margin="0" TabStripPlacement="Left">
-                            <TabItem Header="Drinks">
+                            <TabItem Header="Drinks" FontSize="37.333" Width="196">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                            <TabItem Header="Appetizers">
+                            <TabItem Header="Appetizers" FontSize="37.333">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                            <TabItem Header="Entrees">
+                            <TabItem Header="Entrees" FontSize="37.333">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                            <TabItem Header="Desserts">
+                            <TabItem Header="Desserts" FontSize="37.333">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
                         </TabControl>
@@ -66,7 +66,7 @@
                     <TabItem Header="Pay" FontSize="40" Width="200">
                         <Grid Background="#FFE5E5E5"/>
                     </TabItem>
-                    <TabItem Header="Request Refill" FontSize="26.667" Width="200">
+                    <TabItem Header="" FontSize="26.667" Width="200">
                         <Grid Background="#FFE5E5E5"/>
                     </TabItem>
                     <TabItem Header="Cart" FontSize="40" Width="130">
