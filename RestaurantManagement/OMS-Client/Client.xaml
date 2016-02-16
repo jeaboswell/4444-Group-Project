@@ -6,6 +6,31 @@
         xmlns:local="clr-namespace:OMS"
         mc:Ignorable="d"
         Title="OMS-Client" Height="720" Width="1280" Closing="main_Closing" Loaded="main_Loaded">
+    <Window.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+        										VerticalAlignment="Center"
+        										HorizontalAlignment="Center"
+        										ContentSource="Header"
+        										Margin="10,2"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid x:Name="permissionGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Width="174">
             <Label x:Name="permLabel" Content="Waiting on Server" HorizontalAlignment="Left" Margin="69,0,0,0" VerticalAlignment="Top" Width="105"/>
@@ -14,72 +39,49 @@
         </Grid>
         <Grid x:Name="tableGrid">
             <TabControl x:Name="tableUI" TabStripPlacement="Bottom">
-                    <TabControl.Resources>
-                        <Style TargetType="{x:Type TabItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type TabItem}">
-                                        <Grid x:Name="Panel">
-                                            <ContentPresenter x:Name="ContentSite"
-        										VerticalAlignment="Center"
-        										HorizontalAlignment="Center"
-        										ContentSource="Header"
-        										Margin="10,2"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="False">
-                                                <Setter TargetName="Panel" Property="Background" Value="White" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TabControl.Resources>
-                    <TabItem Header="Menu" Height="130" Margin="0,0,-1,0" FontSize="40" Width="200">
-                        <Grid Background="#FFE5E5E5">
+                <TabItem Header="Menu" Height="108" Margin="0,0,-1,0" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5">
                         <TabControl x:Name="tabControl" Margin="0" TabStripPlacement="Left">
-                            <TabItem Header="Drinks" FontSize="37.333" Width="196">
+                            <TabItem Header="Drinks" FontSize="36" Width="189" Height="98">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                            <TabItem Header="Appetizers" FontSize="37.333">
+                            <TabItem Header="Appetizers" FontSize="36" Height="98">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                            <TabItem Header="Entrees" FontSize="37.333">
+                            <TabItem Header="Entrees" FontSize="36" Height="98">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
-                            <TabItem Header="Desserts" FontSize="37.333">
+                            <TabItem Header="Desserts" FontSize="36" Height="98">
                                 <Grid Background="#FFE5E5E5"/>
                             </TabItem>
                         </TabControl>
                     </Grid>
                 </TabItem>
-                    <TabItem Header="Games" FontSize="40" Width="200">
-                        <Grid Background="#FFE5E5E5"/>
-                    </TabItem>
-                    <TabItem Header="eClub" FontSize="40" Width="200">
-                        <Grid Background="#FFE5E5E5"/>
-                    </TabItem>
-                    <TabItem Header="Pay" FontSize="40" Width="200">
-                        <Grid Background="#FFE5E5E5"/>
-                    </TabItem>
-                    <TabItem FontSize="26.667" Width="200">
-                        <TabItem.Header>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Request" Margin="0" VerticalAlignment="Center" FontSize="37.333" />
-                                <TextBlock Text="Refill" Margin="0" VerticalAlignment="Center" Width="78" FontSize="37.333" />
-                            </StackPanel>
-                        </TabItem.Header>
-                        <Grid Background="#FFE5E5E5"/>
-                    </TabItem>
-                    <TabItem Header="Cart" FontSize="40" Width="130">
-                        <Grid Background="#FFE5E5E5"/>
-                    </TabItem>
-                </TabControl>
-                <Button x:Name="helpButton" Content="?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="130" Width="130" FontSize="66.667"/>
+                <TabItem Header="Games" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="eClub" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5">
+                        <local:Keypad x:Name="signIn" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Height="400" Width="722" Background="{x:Null}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Pay" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem FontSize="26.667" Width="192">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Request" Margin="0" VerticalAlignment="Center" FontSize="37.333" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" />
+                            <Label Content="Refill" Margin="0" VerticalAlignment="Center" FontSize="37.333" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,0" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Cart" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="helpButton" Content="?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="108" Width="108" FontSize="66.667" Background="{x:Null}" BorderBrush="{x:Null}"/>
         </Grid>
     </Grid>
 </Window>
