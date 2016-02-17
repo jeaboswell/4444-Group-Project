@@ -161,5 +161,10 @@ namespace OMS
 			newAccountGrid.Visibility = Visibility.Visible;
 		}
 		#endregion
+
+		private void firstName_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			Console.WriteLine("First Name Has Focus");
+		}
 	}
 }

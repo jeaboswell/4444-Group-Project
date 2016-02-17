@@ -38,6 +38,16 @@ namespace OMS
 			Button button = sender as Button;
 			switch (button.CommandParameter.ToString())
 			{
+				case "SHOWNUMBERS":
+					letters.Visibility = Visibility.Hidden;
+					numbers.Visibility = Visibility.Visible;
+					break;
+
+				case "SHOWLETTERS":
+					letters.Visibility = Visibility.Visible;
+					numbers.Visibility = Visibility.Hidden;
+					break;
+
 				case "ENTER":
 					// Add code here to check if phone number is in database
 					break;
@@ -50,14 +60,14 @@ namespace OMS
 					break;
 
 				default:
-					if (Result.Length == 0)
-						Result += "(";
-					if (Result.Length != 14)
-						Result += button.Content.ToString();
-					if (Result.Length == 4)
-						Result += ") ";
-					else if (Result.Length == 9)
-						Result += "-";
+					var key = Key.A;                    // Key to send
+					var target = Keyboard.FocusedElement;    // Target element
+					var routedEvent = Keyboard.KeyDownEvent; // Event to send
+
+					target.RaiseEvent(new System.Windows.Input.KeyEventArgs(Keyboard.PrimaryDevice,
+					 System.Windows.PresentationSource.FromVisual((Visual)target), 0, key)
+					{ RoutedEvent = routedEvent });
+					Result += button.Content.ToString();
 					break;
 			}
 		}

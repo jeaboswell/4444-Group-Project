@@ -39,7 +39,7 @@
         </Grid>
         <Grid x:Name="tableGrid">
             <TabControl x:Name="tableUI" TabStripPlacement="Bottom">
-                <TabItem Header="Menu" Height="108" Margin="0,0,-1,0" FontSize="40" Width="192">
+                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="40" Width="192">
                     <Grid Background="#FFE5E5E5">
                         <TabControl x:Name="tabControl" Margin="0" TabStripPlacement="Left">
                             <TabItem Header="Drinks" FontSize="36" Width="189" Height="98">
@@ -122,6 +122,10 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -129,7 +133,19 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <local:Keyboard Grid.ColumnSpan="4" Margin="0" VerticalAlignment="Bottom" Width="Auto" Grid.Row="3" Grid.RowSpan="3" Height="347"/>
+            <local:Keyboard Grid.ColumnSpan="4" VerticalAlignment="Bottom" Width="Auto" Grid.Row="4" Grid.RowSpan="6" Height="Auto"/>
+            <Label x:Name="label3" Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="69" FontSize="40" VerticalContentAlignment="Center"/>
+            <Label x:Name="label4" Content="Last Name:" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <Label x:Name="label5" Content="Birth Date:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <Label x:Name="label6" Content="Email:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <Label x:Name="label7" Content="Address:" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Height="69" FontSize="40" Grid.RowSpan="2"/>
+            <TextBox x:Name="firstName" Margin="214,5,10,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" IsKeyboardFocusedChanged="firstName_IsKeyboardFocusedChanged" VerticalAlignment="Top" Height="59" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="lastName" Grid.ColumnSpan="2" Grid.Column="2" Height="59" Margin="210,5,10,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="40"/>
+            <TextBox x:Name="birthDate" Grid.ColumnSpan="2" Margin="200,5,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" Height="59" VerticalAlignment="Top"/>
+            <Label x:Name="label8" Content="Phone:" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <TextBox x:Name="phoneNumber" Grid.Column="2" Height="59" Margin="136,5,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="40" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="email" Height="59" Margin="118,5,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="4" FontSize="40" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="address" Height="59" Margin="165,5,10,0" Grid.Row="3" TextWrapping="Wrap" VerticalContentAlignment="Center" Grid.ColumnSpan="4" FontSize="40" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Window>
