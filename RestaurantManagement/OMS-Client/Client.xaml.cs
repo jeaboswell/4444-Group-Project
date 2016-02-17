@@ -45,6 +45,7 @@ namespace OMS
 			stop = true;
 		}
 
+		#region Server Communication
 		void Connect()
 		{
 			UdpClient server = new UdpClient();
@@ -108,7 +109,9 @@ namespace OMS
 			}
 			server.Close();
 		}
+		#endregion
 
+		#region Functions (Server)
 		private void setPermission(string permission)
 		{
 			switch (permission)
@@ -137,5 +140,26 @@ namespace OMS
 					break;
 			}
 		}
+		#endregion
+
+		#region eClub Functions
+		private void closeCheckIn(object sender, RoutedEventArgs e)
+		{
+			checkInGrid.Visibility = Visibility.Hidden;
+			eClubHome.Visibility = Visibility.Visible;
+		}
+
+		private void checkInBtn_Click(object sender, RoutedEventArgs e)
+		{
+			eClubHome.Visibility = Visibility.Hidden;
+			checkInGrid.Visibility = Visibility.Visible;
+		}
+
+		private void createAcntBtn_Click(object sender, RoutedEventArgs e)
+		{
+			eClubHome.Visibility = Visibility.Hidden;
+			newAccountGrid.Visibility = Visibility.Visible;
+		}
+		#endregion
 	}
 }

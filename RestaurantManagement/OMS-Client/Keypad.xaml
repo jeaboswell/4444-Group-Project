@@ -36,7 +36,7 @@
             <Button x:Name="backspaceBtn" Grid.Column="6" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="77" Height="73" Grid.Row="3" FontSize="40" Foreground="Black" Background="White" BorderBrush="Black" CommandParameter="BACKSPACE" Click="button_Click">
                 <Image Source="Resources/backspace.png" Margin="10,0"/>
             </Button>
-            <Grid Grid.ColumnSpan="4" Margin="40,56,40,52" Grid.RowSpan="4">
+            <Grid Grid.ColumnSpan="4" Margin="40,56,40,49" Grid.RowSpan="4">
                 <Label x:Name="label" Content="Check In Here!" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Top" Height="74" Width="269" Foreground="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40"/>
                 <Label x:Name="phoneNumber" Content="{Binding Result}" Margin="0,94,0,0" VerticalAlignment="Top" Height="74" Background="White" FontSize="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                 <Button x:Name="enterBtn" Content="Enter" HorizontalAlignment="Left" Margin="56,194,0,0" VerticalAlignment="Top" Width="193" Height="74" FontSize="40" Background="White" BorderBrush="Black" CommandParameter="ENTER" Click="button_Click"/>

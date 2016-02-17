@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="OMS.Keyboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OMS"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1100">
+    <Viewbox>
+        <Grid Background="#FF3E3E42" Height="300" Width="1100">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="buttonQ" Content="Q" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonW" Content="W" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="1" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonE" Content="E" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonR" Content="R" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="3" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonT" Content="T" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="4" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonY" Content="Y" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="5" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonU" Content="U" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="6" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonI" Content="I" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="7" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonO" Content="O" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="8" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonP" Content="P" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="9" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="backspaceBtn" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="10" HorizontalContentAlignment="Left" CommandParameter="BACKSPACE" Click="button_Click">
+                <Image Source="Resources/leftArrow.png" Margin="10,10,0,10"/>
+            </Button>
+            <Button x:Name="buttonA" Content="A" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonS" Content="S" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonD" Content="D" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonF" Content="F" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonG" Content="G" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonH" Content="H" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonJ" Content="J" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonK" Content="K" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="7" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonL" Content="L" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="enterBtn" Content="Enter" Grid.Column="9" HorizontalAlignment="Left" Margin="30,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Height="80" Background="White" BorderBrush="Black" Grid.ColumnSpan="2" FontSize="40" CommandParameter="ENTER" Click="button_Click"/>
+            <Button x:Name="buttonZ" Content="Z" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonX" Content="X" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonC" Content="C" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonV" Content="V" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonB" Content="B" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonN" Content="N" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonM" Content="M" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonCOMMA" Content="," HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="7" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+            <Button x:Name="buttonPERIOD" Content="." HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" Grid.Column="8" Grid.Row="2" Grid.ColumnSpan="2" CommandParameter="LETTER" Click="button_Click"/>
+
+        </Grid>
+    </Viewbox>
+</UserControl>

@@ -67,12 +67,19 @@
       <DependentUpon>Client.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Keyboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Keypad.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keyboard.xaml.cs">
+      <DependentUpon>Keyboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Keypad.xaml.cs">
       <DependentUpon>Keypad.xaml</DependentUpon>
     </Compile>
@@ -104,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\backspace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\closeX.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\leftArrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
