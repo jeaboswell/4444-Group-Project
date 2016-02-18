@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-class Client
+class ClientInfo
 {
 	public IPAddress IP { get; set; }
 	public string Name { get; set; }
@@ -58,7 +58,7 @@ namespace OMS
 			{
 				clientList.Items.Clear();
 				foreach (IPAddress client in clients)
-					clientList.Items.Add(new Client { IP = client, Name = getClientName(client) });
+					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client) });
 			}));
 			
 		}
@@ -119,7 +119,7 @@ namespace OMS
 		private void syncClient_Click(object sender, RoutedEventArgs e)
 		{
 			requestStop();
-			Client client = (Client)GetAncestorOfType<ListViewItem>(sender as Button).Content;
+			ClientInfo client = (ClientInfo)GetAncestorOfType<ListViewItem>(sender as Button).Content;
 			IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
 			UdpClient connection = new UdpClient();
 

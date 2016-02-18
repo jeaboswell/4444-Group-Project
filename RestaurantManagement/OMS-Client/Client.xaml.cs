@@ -160,11 +160,104 @@ namespace OMS
 			eClubHome.Visibility = Visibility.Hidden;
 			newAccountGrid.Visibility = Visibility.Visible;
 		}
-		#endregion
 
-		private void firstName_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private void monthBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			Console.WriteLine("First Name Has Focus");
+			int days = 0;
+			switch (monthBox.SelectedIndex)
+			{
+				case 0:	 // January
+				case 2:  // March
+				case 4:  // May
+				case 6:  // July
+				case 7:  // August
+				case 9:  // October
+				case 11: // December
+					days = 31;
+					break;
+				case 3:  // April
+				case 5:  // June
+				case 8:  // September
+				case 10: // November
+					days = 30;
+					break;
+				case 1:  // February
+					days = 29;
+					break;
+				default:
+					break;
+			}
+			for (int i = 1; i != days; i++)
+			{
+				dayBox.Items.Add(i);
+			}
 		}
+
+		private void yearBox_Initialized(object sender, EventArgs e)
+		{
+			for (int i = DateTime.Now.Year; i != (DateTime.Now.Year - 120); i--)
+			{
+				yearBox.Items.Add(i);
+			}
+		}
+
+		private void DoneBtn_Click(object sender, RoutedEventArgs e)
+		{
+			string message = "";
+			bool pass = true;
+			if (firstName.Text.Length == 0)
+			{
+				message += "Please enter your first name.\n";
+				pass = false;
+			}
+			if (lastName.Text.Length == 0)
+			{
+				message += "Please enter your last name.\n";
+				pass = false;
+			}
+			if (monthBox.SelectedIndex == -1 || dayBox.SelectedIndex == -1 || yearBox.SelectedIndex == -1)
+			{
+				message += "Please enter your birth date.\n";
+				pass = false;
+			}
+			if (phoneNumber.Text.Length != 10)
+			{
+				message += "Please enter a valid phone number.\n";
+				pass = false;
+			}
+			if (email.Text.Length == 0)
+			{
+				message += "Please enter your email address.\n";
+				pass = false;
+			}
+			if (address.Text.Length == 0)
+			{
+				message += "Please enter your street address.\n";
+				pass = false;
+			}
+
+			if (!pass)
+			{
+				MessageBox.Show(message);
+			}
+			else
+			{
+				// Add code here to store account info in server
+
+				// Reset form
+				firstName.Clear();
+				lastName.Clear();
+				monthBox.SelectedIndex = -1;
+				dayBox.SelectedIndex = -1;
+				yearBox.SelectedIndex = -1;
+				phoneNumber.Clear();
+				email.Clear();
+				address.Clear();
+
+				newAccountGrid.Visibility = Visibility.Hidden;
+				memberInfo.Visibility = Visibility.Visible;
+			}
+		}
+		#endregion
 	}
 }

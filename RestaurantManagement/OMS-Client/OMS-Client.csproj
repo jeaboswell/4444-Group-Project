@@ -67,7 +67,7 @@
       <DependentUpon>Client.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Keyboard.xaml">
+    <Page Include="myKeyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -77,8 +77,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Keyboard.xaml.cs">
-      <DependentUpon>Keyboard.xaml</DependentUpon>
+    <Compile Include="myKeyboard.xaml.cs">
+      <DependentUpon>myKeyboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Keypad.xaml.cs">
       <DependentUpon>Keypad.xaml</DependentUpon>

@@ -38,10 +38,6 @@ namespace OMS
 			Button button = sender as Button;
 			switch (button.CommandParameter.ToString())
 			{
-				case "ENTER":
-					// Add code here to check if phone number is in database
-					break;
-
 				case "BACKSPACE":
 					if (Result.Length > 0)
 					{
