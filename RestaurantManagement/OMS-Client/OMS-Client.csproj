@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="rewardMember.cs" />
     <Page Include="Client.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

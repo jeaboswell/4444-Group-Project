@@ -28,6 +28,7 @@ namespace OMS
 		Thread listener;
 		private volatile bool stop;
 		IPAddress serverIp;
+		rewardMember currentMember = new rewardMember();
 		public Client()
 		{
 			InitializeComponent();
@@ -161,6 +162,14 @@ namespace OMS
 			newAccountGrid.Visibility = Visibility.Visible;
 		}
 
+		private void monthBox_Initialized(object sender, EventArgs e)
+		{
+			for (int i = 1; i != 12; i++)
+			{
+				monthBox.Items.Add(i);
+			}
+		}
+
 		private void monthBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			int days = 0;
@@ -201,6 +210,12 @@ namespace OMS
 			}
 		}
 
+		private void phoneNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			if (phoneNumber.Text.Length == 10)
+				e.Handled = true;
+		}
+
 		private void DoneBtn_Click(object sender, RoutedEventArgs e)
 		{
 			string message = "";
@@ -230,6 +245,29 @@ namespace OMS
 				message += "Please enter your email address.\n";
 				pass = false;
 			}
+			else // Verify email
+			{
+				bool foundAt = false, valid = false;
+				int atIndex = 0;
+
+				for (int i = 0; i < email.Text.Length; i++)
+				{
+					if (email.Text[i] == '@')
+					{
+						foundAt = true;
+						atIndex = i;
+					}
+					else if (email.Text[i] == '.' && foundAt && i != email.Text.Length - 1 && atIndex != i - 1)
+					{
+						valid = true;
+					}
+				}
+				if (!valid)
+				{
+					message += "Please enter a valid email address.\n";
+					pass = false;
+				}
+			}
 			if (address.Text.Length == 0)
 			{
 				message += "Please enter your street address.\n";
@@ -243,6 +281,12 @@ namespace OMS
 			else
 			{
 				// Add code here to store account info in server
+				currentMember.firstName = firstName.Text;
+				currentMember.lastName = lastName.Text;
+				currentMember.setBirthDate((int)monthBox.SelectedValue, (int)dayBox.SelectedValue, (int)yearBox.SelectedValue);
+				currentMember.setPhoneNumber(phoneNumber.Text);
+				currentMember.email = email.Text;
+				currentMember.address = address.Text;
 
 				// Reset form
 				firstName.Clear();
