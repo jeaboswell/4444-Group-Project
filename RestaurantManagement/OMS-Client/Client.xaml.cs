@@ -216,7 +216,7 @@ namespace OMS
 				e.Handled = true;
 		}
 
-		private void DoneBtn_Click(object sender, RoutedEventArgs e)
+		private void DoneBtn_Click(object sender, RoutedEventArgs e) // Check fields for completion of new member
 		{
 			string message = "";
 			bool pass = true;
@@ -237,7 +237,7 @@ namespace OMS
 			}
 			if (phoneNumber.Text.Length != 10)
 			{
-				message += "Please enter a valid phone number.\n";
+				message += "Please enter a valid 10 digit phone number.\n";
 				pass = false;
 			}
 			if (email.Text.Length == 0)
@@ -280,24 +280,28 @@ namespace OMS
 			}
 			else
 			{
-				// Add code here to store account info in server
+				
+				// Set data for current member
 				currentMember.firstName = firstName.Text;
 				currentMember.lastName = lastName.Text;
 				currentMember.setBirthDate((int)monthBox.SelectedValue, (int)dayBox.SelectedValue, (int)yearBox.SelectedValue);
 				currentMember.setPhoneNumber(phoneNumber.Text);
 				currentMember.email = email.Text;
 				currentMember.address = address.Text;
-
+				currentMember.points += 1;
+				
+				// Add code here to store account info in server
+				
 				// Reset form
 				firstName.Clear();
 				lastName.Clear();
-				monthBox.SelectedIndex = -1;
-				dayBox.SelectedIndex = -1;
-				yearBox.SelectedIndex = -1;
+				monthBox.SelectedIndex = 0;
+				dayBox.SelectedIndex = 0;
+				yearBox.SelectedIndex = 0;
 				phoneNumber.Clear();
 				email.Clear();
 				address.Clear();
-
+				
 				newAccountGrid.Visibility = Visibility.Hidden;
 				memberInfo.Visibility = Visibility.Visible;
 			}

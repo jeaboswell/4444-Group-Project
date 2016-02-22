@@ -115,7 +115,7 @@
             </TabControl>
             <Button x:Name="helpButton" Content="?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="108" Width="108" FontSize="66.667" Background="{x:Null}" BorderBrush="{x:Null}"/>
         </Grid>
-        <Grid x:Name="newAccountGrid" Background="#FFE5E5E5">
+        <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -147,7 +147,7 @@
             <TextBox x:Name="email" Height="59" Margin="118,5,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="4" FontSize="40" VerticalContentAlignment="Center"/>
             <TextBox x:Name="address" Height="59" Margin="165,5,10,0" Grid.Row="3" TextWrapping="Wrap" VerticalContentAlignment="Center" Grid.ColumnSpan="4" FontSize="40" VerticalAlignment="Top"/>
             <local:myKeyboard x:Name="keyboard" Grid.ColumnSpan="4" Margin="0" Grid.Row="4" Grid.RowSpan="6" Width="Auto" Height="Auto"/>
-            <Grid Grid.ColumnSpan="2" Margin="200,5,62,5" Grid.Row="1">
+            <Grid Grid.ColumnSpan="2" Margin="200,5,57,5" Grid.Row="1">
                 <ComboBox x:Name="monthBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" SelectionChanged="monthBox_SelectionChanged" HorizontalContentAlignment="Right" BorderBrush="Black" Initialized="monthBox_Initialized">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -166,7 +166,7 @@
                     </ComboBox.Background>
                 </ComboBox>
                 <Label x:Name="label9_Copy" Content="/" HorizontalAlignment="Left" Margin="193,0,0,0" VerticalAlignment="Top" Height="59" FontSize="40" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
-                <ComboBox x:Name="yearBox" HorizontalAlignment="Left" Margin="224,0,0,0" VerticalAlignment="Top" Width="150" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" Initialized="yearBox_Initialized" BorderBrush="Black">
+                <ComboBox x:Name="yearBox" HorizontalAlignment="Left" Margin="224,0,0,0" Width="150" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" Initialized="yearBox_Initialized" BorderBrush="Black">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                             <GradientStop Color="#FFF0F0F0" Offset="0"/>

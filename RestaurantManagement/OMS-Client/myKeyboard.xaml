@@ -63,6 +63,7 @@
                 <Button x:Name="buttonPERIOD" Content="." HorizontalAlignment="Left" Margin="880,200,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
                 <Button x:Name="buttonSPACE" Content=" " HorizontalAlignment="Left" Margin="280,300,0,0" VerticalAlignment="Top" Width="480" Height="80" Background="White" BorderBrush="Black" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
                 <Button x:Name="showNumbers" Content="123" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top" Width="180" Height="80" FontSize="40" Background="White" BorderBrush="Black" CommandParameter="SHOWNUMBERS" Click="button_Click" Focusable="False"/>
+                <Button x:Name="buttonAT" Content="@" HorizontalAlignment="Left" Margin="980,200,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
 
 
             </Grid>
