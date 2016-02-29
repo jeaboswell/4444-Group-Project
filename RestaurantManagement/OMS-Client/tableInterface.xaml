@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="OMS.tableInterface"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OMS"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+        										VerticalAlignment="Center"
+        										HorizontalAlignment="Center"
+        										ContentSource="Header"
+        										Margin="10,2"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid x:Name="menuSystem">
+            <TabControl x:Name="tableUI" TabStripPlacement="Bottom">
+                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5">
+                        <TabControl x:Name="tabControl" Margin="0" TabStripPlacement="Left">
+                            <TabItem Header="Drinks" FontSize="36" Width="189" Height="98">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Header="Appetizers" FontSize="36" Height="98">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Header="Entrees" FontSize="36" Height="98">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                            <TabItem Header="Desserts" FontSize="36" Height="98">
+                                <Grid Background="#FFE5E5E5"/>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Games" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="eClub" FontSize="40" Width="192">
+                    <Grid x:Name="eClubGrid" Background="#FFE5E5E5">
+                        <Grid x:Name="checkInGrid" Margin="10" Visibility="Hidden" Grid.RowSpan="2">
+                            <local:Keypad x:Name="checkIn" Height="Auto" Width="Auto" Background="{x:Null}"/>
+                            <Button x:Name="closeCheckInBtn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="108" Background="White" Click="closeCheckIn" ToolTip="Go back to eClub main screen." BorderBrush="Black">
+                                <Image Source="Resources/closeX.png" Margin="10,0"/>
+                            </Button>
+                        </Grid>
+                        <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label1" Content="Already a member?" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="138" Grid.ColumnSpan="3" Width="534" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                            <Button x:Name="checkInBtn" Content="Check In" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,0,0" Height="118" Background="White" BorderBrush="Black" Click="checkInBtn_Click"/>
+                            <Label x:Name="label2" Content="Not a member? Why not?" Grid.Column="4" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="138" Width="534" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button x:Name="createAcntBtn" Content="Create Account" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="0,10,89,0" Height="118" Background="White" BorderBrush="Black" Grid.Column="4" Click="createAcntBtn_Click"/>
+
+                        </Grid>
+                        <Grid x:Name="memberInfo" Margin="10" Visibility="Hidden">
+                            <Label x:Name="label10" Content="Account Info:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Label x:Name="label11" Content="Current Points" HorizontalAlignment="Left" Margin="197,242,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="button" Content="Redeem" HorizontalAlignment="Left" Margin="800,242,0,0" VerticalAlignment="Top" Height="63"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Pay" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem FontSize="26.667" Width="192">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="Request" Margin="0" VerticalAlignment="Center" FontSize="37.333" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" />
+                            <Label Content="Refill" Margin="0" VerticalAlignment="Center" FontSize="37.333" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,0" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Cart" FontSize="40" Width="192">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="helpButton" Content="?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="108" Width="108" FontSize="66.667" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        </Grid>
+        <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="label3" Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="69" FontSize="40" VerticalContentAlignment="Center"/>
+            <Label x:Name="label4" Content="Last Name:" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <Label x:Name="label5" Content="Birth Date:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <Label x:Name="label6" Content="Email:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <Label x:Name="label7" Content="Address:" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Height="69" FontSize="40" Grid.RowSpan="2"/>
+            <TextBox x:Name="firstName" Margin="214,5,10,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" VerticalAlignment="Top" Height="59" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="lastName" Grid.ColumnSpan="2" Grid.Column="2" Height="59" Margin="210,5,10,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="40"/>
+            <TextBox x:Name="birthDate" Grid.ColumnSpan="2" Margin="200,5,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" Height="59" VerticalAlignment="Top" Visibility="Hidden"/>
+            <Label x:Name="label8" Content="Phone:" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="69" FontSize="40"/>
+            <TextBox x:Name="phoneNumber" Grid.Column="2" Height="59" Margin="136,5,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="40" VerticalContentAlignment="Center" PreviewTextInput="phoneNumber_PreviewTextInput"/>
+            <TextBox x:Name="email" Height="59" Margin="118,5,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="4" FontSize="40" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="address" Height="59" Margin="165,5,10,0" Grid.Row="3" TextWrapping="Wrap" VerticalContentAlignment="Center" Grid.ColumnSpan="4" FontSize="40" VerticalAlignment="Top"/>
+            <local:myKeyboard x:Name="keyboard" Grid.ColumnSpan="4" Margin="0" Grid.Row="4" Grid.RowSpan="6" Width="Auto" Height="Auto"/>
+            <Grid Grid.ColumnSpan="2" Margin="200,5,57,5" Grid.Row="1">
+                <ComboBox x:Name="monthBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" SelectionChanged="monthBox_SelectionChanged" HorizontalContentAlignment="Right" BorderBrush="Black" Initialized="monthBox_Initialized">
+                    <ComboBox.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBox.Background>
+                </ComboBox>
+                <Label x:Name="label9" Content="/" HorizontalAlignment="Left" Margin="81,0,0,0" VerticalAlignment="Top" Height="59" FontSize="40" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
+                <ComboBox x:Name="dayBox" HorizontalAlignment="Left" Margin="112,0,0,0" VerticalAlignment="Top" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" BorderBrush="Black">
+                    <ComboBox.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBox.Background>
+                </ComboBox>
+                <Label x:Name="label9_Copy" Content="/" HorizontalAlignment="Left" Margin="193,0,0,0" VerticalAlignment="Top" Height="59" FontSize="40" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
+                <ComboBox x:Name="yearBox" HorizontalAlignment="Left" Margin="224,0,0,0" Width="150" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" Initialized="yearBox_Initialized" BorderBrush="Black">
+                    <ComboBox.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBox.Background>
+                </ComboBox>
+            </Grid>
+            <Button x:Name="DoneBtn" Content="Done" Grid.Column="3" Margin="122,45,10,10" Grid.Row="8" Grid.RowSpan="2" Background="White" BorderBrush="Black" FontSize="40" Click="DoneBtn_Click" Width="186" Height="83" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        </Grid>
+        <Grid x:Name="serviceDock" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.5" Height="80" Width="296" Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Width="80" HorizontalAlignment="Center" Margin="10,0" Content="Button" Height="80" VerticalAlignment="Top" Grid.Column="1"/>
+        </Grid>
+    </Grid>
+</UserControl>
