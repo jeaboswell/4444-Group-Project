@@ -28,7 +28,6 @@ namespace OMS
 		Thread listener;
 		private volatile bool stop;
 		IPAddress serverIp;
-		rewardMember currentMember = new rewardMember();
 		public Client()
 		{
 			InitializeComponent();
@@ -119,23 +118,23 @@ namespace OMS
 			{
 				case "Manager":
 					permLabel.Content = permission;
-					tableGrid.Visibility = Visibility.Hidden;
+					//tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Server":
 					permLabel.Content = permission;
-					tableGrid.Visibility = Visibility.Hidden;
+					//tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
-					tableGrid.Visibility = Visibility.Hidden;
+					//.Visibility = Visibility.Hidden;
 					break;
 				case "Reception":
 					permLabel.Content = permission;
-					tableGrid.Visibility = Visibility.Hidden;
+					//tableGrid.Visibility = Visibility.Hidden;
 					break;
 				case "Table":
 					permLabel.Content = permission;
-					tableGrid.Visibility = Visibility.Visible;
+					//tableGrid.Visibility = Visibility.Visible;
 					break;
 				default:
 					break;
@@ -143,169 +142,6 @@ namespace OMS
 		}
 		#endregion
 
-		#region eClub Functions
-		private void closeCheckIn(object sender, RoutedEventArgs e)
-		{
-			checkInGrid.Visibility = Visibility.Hidden;
-			eClubHome.Visibility = Visibility.Visible;
-		}
-
-		private void checkInBtn_Click(object sender, RoutedEventArgs e)
-		{
-			eClubHome.Visibility = Visibility.Hidden;
-			checkInGrid.Visibility = Visibility.Visible;
-		}
-
-		private void createAcntBtn_Click(object sender, RoutedEventArgs e)
-		{
-			eClubHome.Visibility = Visibility.Hidden;
-			newAccountGrid.Visibility = Visibility.Visible;
-		}
-
-		private void monthBox_Initialized(object sender, EventArgs e)
-		{
-			for (int i = 1; i != 12; i++)
-			{
-				monthBox.Items.Add(i);
-			}
-		}
-
-		private void monthBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			int days = 0;
-			switch (monthBox.SelectedIndex)
-			{
-				case 0:	 // January
-				case 2:  // March
-				case 4:  // May
-				case 6:  // July
-				case 7:  // August
-				case 9:  // October
-				case 11: // December
-					days = 31;
-					break;
-				case 3:  // April
-				case 5:  // June
-				case 8:  // September
-				case 10: // November
-					days = 30;
-					break;
-				case 1:  // February
-					days = 29;
-					break;
-				default:
-					break;
-			}
-			for (int i = 1; i != days; i++)
-			{
-				dayBox.Items.Add(i);
-			}
-		}
-
-		private void yearBox_Initialized(object sender, EventArgs e)
-		{
-			for (int i = DateTime.Now.Year; i != (DateTime.Now.Year - 120); i--)
-			{
-				yearBox.Items.Add(i);
-			}
-		}
-
-		private void phoneNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
-		{
-			if (phoneNumber.Text.Length == 10)
-				e.Handled = true;
-		}
-
-		private void DoneBtn_Click(object sender, RoutedEventArgs e) // Check fields for completion of new member
-		{
-			string message = "";
-			bool pass = true;
-			if (firstName.Text.Length == 0)
-			{
-				message += "Please enter your first name.\n";
-				pass = false;
-			}
-			if (lastName.Text.Length == 0)
-			{
-				message += "Please enter your last name.\n";
-				pass = false;
-			}
-			if (monthBox.SelectedIndex == -1 || dayBox.SelectedIndex == -1 || yearBox.SelectedIndex == -1)
-			{
-				message += "Please enter your birth date.\n";
-				pass = false;
-			}
-			if (phoneNumber.Text.Length != 10)
-			{
-				message += "Please enter a valid 10 digit phone number.\n";
-				pass = false;
-			}
-			if (email.Text.Length == 0)
-			{
-				message += "Please enter your email address.\n";
-				pass = false;
-			}
-			else // Verify email
-			{
-				bool foundAt = false, valid = false;
-				int atIndex = 0;
-
-				for (int i = 0; i < email.Text.Length; i++)
-				{
-					if (email.Text[i] == '@')
-					{
-						foundAt = true;
-						atIndex = i;
-					}
-					else if (email.Text[i] == '.' && foundAt && i != email.Text.Length - 1 && atIndex != i - 1)
-					{
-						valid = true;
-					}
-				}
-				if (!valid)
-				{
-					message += "Please enter a valid email address.\n";
-					pass = false;
-				}
-			}
-			if (address.Text.Length == 0)
-			{
-				message += "Please enter your street address.\n";
-				pass = false;
-			}
-
-			if (!pass)
-			{
-				MessageBox.Show(message);
-			}
-			else
-			{
-				
-				// Set data for current member
-				currentMember.firstName = firstName.Text;
-				currentMember.lastName = lastName.Text;
-				currentMember.setBirthDate((int)monthBox.SelectedValue, (int)dayBox.SelectedValue, (int)yearBox.SelectedValue);
-				currentMember.setPhoneNumber(phoneNumber.Text);
-				currentMember.email = email.Text;
-				currentMember.address = address.Text;
-				currentMember.points += 1;
-				
-				// Add code here to store account info in server
-				
-				// Reset form
-				firstName.Clear();
-				lastName.Clear();
-				monthBox.SelectedIndex = 0;
-				dayBox.SelectedIndex = 0;
-				yearBox.SelectedIndex = 0;
-				phoneNumber.Clear();
-				email.Clear();
-				address.Clear();
-				
-				newAccountGrid.Visibility = Visibility.Hidden;
-				memberInfo.Visibility = Visibility.Visible;
-			}
-		}
-		#endregion
+		
 	}
 }

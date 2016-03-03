@@ -20,10 +20,10 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                                <Setter TargetName="Panel" Property="Background" Value="#FF701C1C" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="Panel" Property="Background" Value="White" />
+                                <Setter TargetName="Panel" Property="Background" Value="Black" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -31,32 +31,22 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="Black">
         <Grid x:Name="menuSystem">
-            <TabControl x:Name="tableUI" TabStripPlacement="Bottom">
-                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="40" Width="192">
-                    <Grid Background="#FFE5E5E5">
-                        <TabControl x:Name="tabControl" Margin="0" TabStripPlacement="Left">
-                            <TabItem Header="Drinks" FontSize="36" Width="189" Height="98">
-                                <Grid Background="#FFE5E5E5"/>
-                            </TabItem>
-                            <TabItem Header="Appetizers" FontSize="36" Height="98">
-                                <Grid Background="#FFE5E5E5"/>
-                            </TabItem>
-                            <TabItem Header="Entrees" FontSize="36" Height="98">
-                                <Grid Background="#FFE5E5E5"/>
-                            </TabItem>
-                            <TabItem Header="Desserts" FontSize="36" Height="98">
-                                <Grid Background="#FFE5E5E5"/>
-                            </TabItem>
-                        </TabControl>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="Games" FontSize="40" Width="192">
+            <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FFE5E5E5">
+                <TabControl.Resources>
+                    <Style TargetType="{x:Type TabPanel}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </TabControl.Resources>
+                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="40" Width="192" Foreground="#FFACACAC">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
-                <TabItem Header="eClub" FontSize="40" Width="192">
-                    <Grid x:Name="eClubGrid" Background="#FFE5E5E5">
+                <TabItem Header="Games" FontSize="40" Width="192" Foreground="#FFACACAC">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="eClub" FontSize="40" Width="192" Foreground="#FFACACAC">
+                    <Grid x:Name="eClubGrid" Background="#FFEBEBEB">
                         <Grid x:Name="checkInGrid" Margin="10" Visibility="Hidden" Grid.RowSpan="2">
                             <local:Keypad x:Name="checkIn" Height="Auto" Width="Auto" Background="{x:Null}"/>
                             <Button x:Name="closeCheckInBtn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="108" Background="White" Click="closeCheckIn" ToolTip="Go back to eClub main screen." BorderBrush="Black">
@@ -80,9 +70,9 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label x:Name="label1" Content="Already a member?" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="138" Grid.ColumnSpan="3" Width="534" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                            <Button x:Name="checkInBtn" Content="Check In" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,0,0" Height="118" Background="White" BorderBrush="Black" Click="checkInBtn_Click"/>
+                            <Button x:Name="checkInBtn" Content="Check In" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,0,0" Height="118" Background="#FF2D2D30" BorderBrush="Black" Click="checkInBtn_Click" Foreground="#FFACACAC"/>
                             <Label x:Name="label2" Content="Not a member? Why not?" Grid.Column="4" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="138" Width="534" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <Button x:Name="createAcntBtn" Content="Create Account" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="0,10,89,0" Height="118" Background="White" BorderBrush="Black" Grid.Column="4" Click="createAcntBtn_Click"/>
+                            <Button x:Name="createAcntBtn" Content="Create Account" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="0,10,89,0" Height="118" Background="#FF2D2D30" BorderBrush="Black" Grid.Column="4" Click="createAcntBtn_Click" Foreground="#FFACACAC"/>
 
                         </Grid>
                         <Grid x:Name="memberInfo" Margin="10" Visibility="Hidden">
@@ -92,23 +82,10 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Pay" FontSize="40" Width="192">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-                <TabItem FontSize="26.667" Width="192">
-                    <TabItem.Header>
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="Request" Margin="0" VerticalAlignment="Center" FontSize="37.333" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" />
-                            <Label Content="Refill" Margin="0" VerticalAlignment="Center" FontSize="37.333" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,0" />
-                        </StackPanel>
-                    </TabItem.Header>
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-                <TabItem Header="Cart" FontSize="40" Width="192">
+                <TabItem Header="Pay" FontSize="40" Width="192" Foreground="#FFACACAC">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
-            <Button x:Name="helpButton" Content="?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="108" Width="108" FontSize="66.667" Background="{x:Null}" BorderBrush="{x:Null}"/>
         </Grid>
         <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
             <Grid.RowDefinitions>
@@ -172,13 +149,33 @@
             </Grid>
             <Button x:Name="DoneBtn" Content="Done" Grid.Column="3" Margin="122,45,10,10" Grid.Row="8" Grid.RowSpan="2" Background="White" BorderBrush="Black" FontSize="40" Click="DoneBtn_Click" Width="186" Height="83" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
         </Grid>
-        <Grid x:Name="serviceDock" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.5" Height="80" Width="296" Background="Black">
+        <Grid x:Name="serviceDock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="286" Background="#BF252526" Margin="0,1,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Width="80" HorizontalAlignment="Center" Margin="10,0" Content="Button" Height="80" VerticalAlignment="Top" Grid.Column="1"/>
+            <Button x:Name="refillButton" Margin="5,0" Grid.Column="1" Background="#FF2D2D30" BorderBrush="#FF2D2D30" VerticalAlignment="Top" Height="70">
+                <Button.Content>
+                    <StackPanel>
+                        <Label Content="Request" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="0" Foreground="#FFACACAC"/>
+                        <Label Content="Refill" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button x:Name="cartButton" Margin="5,0" Height="70" VerticalAlignment="Top" Grid.Column="2" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC">
+                <Button.Content>
+                    <Image Source="Resources/cartImage.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="55"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="helpButton" Margin="5,0" Height="70" VerticalAlignment="Top" Background="#FF2D2D30" BorderBrush="#FF2D2D30">
+                <Button.Content>
+                    <StackPanel>
+                        <Label Content="Call" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC"/>
+                        <Label Content="Server" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>
