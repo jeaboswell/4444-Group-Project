@@ -33,19 +33,38 @@
     </UserControl.Resources>
     <Grid Background="Black">
         <Grid x:Name="menuSystem">
-            <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FFE5E5E5">
+            <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868">
                 <TabControl.Resources>
                     <Style TargetType="{x:Type TabPanel}">
                         <Setter Property="HorizontalAlignment" Value="Center" />
                     </Style>
                 </TabControl.Resources>
-                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="40" Width="192" Foreground="#FFACACAC">
+                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="drinkButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="286" Foreground="White" BorderBrush="Black" FontSize="66.667" FontFamily="Castellar" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Padding="1,1,30,20">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                <!--Photo Credit: https://www.flickr.com/photos/kenbarroga/-->
+                            </Button.Background>
+                            <Button.Content>
+                                <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="button1" Content="Button" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="286"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
-                <TabItem Header="Games" FontSize="40" Width="192" Foreground="#FFACACAC">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-                <TabItem Header="eClub" FontSize="40" Width="192" Foreground="#FFACACAC">
+                <TabItem Header="eClub" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                     <Grid x:Name="eClubGrid" Background="#FFEBEBEB">
                         <Grid x:Name="checkInGrid" Margin="10" Visibility="Hidden" Grid.RowSpan="2">
                             <local:Keypad x:Name="checkIn" Height="Auto" Width="Auto" Background="{x:Null}"/>
@@ -82,7 +101,7 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Pay" FontSize="40" Width="192" Foreground="#FFACACAC">
+                <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
@@ -171,8 +190,8 @@
             <Button x:Name="helpButton" Margin="5,0" Height="70" VerticalAlignment="Top" Background="#FF2D2D30" BorderBrush="#FF2D2D30">
                 <Button.Content>
                     <StackPanel>
-                        <Label Content="Call" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC"/>
-                        <Label Content="Server" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC"/>
+                        <Label Content="Call" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
+                        <Label Content="Server" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
