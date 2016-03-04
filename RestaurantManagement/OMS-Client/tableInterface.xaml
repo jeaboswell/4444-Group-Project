@@ -49,7 +49,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="drinkButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="286" Foreground="White" BorderBrush="Black" FontSize="66.667" FontFamily="Castellar" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Padding="1,1,30,20">
+                        <Button x:Name="drinkButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="286" Foreground="White" BorderBrush="#FF686868" FontSize="66.667" FontFamily="Castellar" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Padding="1,1,30,20">
                             <Button.Background>
                                 <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
                                 <!--Photo Credit: https://www.flickr.com/photos/kenbarroga/-->
@@ -58,7 +58,17 @@
                                 <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="button1" Content="Button" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="286"/>
+                        <Button x:Name="appetizerButton" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="286" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black">
+                            <Button.Content>
+                                <Label Foreground="#FFACACAC" Content="Appetizers" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="entreeButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1">
+                            <Label Foreground="#FFACACAC" Content="Entrées" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
+                        </Button>
+                        <Button x:Name="dessertButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Grid.Column="1">
+                            <Label Foreground="#FFACACAC" Content="Desserts" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
+                        </Button>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
@@ -168,7 +178,7 @@
             </Grid>
             <Button x:Name="DoneBtn" Content="Done" Grid.Column="3" Margin="122,45,10,10" Grid.Row="8" Grid.RowSpan="2" Background="White" BorderBrush="Black" FontSize="40" Click="DoneBtn_Click" Width="186" Height="83" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
         </Grid>
-        <Grid x:Name="serviceDock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="286" Background="#BF252526" Margin="0,1,10,0">
+        <Grid x:Name="serviceDock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="286" Background="#BF252526" Margin="0,0,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
