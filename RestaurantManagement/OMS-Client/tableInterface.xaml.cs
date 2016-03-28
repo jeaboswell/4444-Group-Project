@@ -191,5 +191,10 @@ namespace OMS
 			}
 		}
 		#endregion
+
+		private void drinkButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }
