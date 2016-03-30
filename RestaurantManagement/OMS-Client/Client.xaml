@@ -12,7 +12,7 @@
             <Label x:Name="label" Content="Permission:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
         </Grid>
-        <local:tableInterface/>
+        <local:tableInterface Width="Auto" Height="Auto"/>
 
     </Grid>
 </Window>

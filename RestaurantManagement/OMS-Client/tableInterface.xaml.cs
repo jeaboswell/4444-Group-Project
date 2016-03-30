@@ -27,6 +27,7 @@ namespace OMS
 		public tableInterface()
 		{
 			InitializeComponent();
+			createMenu();
 		}
 
 		#region eClub Functions
@@ -154,11 +155,6 @@ namespace OMS
 					pass = false;
 				}
 			}
-			if (address.Text.Length == 0)
-			{
-				message += "Please enter your street address.\n";
-				pass = false;
-			}
 
 			if (!pass)
 			{
@@ -173,7 +169,6 @@ namespace OMS
 				currentMember.setBirthDate((int)monthBox.SelectedValue, (int)dayBox.SelectedValue, (int)yearBox.SelectedValue);
 				currentMember.setPhoneNumber(phoneNumber.Text);
 				currentMember.email = email.Text;
-				currentMember.address = address.Text;
 				currentMember.points += 1;
 
 				// Add code here to store account info in server
@@ -186,7 +181,6 @@ namespace OMS
 				yearBox.SelectedIndex = 0;
 				phoneNumber.Clear();
 				email.Clear();
-				address.Clear();
 
 				newAccountGrid.Visibility = Visibility.Hidden;
 				memberInfo.Visibility = Visibility.Visible;
@@ -197,12 +191,56 @@ namespace OMS
 		// Temporary demo functions
 		public void createMenu()
 		{
-			myMenu.Add(new menuItem { itemNumber = 0, name = "Filet Mignon", description = "Our most tender steak! Signature Center-Cut Filet Mignon, perfectly lean, served thick & juciy. Served with a salad or soup, plus your choice of side.", imgSource = new BitmapImage(new Uri("Resources/Temp/filetMignon.jpg", UriKind.Absolute)) });
+			myMenu.Add(new menuItem { itemNumber = 0,
+									  name = "Filet Mignon",
+									  description = "Our most tender steak! Signature Center-Cut Filet Mignon, perfectly lean, served thick & juciy. Served with a salad or soup, plus your choice of side.",
+									  imgSource = new BitmapImage(new Uri("Resources/Temp/filetMignon.jpg", UriKind.Relative)),
+									  price = 36,
+									  category = "entree" });
+			menuList.Items.Add("Filet Mignon");
 		}
 
 		private void drinkButton_Click(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private void menuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			foreach (menuItem item in myMenu)
+			{
+				if (item.name == menuList.SelectedValue.ToString())
+				{
+					menuImage.Source = item.imgSource;
+					menuDescription.Text = item.description;
+					menuPrice.Content = "$" + item.price.ToString();
+				}
+			}
+		}
+
+		private void menuList_Loaded(object sender, RoutedEventArgs e)
+		{
+			foreach (menuItem item in myMenu)
+			{
+				if (item.name == menuList.SelectedValue.ToString())
+				{
+					menuImage.Source = item.imgSource;
+					menuDescription.Text = item.description;
+					menuPrice.Content = "$" + item.price.ToString();
+				}
+			}
+		}
+
+		private void backHomeMenu(object sender, RoutedEventArgs e)
+		{
+			homePage.Visibility = Visibility.Visible;
+			menuGrid.Visibility = Visibility.Hidden;
+		}
+
+		private void entreeButton_Click(object sender, RoutedEventArgs e)
+		{
+			homePage.Visibility = Visibility.Hidden;
+			menuGrid.Visibility = Visibility.Visible;
 		}
 	}
 }
