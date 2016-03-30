@@ -33,7 +33,7 @@
     </UserControl.Resources>
     <Grid Background="Black">
         <Grid x:Name="menuSystem">
-            <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868">
+            <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868" Visibility="Hidden">
                 <TabControl.Resources>
                     <Style TargetType="{x:Type TabPanel}">
                         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -55,7 +55,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868">
+                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
                                                     <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -76,18 +76,15 @@
                                 <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
                                 <!--Photo Credit: https://www.flickr.com/photos/kenbarroga/-->
                             </Button.Background>
-                            <Button.Content>
-                                <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
-                            </Button.Content>
+                            <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
                         </Button>
                         <Button x:Name="appetizerButton" Grid.Column="1" Width="633" Height="286" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Background" Value="Green"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border Background="{TemplateBinding Background}">
+                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
                                                     <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
                                                 </Border>
                                             </ControlTemplate>
@@ -104,14 +101,56 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                            <Button.Content>
-                                <Label Foreground="#FFACACAC" Content="Appetizers" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
-                            </Button.Content>
+                            <Label Foreground="#FFACACAC" Content="Appetizers" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
                         </Button>
                         <Button x:Name="entreeButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
+                                                    <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                             <Label Foreground="#FFACACAC" Content="Entrées" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
                         </Button>
                         <Button x:Name="dessertButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Grid.Column="1">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
+                                                    <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                             <Label Foreground="#FFACACAC" Content="Desserts" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
                         </Button>
                     </Grid>
@@ -160,6 +199,8 @@
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
+            <ListBox x:Name="menuList" HorizontalAlignment="Left" Height="611" Margin="0,80,0,-2" VerticalAlignment="Top" Width="220" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="1,0,1,1"/>
+            <Button x:Name="button1" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="80" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="66.667" FontFamily="Baskerville Old Face" BorderBrush="#FF686868"/>
         </Grid>
         <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
             <Grid.RowDefinitions>

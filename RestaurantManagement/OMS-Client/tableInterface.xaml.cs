@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace OMS
 	public partial class tableInterface : UserControl
 	{
 		rewardMember currentMember = new rewardMember();
+		List<menuItem> myMenu = new List<menuItem>();
 
 		public tableInterface()
 		{
@@ -191,6 +193,12 @@ namespace OMS
 			}
 		}
 		#endregion
+
+		// Temporary demo functions
+		public void createMenu()
+		{
+			myMenu.Add(new menuItem { itemNumber = 0, name = "Filet Mignon", description = "Our most tender steak! Signature Center-Cut Filet Mignon, perfectly lean, served thick & juciy. Served with a salad or soup, plus your choice of side.", imgSource = new BitmapImage(new Uri("Resources/Temp/filetMignon.jpg", UriKind.Absolute)) });
+		}
 
 		private void drinkButton_Click(object sender, RoutedEventArgs e)
 		{
