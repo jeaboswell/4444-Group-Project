@@ -32,9 +32,6 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid x:Name="menuSystem">
             <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868" Visibility="Hidden">
                 <TabControl.Resources>
