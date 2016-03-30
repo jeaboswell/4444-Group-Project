@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,9 +50,15 @@ namespace OMS
 			newAccountGrid.Visibility = Visibility.Visible;
 		}
 
+		private void cancelCreation_Click(object sender, RoutedEventArgs e)
+		{
+			eClubHome.Visibility = Visibility.Visible;
+			newAccountGrid.Visibility = Visibility.Hidden;
+		}
+
 		private void monthBox_Initialized(object sender, EventArgs e)
 		{
-			for (int i = 1; i != 12; i++)
+			for (int i = 1; i <= 12; i++)
 			{
 				monthBox.Items.Add(i);
 			}
@@ -83,7 +90,7 @@ namespace OMS
 				default:
 					break;
 			}
-			for (int i = 1; i != days; i++)
+			for (int i = 1; i <= days; i++)
 			{
 				dayBox.Items.Add(i);
 			}
@@ -97,9 +104,16 @@ namespace OMS
 			}
 		}
 
+		private bool IsDigit(string s)
+		{
+			Regex r = new Regex(@"^[0-9]+$");
+
+			return r.IsMatch(s);
+		}
+
 		private void phoneNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
-			if (phoneNumber.Text.Length == 10)
+			if (phoneNumber.Text.Length == 10 || !IsDigit(e.Text))
 				e.Handled = true;
 		}
 

@@ -32,186 +32,188 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="Black">
-        <Grid x:Name="menuSystem">
-            <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868" Visibility="Hidden">
-                <TabControl.Resources>
-                    <Style TargetType="{x:Type TabPanel}">
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                    </Style>
-                </TabControl.Resources>
-                <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
-                    <Grid Background="White">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Button x:Name="drinkButton" Width="633" Height="286" Foreground="#FFACACAC" BorderBrush="#FF686868" FontSize="66.667" FontFamily="Castellar" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Padding="1,1,30,20" Click="drinkButton_Click">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
-                                                    <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                            <Button.Background>
-                                <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
-                                <!--Photo Credit: https://www.flickr.com/photos/kenbarroga/-->
-                            </Button.Background>
-                            <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
-                        </Button>
-                        <Button x:Name="appetizerButton" Grid.Column="1" Width="633" Height="286" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
-                                                    <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                            <Label Foreground="#FFACACAC" Content="Appetizers" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
-                        </Button>
-                        <Button x:Name="entreeButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Click="entreeButton_Click">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
-                                                    <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                            <Label Foreground="#FFACACAC" Content="Entrées" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
-                        </Button>
-                        <Button x:Name="dessertButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Grid.Column="1">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
-                                                    <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                            <Label Foreground="#FFACACAC" Content="Desserts" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
-                        </Button>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-                <TabItem Header="eClub" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
-                    <Grid x:Name="eClubGrid" Background="#FFEBEBEB">
-                        <Grid x:Name="checkInGrid" Margin="10" Grid.RowSpan="2" Visibility="Hidden">
-                            <local:Keypad x:Name="checkIn" Height="Auto" Width="Auto" Background="{x:Null}" Margin="20,45,20,0"/>
-                            <Button x:Name="closeCheckInBtn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="108" Background="White" Click="closeCheckIn" ToolTip="Go back to eClub main screen." BorderBrush="Black">
-                                <Image Source="Resources/closeX.png" Margin="10,0"/>
-                            </Button>
-                        </Grid>
-                        <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2">
+        <Viewbox Stretch="Fill">
+            <Grid x:Name="menuSystem" Height="689" Width="1272">
+                <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868">
+                    <TabControl.Resources>
+                        <Style TargetType="{x:Type TabPanel}">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Style>
+                    </TabControl.Resources>
+                    <TabItem Header="Menu" Height="108" Margin="0,0,0,0" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
+                        <Grid Background="White">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="label1" Content="Already a member?" Grid.Row="1" VerticalAlignment="Top" Height="138" Grid.ColumnSpan="3" Width="534" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                            <Button x:Name="checkInBtn" Content="Check In" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,89,0" Height="118" Background="#FF2D2D30" BorderBrush="Black" Click="checkInBtn_Click" Foreground="#FFACACAC"/>
-                            <Label x:Name="label2" Content="Not a member?" Grid.Column="4" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="138" Width="534" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <Button x:Name="createAcntBtn" Content="Create Account" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,89,0" Height="118" Background="#FF2D2D30" BorderBrush="Black" Grid.Column="4" Click="createAcntBtn_Click" Foreground="#FFACACAC"/>
+                            <Button x:Name="drinkButton" Width="633" Height="286" Foreground="#FFACACAC" BorderBrush="#FF686868" FontSize="66.667" FontFamily="Castellar" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Padding="1,1,30,20" Click="drinkButton_Click">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
+                                                        <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                    <!--Photo Credit: https://www.flickr.com/photos/kenbarroga/-->
+                                </Button.Background>
+                                <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
+                            </Button>
+                            <Button x:Name="appetizerButton" Grid.Column="1" Width="633" Height="286" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
+                                                        <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Label Foreground="#FFACACAC" Content="Appetizers" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
+                            </Button>
+                            <Button x:Name="entreeButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Click="entreeButton_Click">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
+                                                        <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Label Foreground="#FFACACAC" Content="Entrées" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
+                            </Button>
+                            <Button x:Name="dessertButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Grid.Column="1">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="#FF686868" BorderThickness="1">
+                                                        <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,20"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <ImageBrush ImageSource="Resources/drinksBG.jpg" Stretch="UniformToFill"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Label Foreground="#FFACACAC" Content="Desserts" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
+                            </Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
+                        <Grid Background="#FFE5E5E5"/>
+                    </TabItem>
+                    <TabItem Header="eClub" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
+                        <Grid x:Name="eClubGrid" Background="#FFEBEBEB">
+                            <Grid x:Name="checkInGrid" Margin="10" Grid.RowSpan="2" Visibility="Hidden">
+                                <local:Keypad x:Name="checkIn" Height="Auto" Width="Auto" Background="{x:Null}" Margin="20,45,20,0"/>
+                                <Button x:Name="closeCheckInBtn" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108" Height="108" Background="White" Click="closeCheckIn" ToolTip="Go back to eClub main screen." BorderBrush="Black">
+                                    <Image Source="Resources/closeX.png" Margin="10,0"/>
+                                </Button>
+                            </Grid>
+                            <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="label1" Content="Already a member?" Grid.Row="1" VerticalAlignment="Top" Height="138" Grid.ColumnSpan="3" Width="534" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                <Button x:Name="checkInBtn" Content="Check In" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,89,0" Height="118" Background="#FF2D2D30" BorderBrush="Black" Click="checkInBtn_Click" Foreground="#FFACACAC"/>
+                                <Label x:Name="label2" Content="Not a member?" Grid.Column="4" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="138" Width="534" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Button x:Name="createAcntBtn" Content="Create Account" Grid.Row="2" VerticalAlignment="Top" Width="356" Grid.ColumnSpan="3" Margin="89,10,89,0" Height="118" Background="#FF2D2D30" BorderBrush="Black" Grid.Column="4" Click="createAcntBtn_Click" Foreground="#FFACACAC"/>
 
+                            </Grid>
+                            <Grid x:Name="memberInfo" Margin="10" Visibility="Hidden">
+                                <Label x:Name="label10" Content="Account Info:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Label x:Name="label11" Content="Current Points" HorizontalAlignment="Left" Margin="197,242,0,0" VerticalAlignment="Top"/>
+                                <Button x:Name="button" Content="Redeem" HorizontalAlignment="Left" Margin="800,242,0,0" VerticalAlignment="Top" Height="63"/>
+                            </Grid>
                         </Grid>
-                        <Grid x:Name="memberInfo" Margin="10" Visibility="Hidden">
-                            <Label x:Name="label10" Content="Account Info:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <Label x:Name="label11" Content="Current Points" HorizontalAlignment="Left" Margin="197,242,0,0" VerticalAlignment="Top"/>
-                            <Button x:Name="button" Content="Redeem" HorizontalAlignment="Left" Margin="800,242,0,0" VerticalAlignment="Top" Height="63"/>
-                        </Grid>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-            </TabControl>
-            <Grid x:Name="menuGrid" Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="155*"/>
-                    <ColumnDefinition Width="481*"/>
-                </Grid.ColumnDefinitions>
-                <ListBox x:Name="menuList" HorizontalAlignment="Left" Margin="0,50,0,0" Width="310" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="0,0,1,0" FontFamily="Baskerville Old Face" FontSize="40" SelectionChanged="menuList_SelectionChanged" Loaded="menuList_Loaded" SelectedIndex="0" HorizontalContentAlignment="Center"/>
-                <Button x:Name="backEntree" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="310" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="backHomeMenu" BorderThickness="1,0,1,1"/>
-                <Image x:Name="menuImage" Height="527" VerticalAlignment="Top" Width="962" Stretch="Fill" Grid.Column="1"/>
-                <TextBlock x:Name="menuDescription" Margin="0,527,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="162" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="26.667" FontFamily="Baskerville Old Face" Padding="5,0" Grid.Column="1"/>
-                <Label x:Name="menuPrice" Content="$##" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Grid.Column="1" Height="46" Width="69"/>
-                <Button x:Name="button1" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201"/>
+                    </TabItem>
+                    <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
+                        <Grid Background="#FFE5E5E5"/>
+                    </TabItem>
+                </TabControl>
+                <Grid x:Name="menuGrid" Visibility="Hidden">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="155*"/>
+                        <ColumnDefinition Width="481*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="menuList" HorizontalAlignment="Left" Margin="0,50,0,0" Width="310" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="0,0,1,0" FontFamily="Baskerville Old Face" FontSize="40" SelectionChanged="menuList_SelectionChanged" Loaded="menuList_Loaded" SelectedIndex="0" HorizontalContentAlignment="Center"/>
+                    <Button x:Name="backEntree" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="310" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="backHomeMenu" BorderThickness="1,0,1,1"/>
+                    <Image x:Name="menuImage" Height="527" VerticalAlignment="Top" Width="962" Stretch="Fill" Grid.Column="1"/>
+                    <TextBlock x:Name="menuDescription" Margin="0,527,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="162" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="26.667" FontFamily="Baskerville Old Face" Padding="5,0" Grid.Column="1"/>
+                    <Label x:Name="menuPrice" Content="$##" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Grid.Column="1" Height="46" Width="69"/>
+                    <Button x:Name="button1" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201"/>
+                </Grid>
             </Grid>
-        </Grid>
+        </Viewbox>
         <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -231,19 +233,13 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="label3" Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="69" FontSize="40" VerticalContentAlignment="Center" FontFamily="Baskerville Old Face" Margin="0,68,0,0" Grid.RowSpan="2"/>
-            <Label x:Name="label4" Content="Last Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Height="69" FontSize="40" Grid.Row="1" Grid.RowSpan="2" FontFamily="Baskerville Old Face" VerticalContentAlignment="Center" Grid.Column="2"/>
-            <Label x:Name="label5" Content="Birth Date:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Height="69" FontSize="40" VerticalContentAlignment="Center" FontFamily="Baskerville Old Face"/>
-            <Label x:Name="label6" Content="Email:" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Height="69" FontSize="40" Grid.RowSpan="2" FontFamily="Baskerville Old Face" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="firstName" Margin="214,5,10,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" VerticalAlignment="Top" Height="59" Grid.ColumnSpan="2" FontFamily="Baskerville Old Face" Grid.Row="1"/>
-            <TextBox x:Name="lastName" Grid.ColumnSpan="2" Height="59" Margin="214,5,10,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="40" Grid.Row="1" FontFamily="Baskerville Old Face" Grid.Column="2"/>
-            <TextBox x:Name="birthDate" Grid.ColumnSpan="2" Margin="200,5,10,0" Grid.Row="1" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" Height="59" VerticalAlignment="Top" Visibility="Hidden"/>
-            <Label x:Name="label8" Content="Phone:" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Height="69" FontSize="40" FontFamily="Baskerville Old Face" VerticalContentAlignment="Center"/>
-            <TextBox x:Name="phoneNumber" Grid.Column="2" Height="59" Margin="136,5,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="40" VerticalContentAlignment="Center" PreviewTextInput="phoneNumber_PreviewTextInput" FontFamily="Baskerville Old Face"/>
-            <TextBox x:Name="email" Height="59" Margin="118,5,10,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="4" FontSize="40" VerticalContentAlignment="Center" FontFamily="Baskerville Old Face"/>
-            <local:myKeyboard x:Name="keyboard" Grid.ColumnSpan="4" Margin="0" Grid.Row="4" Grid.RowSpan="6" Width="Auto" Height="Auto"/>
+            <Label x:Name="label3" Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Center" Height="68" FontSize="40" VerticalContentAlignment="Center" FontFamily="Baskerville Old Face" Grid.Row="1"/>
+            <TextBox x:Name="firstName" Margin="214,0,10,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Height="59" Grid.ColumnSpan="2" FontFamily="Baskerville Old Face" Grid.Row="1"/>
+            <Label x:Name="label4" Content="Last Name:" HorizontalAlignment="Left" VerticalAlignment="Center" Height="69" FontSize="40" Grid.Row="1" FontFamily="Baskerville Old Face" VerticalContentAlignment="Center" Grid.Column="2"/>
+            <TextBox x:Name="lastName" Grid.ColumnSpan="2" Height="59" Margin="214,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="40" Grid.Row="1" FontFamily="Baskerville Old Face" Grid.Column="2"/>
+            <Label x:Name="label5" Content="Birth Date:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Height="69" FontSize="40" VerticalContentAlignment="Center" FontFamily="Baskerville Old Face"/>
             <Grid Grid.ColumnSpan="2" Margin="214,5,10,5" Grid.Row="2">
-                <ComboBox x:Name="monthBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" SelectionChanged="monthBox_SelectionChanged" HorizontalContentAlignment="Right" BorderBrush="Black" Initialized="monthBox_Initialized" FontFamily="Baskerville Old Face">
+                <ComboBox x:Name="monthBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" SelectionChanged="monthBox_SelectionChanged" HorizontalContentAlignment="Right" BorderBrush="Black" Initialized="monthBox_Initialized" FontFamily="Baskerville Old Face">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                             <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -252,7 +248,7 @@
                     </ComboBox.Background>
                 </ComboBox>
                 <Label x:Name="label9" Content="/" HorizontalAlignment="Left" Margin="81,0,0,0" VerticalAlignment="Top" Height="59" FontSize="40" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
-                <ComboBox x:Name="dayBox" HorizontalAlignment="Left" Margin="112,0,0,0" VerticalAlignment="Top" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" BorderBrush="Black" FontFamily="Baskerville Old Face">
+                <ComboBox x:Name="dayBox" HorizontalAlignment="Left" Margin="112,0,0,0" VerticalAlignment="Center" Width="76" Height="59" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" BorderBrush="Black" FontFamily="Baskerville Old Face">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                             <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -261,7 +257,7 @@
                     </ComboBox.Background>
                 </ComboBox>
                 <Label x:Name="label9_Copy" Content="/" HorizontalAlignment="Left" Margin="193,0,0,0" VerticalAlignment="Top" Height="59" FontSize="40" VerticalContentAlignment="Center" Padding="5,0,5,5"/>
-                <ComboBox x:Name="yearBox" HorizontalAlignment="Left" Margin="224,0,0,0" Width="150" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" Initialized="yearBox_Initialized" BorderBrush="Black" FontFamily="Baskerville Old Face">
+                <ComboBox x:Name="yearBox" HorizontalAlignment="Left" Margin="224,0,0,0" Width="150" FontSize="40" Padding="6,0,5,0" VerticalContentAlignment="Center" Initialized="yearBox_Initialized" BorderBrush="Black" FontFamily="Baskerville Old Face" Height="59" VerticalAlignment="Center">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                             <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -270,8 +266,13 @@
                     </ComboBox.Background>
                 </ComboBox>
             </Grid>
+            <Label x:Name="label6" Content="Email:" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Height="69" FontSize="40" FontFamily="Baskerville Old Face" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="email" Height="59" Margin="118,0,10,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="4" FontSize="40" VerticalContentAlignment="Center" FontFamily="Baskerville Old Face"/>
+            <Label x:Name="label8" Content="Phone:" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Height="69" FontSize="40" FontFamily="Baskerville Old Face" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="phoneNumber" Grid.Column="2" Height="59" Margin="136,0,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2" FontSize="40" VerticalContentAlignment="Center" PreviewTextInput="phoneNumber_PreviewTextInput" FontFamily="Baskerville Old Face"/>
+            <local:myKeyboard x:Name="keyboard" Grid.ColumnSpan="4" Margin="0" Grid.Row="4" Grid.RowSpan="6" Width="Auto" Height="Auto"/>
             <Button x:Name="DoneBtn" Content="Done" Grid.Column="3" Margin="122,45,10,10" Grid.Row="8" Grid.RowSpan="2" Background="White" BorderBrush="Black" FontSize="40" Click="DoneBtn_Click" Width="186" Height="83" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-            <Button x:Name="button2" Content="Cancel" HorizontalAlignment="Left" Margin="10,5" Height="59" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Width="298"/>
+            <Button x:Name="cancelCreation" Content="Cancel" Margin="10,5" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Click="cancelCreation_Click" Height="58" VerticalAlignment="Center" HorizontalAlignment="Center" Width="296" Background="White" BorderBrush="#FFABADB3"/>
         </Grid>
         <Grid x:Name="serviceDock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="286" Background="#BF252526" Margin="0,0,10,0">
             <Grid.ColumnDefinitions>
@@ -280,25 +281,19 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button x:Name="refillButton" Margin="5,0" Grid.Column="1" Background="#FF2D2D30" BorderBrush="#FF2D2D30" VerticalAlignment="Top" Height="70">
-                <Button.Content>
-                    <StackPanel>
-                        <Label Content="Request" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
-                        <Label Content="Refill" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
-                    </StackPanel>
-                </Button.Content>
+                <StackPanel>
+                    <Label Content="Request" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
+                    <Label Content="Refill" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
+                </StackPanel>
             </Button>
             <Button x:Name="cartButton" Margin="5,0" Height="70" VerticalAlignment="Top" Grid.Column="2" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC">
-                <Button.Content>
-                    <Image Source="Resources/cartImage.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="55"/>
-                </Button.Content>
+                <Image Source="Resources/cartImage.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="55"/>
             </Button>
             <Button x:Name="helpButton" Margin="5,0" Height="70" VerticalAlignment="Top" Background="#FF2D2D30" BorderBrush="#FF2D2D30">
-                <Button.Content>
-                    <StackPanel>
-                        <Label Content="Call" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
-                        <Label Content="Server" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
-                    </StackPanel>
-                </Button.Content>
+                <StackPanel>
+                    <Label Content="Call" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
+                    <Label Content="Server" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Padding="5,0" Foreground="#FFACACAC" FontFamily="Baskerville Old Face"/>
+                </StackPanel>
             </Button>
         </Grid>
     </Grid>
