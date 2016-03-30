@@ -14,5 +14,13 @@
       <FileName>rewardMember.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="OMS.MainWindow">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAACAAAAAgAAAgAIAgAAAAAwAgAIAAAkA=</HashCode>
+      <FileName>Server.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
