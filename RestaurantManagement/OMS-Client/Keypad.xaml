@@ -40,6 +40,7 @@
                 <Label x:Name="label" Content="Check In Here!" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Top" Height="74" Width="269" Foreground="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40"/>
                 <Label x:Name="phoneNumber" Content="{Binding Result}" Margin="0,94,0,0" VerticalAlignment="Top" Height="74" Background="White" FontSize="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                 <Label x:Name="label1" Content="(XXX) XXX-XXXX" HorizontalAlignment="Left" Margin="18,168,0,0" VerticalAlignment="Top" Width="269" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="26.667" Padding="5,0" Height="34"/>
+                <Button x:Name="submitBtn" Content="Submit" HorizontalAlignment="Left" Margin="64,207,0,0" VerticalAlignment="Top" Background="White" FontSize="40" Height="63" Padding="0" Width="175"/>
             </Grid>
         </Grid>
     </Viewbox>
