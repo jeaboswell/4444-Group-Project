@@ -59,9 +59,11 @@
     </ApplicationDefinition>
     <Compile Include="menuItem.cs" />
     <Compile Include="rewardMember.cs" />
+    <Compile Include="storedData.cs" />
     <Compile Include="tableInterface.xaml.cs">
       <DependentUpon>tableInterface.xaml</DependentUpon>
     </Compile>
+    <Compile Include="xmlHelper.cs" />
     <Page Include="Client.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -136,7 +138,9 @@
   <ItemGroup>
     <Resource Include="Resources\drinksBG.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\data\myData.xml" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Temp\filetMignon.jpg" />
   </ItemGroup>

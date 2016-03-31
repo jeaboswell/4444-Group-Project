@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace OMS
 {
@@ -79,6 +80,7 @@ namespace OMS
 			listener.IsBackground = true;
 			stop = false;
 			listener.Start();
+			xmlHelper.ToXml(new storedData { stringIP = serverIp.ToString() });
 		}
 
 		private void commandListener()
