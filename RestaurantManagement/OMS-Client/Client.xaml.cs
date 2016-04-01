@@ -148,15 +148,18 @@ namespace OMS
 		#region Functions (To Server)
 		private void notifyOnClose()
 		{
-			IPEndPoint server = new IPEndPoint(serverIp, 44445);
-			UdpClient connection = new UdpClient();
+			try {
+				IPEndPoint server = new IPEndPoint(serverIp, 44445);
+				UdpClient connection = new UdpClient();
 
-			string command = "clientClosed";
-			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+				string command = "clientClosed";
+				byte[] sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length, server);
+				connection.Send(sendCmd, sendCmd.Length, server);
 
-			connection.Close();
+				connection.Close();
+			}
+			catch (Exception ex) { }
 		}
 		#endregion
 	}

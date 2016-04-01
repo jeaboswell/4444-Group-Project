@@ -79,7 +79,10 @@
                                 </Button.Background>
                                 <Label Foreground="#FFACACAC" Content="Beverages" Padding="5,0" FontFamily="Baskerville Old Face"/>
                             </Button>
-                            <Button x:Name="appetizerButton" Grid.Column="1" Width="633" Height="286" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black">
+                            <Button x:Name="appetizerButton" Grid.Column="1" Width="633" Height="286" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Click="appetizerButton_Click">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Resources/appetizerBG.png"/>
+                                </Button.Background>
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Template">
@@ -104,7 +107,10 @@
                                 </Button.Style>
                                 <Label Foreground="#FFACACAC" Content="Appetizers" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
                             </Button>
-                            <Button x:Name="entreeButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Click="entreeButton_Click">
+                            <Button x:Name="entreeButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Grid.Row="1" Click="entreeButton_Click">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Resources/entreeBG.png" Stretch="UniformToFill"/>
+                                </Button.Background>
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Template">
@@ -129,7 +135,10 @@
                                 </Button.Style>
                                 <Label Foreground="#FFACACAC" Content="Entrées" Padding="5,0" FontFamily="Baskerville Old Face" FontSize="66.667"/>
                             </Button>
-                            <Button x:Name="dessertButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Background="Black" Grid.Row="1" Grid.Column="1">
+                            <Button x:Name="dessertButton" Width="633" Height="287" BorderBrush="#FF686868" Padding="1,1,30,20" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Grid.Row="1" Grid.Column="1" Click="dessertButton_Click">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="Resources/dessertBG.jpg" Stretch="UniformToFill"/>
+                                </Button.Background>
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Template">
@@ -245,11 +254,11 @@
                         <ColumnDefinition Width="155*"/>
                         <ColumnDefinition Width="481*"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="menuList" HorizontalAlignment="Left" Margin="0,50,0,0" Width="310" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="0,0,1,0" FontFamily="Baskerville Old Face" FontSize="40" SelectionChanged="menuList_SelectionChanged" Loaded="menuList_Loaded" SelectedIndex="0" HorizontalContentAlignment="Center"/>
+                    <ListBox x:Name="menuList" HorizontalAlignment="Left" Margin="0,50,0,0" Width="310" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="0,0,1,0" FontFamily="Baskerville Old Face" FontSize="40" SelectionChanged="menuList_SelectionChanged" SelectedIndex="0" HorizontalContentAlignment="Center"/>
                     <Button x:Name="backEntree" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="310" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="backHomeMenu" BorderThickness="1,0,1,1"/>
                     <Image x:Name="menuImage" Height="527" VerticalAlignment="Top" Width="962" Stretch="Fill" Grid.Column="1"/>
                     <TextBlock x:Name="menuDescription" Margin="0,527,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="162" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="26.667" FontFamily="Baskerville Old Face" Padding="5,0" Grid.Column="1"/>
-                    <Label x:Name="menuPrice" Content="$##" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Grid.Column="1" Height="46" Width="69"/>
+                    <Label x:Name="menuPrice" Content="$##" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Grid.Column="1" Height="46"/>
                     <Button x:Name="button1" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201"/>
                 </Grid>
             </Grid>
