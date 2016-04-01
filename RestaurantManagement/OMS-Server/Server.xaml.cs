@@ -20,7 +20,7 @@ class ClientInfo
 {
 	public IPAddress IP { get; set; }
 	public string Name { get; set; }
-	public List<string> permissionList { get; set; } = new List<string>() { "Manager", "Server", "Kitchen", "Reception","Table" };
+	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Server", "Kitchen", "Table" };
 	public string selectedPermission { get; set; }
 }
 
@@ -39,60 +39,42 @@ namespace OMS
         {
             InitializeComponent();
 
-			Thread temp = new Thread(createListener);
+			Thread temp = new Thread(commandListener);
 			listener = temp;
 			listener.IsBackground = true;
 			listener.Start();
 		}
 
-		public void addClient(IPAddress ip)
-		{
-			if (clients == null || !clients.Exists(x => x.Equals(ip)))
-				clients.Add(ip);
-			updateClientList();
-		}
-
-		private void updateClientList()
-		{
-			this.Dispatcher.Invoke((Action)(() =>
-			{
-				clientList.Items.Clear();
-				foreach (IPAddress client in clients)
-					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client) });
-			}));
-			
-		}
-
-		private string getClientName(IPAddress ip)
-		{
-			string machineName = string.Empty;
-			try
-			{
-				IPHostEntry hostEntry = Dns.GetHostEntry(ip);
-
-				machineName = hostEntry.HostName;
-			}
-			catch (Exception ex) { }
-			return machineName;
-		}
-
 		#region Listener
-		public void createListener()
+		private void commandListener()
 		{
 			UdpClient client = new UdpClient(44445);
 			byte[] ResponseData = Encoding.ASCII.GetBytes("OMS-Server");
 
 			while (!stop)
 			{
-				IPEndPoint ClientEp = new IPEndPoint(IPAddress.Any, 0);
-				byte[] ClientRequestData = client.Receive(ref ClientEp);
-				string ClientRequest = Encoding.ASCII.GetString(ClientRequestData);
+				IPEndPoint ClientEp = new IPEndPoint(IPAddress.Any, 44446);
+				try
+				{
+					byte[] clientRequest = client.Receive(ref ClientEp);
 
-				addClient(ClientEp.Address);
-
-				Console.WriteLine("Recived {0} from {1}, sending response", ClientRequest, ClientEp.Address.ToString());
-				client.Send(ResponseData, ResponseData.Length, ClientEp);
+					switch (Encoding.ASCII.GetString(clientRequest))
+					{
+						case "OMS-Client":
+							addClient(ClientEp.Address);
+							Console.WriteLine("Recived {0} from {1}, sending response", clientRequest, ClientEp.Address.ToString());
+							client.Send(ResponseData, ResponseData.Length, ClientEp);
+							break;
+						case "clientClosed":
+							clientClosed(ClientEp.Address);
+							break;
+						default:
+							break;
+					}
+				}
+				catch (Exception ex) { }
 			}
+			client.Close();
 		}
 
 		public void requestStop()
@@ -108,6 +90,46 @@ namespace OMS
 		private volatile bool stop;
 		#endregion
 
+		#region Client Add/Remove
+		public void addClient(IPAddress ip)
+		{
+			if (clients == null || !clients.Exists(x => x.Equals(ip)))
+				clients.Add(ip);
+			updateClientList();
+		}
+
+		private void clientClosed(IPAddress ip)
+		{
+			clients.Remove(ip);
+			updateClientList();
+		}
+
+		private void updateClientList()
+		{
+			this.Dispatcher.Invoke((Action)(() =>
+			{
+				clientList.Items.Clear();
+				foreach (IPAddress client in clients)
+					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client) });
+			}));
+
+		}
+
+		private string getClientName(IPAddress ip)
+		{
+			string machineName = string.Empty;
+			try
+			{
+				IPHostEntry hostEntry = Dns.GetHostEntry(ip);
+
+				machineName = hostEntry.HostName;
+			}
+			catch (Exception ex) { }
+			return machineName;
+		}
+		#endregion
+
+		#region Grant Permissions
 		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
 		{
 			var parent = VisualTreeHelper.GetParent(child);
@@ -120,6 +142,8 @@ namespace OMS
 		{
 			requestStop();
 			ClientInfo client = (ClientInfo)GetAncestorOfType<ListViewItem>(sender as Button).Content;
+			if (client.selectedPermission == null)
+				return;
 			IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
 			UdpClient connection = new UdpClient();
 
@@ -136,5 +160,6 @@ namespace OMS
 			connection.Close();
 			setStop();
 		}
+		#endregion
 	}
 }

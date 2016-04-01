@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="OMS-Client" Height="720" Width="1280" Closing="main_Closing" Loaded="main_Loaded">
     <Grid>
-        <Grid x:Name="permissionGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Width="174">
-            <Label x:Name="permLabel" Content="Waiting on Server" HorizontalAlignment="Left" Margin="69,0,0,0" VerticalAlignment="Top" Width="105"/>
+        <Grid x:Name="permissionGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Width="180">
+            <Label x:Name="permLabel" Content="Waiting on server..." HorizontalAlignment="Left" Margin="69,0,0,0" VerticalAlignment="Top" Width="111"/>
             <Label x:Name="label" Content="Permission:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
         </Grid>

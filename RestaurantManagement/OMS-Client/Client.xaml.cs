@@ -43,6 +43,7 @@ namespace OMS
 
 		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			notifyOnClose();
 			stop = true;
 		}
 
@@ -113,11 +114,15 @@ namespace OMS
 		}
 		#endregion
 
-		#region Functions (Server)
+		#region Functions (From Server)
 		private void setPermission(string permission)
 		{
 			switch (permission)
 			{
+				case "None":
+					permLabel.Content = "Waiting on server...";
+					tableUI.Visibility = Visibility.Hidden;
+					break;
 				case "Manager":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
@@ -140,6 +145,19 @@ namespace OMS
 		}
 		#endregion
 
-		
+		#region Functions (To Server)
+		private void notifyOnClose()
+		{
+			IPEndPoint server = new IPEndPoint(serverIp, 44445);
+			UdpClient connection = new UdpClient();
+
+			string command = "clientClosed";
+			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+
+			connection.Send(sendCmd, sendCmd.Length, server);
+
+			connection.Close();
+		}
+		#endregion
 	}
 }
