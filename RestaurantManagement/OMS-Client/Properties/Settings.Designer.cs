@@ -22,5 +22,17 @@ namespace OMS.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Table")]
+        public string savedPermission {
+            get {
+                return ((string)(this["savedPermission"]));
+            }
+            set {
+                this["savedPermission"] = value;
+            }
+        }
     }
 }

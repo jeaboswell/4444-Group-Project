@@ -306,6 +306,7 @@ namespace OMS
 			});
 		}
 
+		#region Menu Functions
 		private void menuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			foreach (menuItem item in myMenu)
@@ -332,53 +333,74 @@ namespace OMS
 		private void drinkButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
+			homePage.Visibility = Visibility.Hidden;
+			menuGrid.Visibility = Visibility.Visible;
 			foreach (menuItem item in myMenu)
 			{
 				if (item.category == "drink")
 					menuList.Items.Add(item.name);
 			}
 			menuList.SelectedIndex = 0;
-			homePage.Visibility = Visibility.Hidden;
-			menuGrid.Visibility = Visibility.Visible;
 		}
 
 		private void appetizerButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
+			homePage.Visibility = Visibility.Hidden;
+			menuGrid.Visibility = Visibility.Visible;
 			foreach (menuItem item in myMenu)
 			{
 				if (item.category == "appetizer")
 					menuList.Items.Add(item.name);
 			}
 			menuList.SelectedIndex = 0;
-			homePage.Visibility = Visibility.Hidden;
-			menuGrid.Visibility = Visibility.Visible;
 		}
 
 		private void entreeButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
+			homePage.Visibility = Visibility.Hidden;
+			menuGrid.Visibility = Visibility.Visible;
 			foreach (menuItem item in myMenu)
 			{
 				if (item.category == "entree")
 					menuList.Items.Add(item.name);
 			}
 			menuList.SelectedIndex = 0;
-			homePage.Visibility = Visibility.Hidden;
-			menuGrid.Visibility = Visibility.Visible;
 		}
 
 		private void dessertButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
+			homePage.Visibility = Visibility.Hidden;
+			menuGrid.Visibility = Visibility.Visible;
 			foreach (menuItem item in myMenu)
 			{
 				if (item.category == "dessert")
 					menuList.Items.Add(item.name);
 			}
 			menuList.SelectedIndex = 0;
-			homePage.Visibility = Visibility.Hidden;
-			menuGrid.Visibility = Visibility.Visible;
 		}
+		#endregion
+
+		#region Service Dock
+		private void helpButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (helpButton.Background.ToString() == "#FF2D2D30")
+				helpButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C"));
+			else
+				helpButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30"));
+		}
+
+		private void refillButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void cartButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+		#endregion
 	}
 }

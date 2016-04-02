@@ -39,11 +39,13 @@ namespace OMS
 			Thread findServer = new Thread(Connect);
 			findServer.IsBackground = true;
 			findServer.Start();
+			setPermission(Properties.Settings.Default.savedPermission);
 		}
 
 		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			notifyOnClose();
+			Properties.Settings.Default.Save();
 			stop = true;
 		}
 
@@ -117,6 +119,7 @@ namespace OMS
 		#region Functions (From Server)
 		private void setPermission(string permission)
 		{
+			Properties.Settings.Default.savedPermission = permission;
 			switch (permission)
 			{
 				case "None":
