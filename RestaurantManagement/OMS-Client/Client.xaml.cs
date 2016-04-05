@@ -44,7 +44,7 @@ namespace OMS
 
 		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			notifyOnClose();
+			functionSend("clientClosed");
 			Properties.Settings.Default.Save();
 			stop = true;
 		}
@@ -149,13 +149,12 @@ namespace OMS
 		#endregion
 
 		#region Functions (To Server)
-		private void notifyOnClose()
+		private void functionSend(string command)
 		{
 			try {
 				IPEndPoint server = new IPEndPoint(serverIp, 44445);
 				UdpClient connection = new UdpClient();
-
-				string command = "clientClosed";
+				
 				byte[] sendCmd = Encoding.ASCII.GetBytes(command);
 
 				connection.Send(sendCmd, sendCmd.Length, server);

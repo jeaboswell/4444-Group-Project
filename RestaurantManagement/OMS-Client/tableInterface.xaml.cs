@@ -1,9 +1,11 @@
-﻿using System;
+﻿using OMS.Games.Sudoku.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +31,7 @@ namespace OMS
 		{
 			InitializeComponent();
 			createMenu();
+			
 		}
 
 		// Temporary demo functions
@@ -250,6 +253,7 @@ namespace OMS
 			newAccountGrid.Visibility = Visibility.Hidden;
 		}
 
+		#region	----Account Creation Initialization
 		private void monthBox_Initialized(object sender, EventArgs e)
 		{
 			for (int i = 1; i <= 12; i++)
@@ -395,6 +399,7 @@ namespace OMS
 			}
 		}
 		#endregion
+		#endregion
 
 		#region Service Dock
 		private void helpButton_Click(object sender, RoutedEventArgs e)
@@ -415,5 +420,41 @@ namespace OMS
 
 		}
 		#endregion
+		
+		internal InputPadStateEnum ShowNumberPad()
+		{
+			return inputPad.InputPadState;
+		}
+
+		internal void ShowGameCompletedDialog()
+		{
+			sudokuWin.Visibility = Visibility.Visible;
+			/*
+			GameComplete gameComplete;
+			try
+			{
+				gameComplete = new GameComplete(_viewModel);        // Instantiate a new instance of the window and pass it the ViewModel instance
+				gameComplete.Owner = this;                          // Set the owner to this window
+				gameComplete.ShowDialog();                          // Display the dialog
+			}
+			finally
+			{
+				gameComplete = null;                                // Release the window pointer
+			}
+			*/
+		}
+
+		private void sudokuBtn_Click(object sender, RoutedEventArgs e)
+		{
+			gamesHome.Visibility = Visibility.Hidden;
+			sudokuGrid.Visibility = Visibility.Visible;
+		}
+
+		private void sudokuDone_Click(object sender, RoutedEventArgs e)
+		{
+			sudokuWin.Visibility = Visibility.Hidden;
+			sudokuGrid.Visibility = Visibility.Hidden;
+			gamesHome.Visibility = Visibility.Visible;
+		}
 	}
 }

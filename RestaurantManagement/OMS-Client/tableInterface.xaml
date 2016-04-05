@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OMS"
+             xmlns:View="clr-namespace:OMS.Games.Sudoku.View" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
     <UserControl.Resources>
@@ -13,10 +14,10 @@
                     <ControlTemplate TargetType="{x:Type TabItem}">
                         <Grid x:Name="Panel">
                             <ContentPresenter x:Name="ContentSite"
-        										VerticalAlignment="Center"
-        										HorizontalAlignment="Center"
-        										ContentSource="Header"
-        										Margin="10,2"/>
+                        		VerticalAlignment="Center"
+                        		HorizontalAlignment="Center"
+                        		ContentSource="Header"
+                        		Margin="10,2"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -166,7 +167,39 @@
                         </Grid>
                     </TabItem>
                     <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
-                        <Grid Background="#FFE5E5E5"/>
+                        <Grid x:Name="gamesGrid" Background="#FFE5E5E5">
+                            <Grid x:Name="sudokuGrid" Margin="0" Visibility="Hidden">
+                                <View:sudokuMain HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="553" Width="951" FontSize="16" Focusable="True"/>
+                                <View:InputPad x:Name="inputPad" HorizontalAlignment="Left" Margin="961,85,0,0" VerticalAlignment="Top" Height="478" Width="295" FontSize="16"/>
+                                <TextBox x:Name="textBox" HorizontalAlignment="Right" Height="99" Margin="660,464,10,10" TextWrapping="Wrap" Text="Select your desired level, then click &quot;Start Game&quot;.  To insert a value into a cell select it on the number pad above then click the desired cell you wish to insert it into." VerticalAlignment="Bottom" Width="596" FontSize="21.333" Background="{x:Null}" BorderBrush="{x:Null}"/>
+                                <Label x:Name="label7" Content="Instructions:" HorizontalAlignment="Left" Margin="660,424,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
+                                <Grid x:Name="sudokuWin" Margin="0" Background="#BF808080" HorizontalAlignment="Center" VerticalAlignment="Center" Height="400" Width="703" Visibility="Hidden">
+                                    <Grid Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Label x:Name="label12" Content="Congratulations!" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0"/>
+                                        <Button x:Name="sudokuDone" Content="Done" HorizontalAlignment="Center" Margin="0,71,0,0" VerticalAlignment="Top" Click="sudokuDone_Click"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid x:Name="gamesHome">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="sudokuBtn" Content="Sudoku" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Click="sudokuBtn_Click"/>
+                                <Button x:Name="button2" Content="Chance (Coupon)" Margin="10" Grid.ColumnSpan="2"/>
+                            </Grid>
+                        </Grid>
                     </TabItem>
                     <TabItem Header="eClub" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                         <Grid x:Name="eClubGrid" Background="#FFEBEBEB">
@@ -207,8 +240,7 @@
                                             </Setter>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#FF701C1C">
-                                                    </Setter>
+                                                    <Setter Property="Background" Value="#FF701C1C"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -229,8 +261,7 @@
                                             </Setter>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#FF701C1C">
-                                                    </Setter>
+                                                    <Setter Property="Background" Value="#FF701C1C"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -242,6 +273,26 @@
                                 <Label x:Name="label10" Content="Account Info:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 <Label x:Name="label11" Content="Current Points" HorizontalAlignment="Left" Margin="197,242,0,0" VerticalAlignment="Top"/>
                                 <Button x:Name="button" Content="Redeem" HorizontalAlignment="Left" Margin="800,242,0,0" VerticalAlignment="Top" Height="63"/>
+                            </Grid>
+                            <Grid x:Name="welcomeGrid" Margin="0" Visibility="Hidden">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="welcomeName" Content="Welcome, Ryan!" HorizontalAlignment="Left" Margin="10,10,0,10" VerticalContentAlignment="Center" Grid.ColumnSpan="4" Width="824" Padding="5,0"/>
+                                <Label x:Name="label" Content="Visits:" Margin="10,10,60,10" Grid.Row="1" VerticalContentAlignment="Center" Padding="5,0"/>
+                                <Label x:Name="visitCount" Content="12" Margin="151,10,10,10" Grid.Row="1" Grid.ColumnSpan="2" Height="94" Width="261" VerticalContentAlignment="Center" Padding="5,0"/>
                             </Grid>
                         </Grid>
                     </TabItem>
@@ -257,7 +308,7 @@
                     <ListBox x:Name="menuList" HorizontalAlignment="Left" Margin="0,50,0,0" Width="310" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="0,0,1,0" FontFamily="Baskerville Old Face" FontSize="40" SelectionChanged="menuList_SelectionChanged" SelectedIndex="0" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=.}" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding .}" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -349,8 +400,7 @@
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF2D2D30">
-                                </Setter>
+                                <Setter Property="Background" Value="#FF2D2D30"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -374,8 +424,7 @@
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF2D2D30">
-                                </Setter>
+                                <Setter Property="Background" Value="#FF2D2D30"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -396,8 +445,7 @@
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF2D2D30">
-                                </Setter>
+                                <Setter Property="Background" Value="#FF2D2D30"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>

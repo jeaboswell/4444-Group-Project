@@ -33,14 +33,16 @@
             <Button x:Name="button2" Content="2" Grid.Column="5" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="77" Height="74" Grid.Row="2" FontSize="40" Background="White" BorderBrush="Black" CommandParameter="NUMPAD2" Click="button_Click"/>
             <Button x:Name="button3" Content="3" Grid.Column="6" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="77" Height="74" Grid.Row="2" FontSize="40" Background="White" BorderBrush="Black" CommandParameter="NUMPAD3" Click="button_Click"/>
             <Button x:Name="button0" Content="0" Grid.Column="4" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="174" Height="73" Grid.Row="3" FontSize="40" Grid.ColumnSpan="2" Background="White" BorderBrush="Black" CommandParameter="NUMPAD0" Click="button_Click"/>
-            <Button x:Name="backspaceBtn" Grid.Column="6" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="77" Height="73" Grid.Row="3" FontSize="40" Foreground="Black" Background="White" BorderBrush="Black" CommandParameter="BACKSPACE" Click="button_Click">
-                <Image Source="Resources/backspace.png" Margin="10,0"/>
+            <Button x:Name="backspaceBtn" Grid.Column="6" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="77" Height="73" Grid.Row="3" FontSize="40" Foreground="Black" BorderBrush="Black" CommandParameter="BACKSPACE" Click="button_Click" Background="White">
+                <Button.Content>
+                    <Image Source="/OMS-Client;component/Resources/backspace.png" Margin="10,0"/>
+                </Button.Content>
             </Button>
             <Grid Grid.ColumnSpan="4" Margin="40,56,40,49" Grid.RowSpan="4">
                 <Label x:Name="label" Content="Check In Here!" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Top" Height="74" Width="269" Foreground="Black" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40"/>
                 <Label x:Name="phoneNumber" Content="{Binding Result}" Margin="0,94,0,0" VerticalAlignment="Top" Height="74" Background="White" FontSize="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                 <Label x:Name="label1" Content="(XXX) XXX-XXXX" HorizontalAlignment="Left" Margin="18,168,0,0" VerticalAlignment="Top" Width="269" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="26.667" Padding="5,0" Height="34"/>
-                <Button x:Name="submitBtn" Content="Submit" HorizontalAlignment="Left" Margin="64,207,0,0" VerticalAlignment="Top" Background="White" FontSize="40" Height="63" Padding="0" Width="175"/>
+                <Button x:Name="submitBtn" Content="Submit" HorizontalAlignment="Left" Margin="64,207,0,0" VerticalAlignment="Top" Background="White" FontSize="40" Height="63" Padding="0" Width="175" Click="submitBtn_Click"/>
             </Grid>
         </Grid>
     </Viewbox>

@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace OMS
 {
@@ -21,7 +11,11 @@ namespace OMS
 	/// </summary>
 	public partial class Keypad : UserControl
 	{
+		#region Variables/Declarations
+		public event PropertyChangedEventHandler PropertyChanged;
 		private string _result = "";
+		#endregion
+
 		public string Result
 		{
 			get { return _result; }
@@ -67,7 +61,6 @@ namespace OMS
 			}
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
 		private void OnPropertyChanged(String info)
 		{
 			if (PropertyChanged != null)
@@ -75,6 +68,35 @@ namespace OMS
 				PropertyChanged(this, new PropertyChangedEventArgs(info));
 			}
 			phoneNumber.Content = Result;
+		}
+
+		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
+		{
+			var parent = VisualTreeHelper.GetParent(child);
+			if (parent.ToString().Contains("ContainerVisual"))
+			{
+				ContainerVisual temp = parent as ContainerVisual;
+				parent = temp.Parent;
+			}
+
+			if (parent != null && !(parent is T))
+				return (T)GetAncestorOfType<T>((FrameworkElement)parent);
+			return (T)parent;
+		}
+
+		private void submitBtn_Click(object sender, RoutedEventArgs e)
+		{
+			tableInterface parent = GetAncestorOfType<tableInterface>(this);
+			// Ask server if Phone has account
+			bool valid = true;
+
+			if (valid)
+			{
+				parent.checkInGrid.Visibility = Visibility.Hidden;
+				parent.welcomeGrid.Visibility = Visibility.Visible;
+			}
+
+
 		}
 	}
 }
