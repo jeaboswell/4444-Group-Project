@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OMS"
-             xmlns:View="clr-namespace:OMS.Games.Sudoku.View" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
     <UserControl.Resources>
@@ -168,18 +167,12 @@
                     </TabItem>
                     <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                         <Grid x:Name="gamesGrid" Background="#FFE5E5E5">
-                            <Grid x:Name="sudokuGrid" Margin="0" Visibility="Hidden">
-                                <View:sudokuMain HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="553" Width="951" FontSize="16" Focusable="True"/>
-                                <View:InputPad x:Name="inputPad" HorizontalAlignment="Left" Margin="961,85,0,0" VerticalAlignment="Top" Height="478" Width="295" FontSize="16"/>
-                                <TextBox x:Name="textBox" HorizontalAlignment="Right" Height="99" Margin="660,464,10,10" TextWrapping="Wrap" Text="Select your desired level, then click &quot;Start Game&quot;.  To insert a value into a cell select it on the number pad above then click the desired cell you wish to insert it into." VerticalAlignment="Bottom" Width="596" FontSize="21.333" Background="{x:Null}" BorderBrush="{x:Null}"/>
-                                <Label x:Name="label7" Content="Instructions:" HorizontalAlignment="Left" Margin="660,424,0,0" VerticalAlignment="Top" FontSize="26.667" FontWeight="Bold"/>
-                                <Grid x:Name="sudokuWin" Margin="0" Background="#BF808080" HorizontalAlignment="Center" VerticalAlignment="Center" Height="400" Width="703" Visibility="Hidden">
-                                    <Grid Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Label x:Name="label12" Content="Congratulations!" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0"/>
-                                        <Button x:Name="sudokuDone" Content="Done" HorizontalAlignment="Center" Margin="0,71,0,0" VerticalAlignment="Top" Click="sudokuDone_Click"/>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                            <WebBrowser x:Name="sudokuBrowser" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="1266" Margin="0,68,0,0" Visibility="Hidden"/>
+                            <WebBrowser x:Name="solitareBrowser" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="1266" Margin="0,68,0,0" Visibility="Hidden"/>
+                            <WebBrowser x:Name="mahjongBrowser" Margin="0,68,0,0" Width="1266" Visibility="Hidden"/>
+                            <WebBrowser x:Name="flappyBrowser" Height="505" Margin="0,68,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+                            <WebBrowser x:Name="spadesBrowser" Height="505" Margin="0,68,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+                            <WebBrowser x:Name="blackjackBrowser" Height="505" Margin="0,68,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
                             <Grid x:Name="gamesHome">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -197,8 +190,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Button x:Name="sudokuBtn" Content="Sudoku" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Click="sudokuBtn_Click"/>
-                                <Button x:Name="button2" Content="Chance (Coupon)" Margin="10" Grid.ColumnSpan="2"/>
+                                <Button x:Name="couponGame" Content="Chance (Coupon)" Margin="10" Grid.ColumnSpan="2" Click="couponGame_Click"/>
+                                <Button x:Name="solitareBtn" Content="Solitare" Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Click="solitareBtn_Click"/>
+                                <Button x:Name="mahjongBtn" Content="Mahjong" Margin="10" Grid.Row="3" Grid.ColumnSpan="2" Click="mahjongBtn_Click"/>
+                                <Button x:Name="flappyBtn" Content="Flappy Beak" Margin="10" Grid.Row="4" Grid.ColumnSpan="2" Click="flappyBtn_Click"/>
+                                <Button x:Name="spadesBtn" Content="Spades" Grid.Column="3" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Click="spadesBtn_Click"/>
+                                <Button x:Name="blackjackBtn" Content="Blackjack" Grid.Column="3" Margin="10" Grid.Row="2" RenderTransformOrigin="-0.453,0.125" Grid.ColumnSpan="2" Click="blackjackBtn_Click"/>
                             </Grid>
+                            <Button x:Name="backFromGame" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5,0" Click="backFromGame_Click" Visibility="Hidden"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="eClub" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">

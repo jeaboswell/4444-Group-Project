@@ -63,9 +63,10 @@ namespace OMS
 			bool success = false;
 			while (!success)
 			{
-				server.Send(RequestData, RequestData.Length, new IPEndPoint(IPAddress.Broadcast, 44445));
 				try
 				{
+
+					server.Send(RequestData, RequestData.Length, new IPEndPoint(IPAddress.Broadcast, 44445));
 					byte[] ServerResponseData = server.Receive(ref ServerEp);
 					string ServerResponse = Encoding.ASCII.GetString(ServerResponseData);
 					Console.WriteLine("Recived {0} from {1}", ServerResponse, ServerEp.Address.ToString());

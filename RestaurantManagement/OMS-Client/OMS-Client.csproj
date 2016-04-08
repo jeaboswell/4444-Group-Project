@@ -51,46 +51,17 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Games\Sudoku\Model\Enums\CellStateEnum.cs" />
-    <Compile Include="Games\Sudoku\Model\Enums\DifficultyLevels.cs" />
-    <Compile Include="Games\Sudoku\Model\Enums\InputPadStateEnum.cs" />
-    <Compile Include="Games\Sudoku\Model\GameModel.cs" />
-    <Compile Include="Games\Sudoku\Model\Structures\CellIndex.cs" />
-    <Compile Include="Games\Sudoku\Model\Structures\CellState.cs" />
-    <Compile Include="Games\Sudoku\Model\Structures\NoteState.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\Common.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\CustomEventArgs\GameGeneratorEventArgs.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\CustomEventArgs\GameManagerEventArgs.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\CustomEventArgs\GameTimerEventArgs.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\Enums\StartButtonStateEnum.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\GameCollection.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\GameGenerator.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\GamesManager.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\MaskPuzzle.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\PopulatePuzzle.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\RandomClass.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\SolveGame.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\Solver\DancingArena.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\Solver\DancingColumn.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\Solver\DancingNode.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameGenerator\Solver\SudokuArena.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\GameTimer.cs" />
-    <Compile Include="Games\Sudoku\ViewModel\ViewModel.cs" />
-    <Compile Include="Games\Sudoku\View\InputPad.xaml.cs">
-      <DependentUpon>InputPad.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Games\Sudoku\View\sudokuMain.xaml.cs">
-      <DependentUpon>sudokuMain.xaml</DependentUpon>
-    </Compile>
     <Compile Include="menuItem.cs" />
     <Compile Include="rewardMember.cs" />
     <Compile Include="storedData.cs" />
@@ -110,14 +81,6 @@
       <DependentUpon>Client.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Games\Sudoku\View\InputPad.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Games\Sudoku\View\sudokuMain.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Tools\myKeyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
