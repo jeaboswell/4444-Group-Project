@@ -82,6 +82,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Customer.xsd</DependentUpon>
     </Compile>
+    <Compile Include="kitchenInterface.xaml.cs">
+      <DependentUpon>kitchenInterface.xaml</DependentUpon>
+    </Compile>
     <Compile Include="menuItem.cs" />
     <Compile Include="rewardMember.cs" />
     <Compile Include="storedData.cs" />
@@ -101,6 +104,10 @@
       <DependentUpon>Client.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="kitchenInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tools\myKeyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
