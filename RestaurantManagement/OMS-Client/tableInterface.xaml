@@ -189,13 +189,14 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="sudokuBtn" Content="Sudoku" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Click="sudokuBtn_Click"/>
-                                <Button x:Name="couponGame" Content="Chance (Coupon)" Margin="10" Grid.ColumnSpan="2" Click="couponGame_Click"/>
-                                <Button x:Name="solitareBtn" Content="Solitare" Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Click="solitareBtn_Click"/>
-                                <Button x:Name="mahjongBtn" Content="Mahjong" Margin="10" Grid.Row="3" Grid.ColumnSpan="2" Click="mahjongBtn_Click"/>
-                                <Button x:Name="flappyBtn" Content="Flappy Beak" Margin="10" Grid.Row="4" Grid.ColumnSpan="2" Click="flappyBtn_Click"/>
-                                <Button x:Name="spadesBtn" Content="Spades" Grid.Column="3" Margin="10" Grid.Row="1" Grid.ColumnSpan="2" Click="spadesBtn_Click"/>
-                                <Button x:Name="blackjackBtn" Content="Blackjack" Grid.Column="3" Margin="10" Grid.Row="2" RenderTransformOrigin="-0.453,0.125" Grid.ColumnSpan="2" Click="blackjackBtn_Click"/>
+                                <Button x:Name="sudokuBtn" Content="Sudoku" Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Click="sudokuBtn_Click" Grid.Column="1" Foreground="#FFACACAC" BorderBrush="#FF2D2D30" Background="#FF2D2D30"/>
+                                <Button x:Name="couponGame" Content="Play for a Coupon" Margin="10" Grid.ColumnSpan="2" Click="couponGame_Click" Foreground="#FFACACAC" Background="#FF2D2D30" Grid.Column="2"/>
+                                <Button x:Name="solitareBtn" Content="Solitare" Margin="10" Grid.Row="3" Grid.ColumnSpan="2" Click="solitareBtn_Click" Grid.Column="1" Foreground="#FFACACAC" Background="#FF2D2D30" BorderBrush="#FF2D2D30"/>
+                                <Button x:Name="mahjongBtn" Content="Mahjong" Margin="10" Grid.Row="4" Grid.ColumnSpan="2" Click="mahjongBtn_Click" Grid.Column="1" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC"/>
+                                <Button x:Name="flappyBtn" Content="Flappy Beak" Margin="10" Grid.Row="4" Grid.ColumnSpan="2" Click="flappyBtn_Click" Grid.Column="3" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC"/>
+                                <Button x:Name="spadesBtn" Content="Spades" Grid.Column="3" Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Click="spadesBtn_Click" Foreground="#FFACACAC" Background="#FF2D2D30" BorderBrush="#FF2D2D30"/>
+                                <Button x:Name="blackjackBtn" Content="Blackjack" Grid.Column="3" Margin="10" Grid.Row="3" RenderTransformOrigin="-0.453,0.125" Grid.ColumnSpan="2" Click="blackjackBtn_Click" Foreground="#FFACACAC" BorderBrush="#FF2D2D30" Background="#FF2D2D30"/>
+                                <Label x:Name="label7" Content="Play for Fun!" Grid.Column="1" Margin="10" Grid.Row="1" Grid.ColumnSpan="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             </Grid>
                             <Button x:Name="backFromGame" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5,0" Click="backFromGame_Click" Visibility="Hidden"/>
                         </Grid>
