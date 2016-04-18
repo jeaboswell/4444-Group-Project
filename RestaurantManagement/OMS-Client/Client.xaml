@@ -13,7 +13,7 @@
 
         </Grid>
         <local:tableInterface x:Name="tableUI" Width="Auto" Height="Auto" Visibility="Hidden"/>
-        <local:Kitchen Width="Auto" Height="Auto"/>
+        <local:Kitchen x:Name="kitchenUI" Width="Auto" Height="Auto" Visibility="Hidden"/>
 
     </Grid>
 </Window>

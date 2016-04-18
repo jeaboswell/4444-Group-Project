@@ -25,7 +25,7 @@ namespace OMS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Table")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Kitchen")]
         public string savedPermission {
             get {
                 return ((string)(this["savedPermission"]));
