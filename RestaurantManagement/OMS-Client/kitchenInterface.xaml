@@ -6,5 +6,15 @@
              xmlns:local="clr-namespace:OMS"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
-    <Grid Background="Black"/>
+    <Grid Background="Black">
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="689" VerticalAlignment="Top" Width="1272"/>
+        <ListBox x:Name="menuList" HorizontalAlignment="Left" Margin="0,50,0,0" Width="310" Background="#FF2D2D30" BorderBrush="#FF686868" Foreground="#FFACACAC" BorderThickness="0,0,1,0" FontFamily="Baskerville Old Face" FontSize="40" SelectionChanged="menuList_SelectionChanged" SelectedIndex="0" HorizontalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding .}" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button x:Name="backEntree" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="310" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="backHomeMenu" BorderThickness="1,0,1,1" QueryContinueDrag="backEntree_QueryContinueDrag"/>
+    </Grid>
 </UserControl>

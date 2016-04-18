@@ -24,5 +24,20 @@ namespace OMS
 		{
 			InitializeComponent();
 		}
-	}
+
+        private void menuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void backEntree_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+
+        }
+
+        private void backHomeMenu(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 }
