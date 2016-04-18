@@ -72,6 +72,9 @@
                 <TabItem Header="Menu">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
+                <TabItem Header="Customers">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
             </TabControl>
 
         </Grid>

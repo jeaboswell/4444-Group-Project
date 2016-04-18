@@ -40,7 +40,6 @@ namespace OMS
 			flappyBrowser.Navigate("http://www.flappybeak.com/flappy3.swf");
 			spadesBrowser.Navigate("http://www.247spades.com/spades.swf");
 			blackjackBrowser.Navigate("http://www.247blackjack.com/blackjack.swf");
-			
 		}
 
 		// Temporary demo functions
@@ -234,6 +233,101 @@ namespace OMS
 				return true;
 
 			return false;
+		}
+		
+		private void backFromGame_Click(object sender, RoutedEventArgs e)
+		{
+			gamesHome.Visibility = Visibility.Visible;
+			backFromGame.Visibility = Visibility.Hidden;
+			sudokuBrowser.Visibility = Visibility.Hidden;
+			solitareBrowser.Visibility = Visibility.Hidden;
+			mahjongBrowser.Visibility = Visibility.Hidden;
+			flappyBrowser.Visibility = Visibility.Hidden;
+			spadesBrowser.Visibility = Visibility.Hidden;
+			blackjackBrowser.Visibility = Visibility.Hidden;
+		}
+
+		private void couponGame_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void sudokuBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (funGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				sudokuBrowser.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+				funGames++;
+			}
+			else
+				MessageBox.Show("Game limit reached.");
+		}
+
+		private void solitareBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (funGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				solitareBrowser.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+				funGames++;
+			}
+			else
+				MessageBox.Show("Game limit reached.");
+		}
+
+		private void mahjongBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (funGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				mahjongBrowser.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+				funGames++;
+			}
+			else
+				MessageBox.Show("Game limit reached.");
+		}
+
+		private void flappyBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (funGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				flappyBrowser.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+				funGames++;
+			}
+			else
+				MessageBox.Show("Game limit reached.");
+		}
+
+		private void spadesBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (funGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				spadesBrowser.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+				funGames++;
+			}
+			else
+				MessageBox.Show("Game limit reached.");
+		}
+
+		private void blackjackBtn_Click(object sender, RoutedEventArgs e)
+		{
+			if (funGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				blackjackBrowser.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+				funGames++;
+			}
+			else
+				MessageBox.Show("Game limit reached.");
 		}
 		#endregion
 
@@ -430,99 +524,5 @@ namespace OMS
 		}
 		#endregion
 
-		private void backFromGame_Click(object sender, RoutedEventArgs e)
-		{
-			gamesHome.Visibility = Visibility.Visible;
-			backFromGame.Visibility = Visibility.Hidden;
-			sudokuBrowser.Visibility = Visibility.Hidden;
-			solitareBrowser.Visibility = Visibility.Hidden;
-			mahjongBrowser.Visibility = Visibility.Hidden;
-			flappyBrowser.Visibility = Visibility.Hidden;
-			spadesBrowser.Visibility = Visibility.Hidden;
-			blackjackBrowser.Visibility = Visibility.Hidden;
-		}
-
-		private void couponGame_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void sudokuBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (funGames < 2)
-			{
-				gamesHome.Visibility = Visibility.Hidden;
-				sudokuBrowser.Visibility = Visibility.Visible;
-				backFromGame.Visibility = Visibility.Visible;
-				funGames++;
-			}
-			else
-				MessageBox.Show("Game limit reached.");
-		}
-
-		private void solitareBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (funGames < 2)
-			{
-				gamesHome.Visibility = Visibility.Hidden;
-				solitareBrowser.Visibility = Visibility.Visible;
-				backFromGame.Visibility = Visibility.Visible;
-				funGames++;
-			}
-			else
-				MessageBox.Show("Game limit reached.");
-		}
-
-		private void mahjongBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (funGames < 2)
-			{
-				gamesHome.Visibility = Visibility.Hidden;
-				mahjongBrowser.Visibility = Visibility.Visible;
-				backFromGame.Visibility = Visibility.Visible;
-				funGames++;
-			}
-			else
-				MessageBox.Show("Game limit reached.");
-		}
-
-		private void flappyBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (funGames < 2)
-			{
-				gamesHome.Visibility = Visibility.Hidden;
-				flappyBrowser.Visibility = Visibility.Visible;
-				backFromGame.Visibility = Visibility.Visible;
-				funGames++;
-			}
-			else
-				MessageBox.Show("Game limit reached.");
-		}
-
-		private void spadesBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (funGames < 2)
-			{
-				gamesHome.Visibility = Visibility.Hidden;
-				spadesBrowser.Visibility = Visibility.Visible;
-				backFromGame.Visibility = Visibility.Visible;
-				funGames++;
-			}
-			else
-				MessageBox.Show("Game limit reached.");
-		}
-
-		private void blackjackBtn_Click(object sender, RoutedEventArgs e)
-		{
-			if (funGames < 2)
-			{
-				gamesHome.Visibility = Visibility.Hidden;
-				blackjackBrowser.Visibility = Visibility.Visible;
-				backFromGame.Visibility = Visibility.Visible;
-				funGames++;
-			}
-			else
-				MessageBox.Show("Game limit reached.");
-		}
 	}
 }
