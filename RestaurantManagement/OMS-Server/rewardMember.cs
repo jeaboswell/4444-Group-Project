@@ -11,6 +11,7 @@ namespace OMS
 		public string phoneNumber { get; private set; } // setPhoneNumber()
 		public string email { get; set; }
 		public string address { get; set; }
+		public int points { get; set; }
 
 		public void setBirthDate(int month, int day, int year)
 		{
