@@ -1,5 +1,7 @@
-﻿using System;
+﻿#region Usings
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+#endregion
 
 namespace OMS
 {
@@ -26,30 +29,62 @@ namespace OMS
 	/// </summary>
 	public partial class Client : Window
 	{
+		#region Variables
 		Thread listener;
 		private volatile bool stop;
 		IPAddress serverIp;
+		SqlConnection database;
+		#endregion
+
 		public Client()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Begins searching for the Server
+		/// Loads previiously granted permission
+		/// Connects to the database
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void main_Loaded(object sender, RoutedEventArgs e)
 		{
 			Thread findServer = new Thread(Connect);
 			findServer.IsBackground = true;
 			findServer.Start();
 			setPermission(Properties.Settings.Default.savedPermission);
+			dbConnect();
 		}
 
+		/// <summary>
+		/// Creates a database connection
+		/// </summary>
+		private void dbConnect()
+		{
+			using (database = new SqlConnection(Properties.Settings.Default.DatabasesConnectionString))
+			{
+				database.Open();
+			}
+		}
+
+		/// <summary>
+		/// Notifies server tha that the client is closed
+		/// Saves all settings
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			functionSend("clientClosed");
+			commHelper.functionSend("clientClosed");
 			Properties.Settings.Default.Save();
 			stop = true;
 		}
 
 		#region Server Communication
+		/// <summary>
+		/// Searches for and will creates connection to the server
+		/// </summary>
 		void Connect()
 		{
 			UdpClient server = new UdpClient();
@@ -84,9 +119,12 @@ namespace OMS
 			listener.IsBackground = true;
 			stop = false;
 			listener.Start();
-			xmlHelper.ToXml(new storedData { stringIP = serverIp.ToString() });
+			Properties.Settings.Default.serverIP = serverIp.ToString();
 		}
 
+		/// <summary>
+		/// Listens for commands from the server
+		/// </summary>
 		private void commandListener()
 		{
 			IPEndPoint serverEp = new IPEndPoint(serverIp, 0);
@@ -118,6 +156,10 @@ namespace OMS
 		#endregion
 
 		#region Functions (From Server)
+		/// <summary>
+		/// Sets the permission level of the client
+		/// </summary>
+		/// <param name="permission"></param>
 		private void setPermission(string permission)
 		{
 			Properties.Settings.Default.savedPermission = permission;
@@ -151,23 +193,6 @@ namespace OMS
 				default:
 					break;
 			}
-		}
-		#endregion
-
-		#region Functions (To Server)
-		private void functionSend(string command)
-		{
-			try {
-				IPEndPoint server = new IPEndPoint(serverIp, 44445);
-				UdpClient connection = new UdpClient();
-				
-				byte[] sendCmd = Encoding.ASCII.GetBytes(command);
-
-				connection.Send(sendCmd, sendCmd.Length, server);
-
-				connection.Close();
-			}
-			catch (Exception ex) { }
 		}
 		#endregion
 	}

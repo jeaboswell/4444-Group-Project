@@ -38,11 +38,24 @@ namespace OMS.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Databases.mdf" +
-            ";Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;" +
+            "Password=Pineapple!;Encrypt=True;TrustServerCertificate=False;Connection Timeout" +
+            "=30;")]
         public string DatabasesConnectionString {
             get {
                 return ((string)(this["DatabasesConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string serverIP {
+            get {
+                return ((string)(this["serverIP"]));
+            }
+            set {
+                this["serverIP"] = value;
             }
         }
     }
