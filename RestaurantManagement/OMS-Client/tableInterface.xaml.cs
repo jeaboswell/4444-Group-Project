@@ -26,20 +26,18 @@ namespace OMS
 	/// </summary>
 	public partial class tableInterface : UserControl
 	{
+		#region Variables
 		rewardMember currentMember = new rewardMember();
 		List<menuItem> myMenu = new List<menuItem>();
-		int funGames = 0;
-
+		int funGames = 0, couponGames = 0;
+		#endregion
+		/// <summary>
+		/// Interface initilization
+		/// </summary>
 		public tableInterface()
 		{
 			InitializeComponent();
 			createMenu();
-			sudokuBrowser.Navigate("http://www.247sudoku.com/sudoku8.swf");
-			solitareBrowser.Navigate("http://www.247solitaire.com/solitaire2.swf");
-			mahjongBrowser.Navigate("http://www.247mahjong.com/mahjong10.swf");
-			flappyBrowser.Navigate("http://www.flappybeak.com/flappy3.swf");
-			spadesBrowser.Navigate("http://www.247spades.com/spades.swf");
-			blackjackBrowser.Navigate("http://www.247blackjack.com/blackjack.swf");
 		}
 
 		// Temporary demo functions
@@ -147,6 +145,11 @@ namespace OMS
 		}
 
 		#region Menu Functions
+		/// <summary>
+		/// Change data shown in menu screen when selected item is changed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void menuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			foreach (menuItem item in myMenu)
@@ -163,13 +166,21 @@ namespace OMS
 				catch (Exception ex) { }
 			}
 		}
-
+		/// <summary>
+		/// Return to the main menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void backHomeMenu(object sender, RoutedEventArgs e)
 		{
 			homePage.Visibility = Visibility.Visible;
 			menuGrid.Visibility = Visibility.Hidden;
 		}
-
+		/// <summary>
+		/// Display the drink menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void drinkButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
@@ -182,7 +193,11 @@ namespace OMS
 			}
 			menuList.SelectedIndex = 0;
 		}
-
+		/// <summary>
+		/// Display the appetizer menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void appetizerButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
@@ -195,7 +210,11 @@ namespace OMS
 			}
 			menuList.SelectedIndex = 0;
 		}
-
+		/// <summary>
+		/// Display the entree menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void entreeButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
@@ -208,7 +227,11 @@ namespace OMS
 			}
 			menuList.SelectedIndex = 0;
 		}
-
+		/// <summary>
+		/// Display the dessert menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void dessertButton_Click(object sender, RoutedEventArgs e)
 		{
 			menuList.Items.Clear();
@@ -224,20 +247,13 @@ namespace OMS
 		#endregion
 
 		#region Game Functions
-		private bool getWin()
-		{
-			Random rng = new Random();
-			int num = rng.Next(0, 100);
-
-			if (num < 10)
-				return true;
-
-			return false;
-		}
-		
+		/// <summary>
+		/// Return to games home page
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void backFromGame_Click(object sender, RoutedEventArgs e)
 		{
-			gamesHome.Visibility = Visibility.Visible;
 			backFromGame.Visibility = Visibility.Hidden;
 			sudokuBrowser.Visibility = Visibility.Hidden;
 			solitareBrowser.Visibility = Visibility.Hidden;
@@ -245,17 +261,35 @@ namespace OMS
 			flappyBrowser.Visibility = Visibility.Hidden;
 			spadesBrowser.Visibility = Visibility.Hidden;
 			blackjackBrowser.Visibility = Visibility.Hidden;
+			couponGame.Visibility = Visibility.Hidden;
+			gamesHome.Visibility = Visibility.Visible;
 		}
-
-		private void couponGame_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Open coupon game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void couponBtn_Click(object sender, RoutedEventArgs e)
 		{
-
+			if (couponGames < 2)
+			{
+				gamesHome.Visibility = Visibility.Hidden;
+				couponGame.Visibility = Visibility.Visible;
+				backFromGame.Visibility = Visibility.Visible;
+			}
+			else
+				MessageBox.Show("Play limit reached.");
 		}
-
+		/// <summary>
+		/// Open sudoku game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void sudokuBtn_Click(object sender, RoutedEventArgs e)
 		{
 			if (funGames < 2)
 			{
+				sudokuBrowser.Navigate("http://www.247sudoku.com/sudoku8.swf");
 				gamesHome.Visibility = Visibility.Hidden;
 				sudokuBrowser.Visibility = Visibility.Visible;
 				backFromGame.Visibility = Visibility.Visible;
@@ -264,11 +298,16 @@ namespace OMS
 			else
 				MessageBox.Show("Game limit reached.");
 		}
-
+		/// <summary>
+		/// Open solitare game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void solitareBtn_Click(object sender, RoutedEventArgs e)
 		{
 			if (funGames < 2)
 			{
+				solitareBrowser.Navigate("http://www.247solitaire.com/solitaire2.swf");
 				gamesHome.Visibility = Visibility.Hidden;
 				solitareBrowser.Visibility = Visibility.Visible;
 				backFromGame.Visibility = Visibility.Visible;
@@ -277,11 +316,16 @@ namespace OMS
 			else
 				MessageBox.Show("Game limit reached.");
 		}
-
+		/// <summary>
+		/// Open mahjong game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void mahjongBtn_Click(object sender, RoutedEventArgs e)
 		{
 			if (funGames < 2)
 			{
+				mahjongBrowser.Navigate("http://www.247mahjong.com/mahjong10.swf");
 				gamesHome.Visibility = Visibility.Hidden;
 				mahjongBrowser.Visibility = Visibility.Visible;
 				backFromGame.Visibility = Visibility.Visible;
@@ -290,11 +334,16 @@ namespace OMS
 			else
 				MessageBox.Show("Game limit reached.");
 		}
-
+		/// <summary>
+		/// Open flappy beak game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void flappyBtn_Click(object sender, RoutedEventArgs e)
 		{
 			if (funGames < 2)
 			{
+				flappyBrowser.Navigate("http://www.flappybeak.com/flappy3.swf");
 				gamesHome.Visibility = Visibility.Hidden;
 				flappyBrowser.Visibility = Visibility.Visible;
 				backFromGame.Visibility = Visibility.Visible;
@@ -303,11 +352,16 @@ namespace OMS
 			else
 				MessageBox.Show("Game limit reached.");
 		}
-
+		/// <summary>
+		/// Open spades game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void spadesBtn_Click(object sender, RoutedEventArgs e)
 		{
 			if (funGames < 2)
 			{
+				spadesBrowser.Navigate("http://www.247spades.com/spades.swf");
 				gamesHome.Visibility = Visibility.Hidden;
 				spadesBrowser.Visibility = Visibility.Visible;
 				backFromGame.Visibility = Visibility.Visible;
@@ -316,11 +370,16 @@ namespace OMS
 			else
 				MessageBox.Show("Game limit reached.");
 		}
-
+		/// <summary>
+		/// Open blackjack game
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void blackjackBtn_Click(object sender, RoutedEventArgs e)
 		{
 			if (funGames < 2)
 			{
+				blackjackBrowser.Navigate("http://www.247blackjack.com/blackjack.swf");
 				gamesHome.Visibility = Visibility.Hidden;
 				blackjackBrowser.Visibility = Visibility.Visible;
 				backFromGame.Visibility = Visibility.Visible;
@@ -329,27 +388,71 @@ namespace OMS
 			else
 				MessageBox.Show("Game limit reached.");
 		}
+		/// <summary>
+		/// Determine if customer wins a coupon code.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void determineWin(object sender, RoutedEventArgs e)
+		{
+			Button temp = sender as Button;
+			int selection = Convert.ToInt32(temp.Content.ToString());
+			Random rng = new Random();
+			int winningNumber = rng.Next(1, 5);
+			if (selection == winningNumber)
+			{
+				coupon newCoupon = new coupon();
+				newCoupon.generateCoupon();
+				MessageBox.Show("Congratulations! Your coupon code is " + newCoupon.code);
+				//
+				// Add code to send coupon to database
+				//
+			}
+			else
+				MessageBox.Show("Sorry, that is not the winning number. Thank you for playing!");
+			couponGame.Visibility = Visibility.Hidden;
+			backFromGame.Visibility = Visibility.Hidden;
+			gamesHome.Visibility = Visibility.Visible;
+			couponGames++;
+		}
 		#endregion
 
 		#region eClub Functions
+		/// <summary>
+		/// Close the check in interface
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void closeCheckIn(object sender, RoutedEventArgs e)
 		{
 			checkInGrid.Visibility = Visibility.Hidden;
 			eClubHome.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Open the check in interface
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void checkInBtn_Click(object sender, RoutedEventArgs e)
 		{
 			eClubHome.Visibility = Visibility.Hidden;
 			checkInGrid.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Open the account creation interface
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void createAcntBtn_Click(object sender, RoutedEventArgs e)
 		{
 			eClubHome.Visibility = Visibility.Hidden;
 			newAccountGrid.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Cancel the account creation interface
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cancelCreation_Click(object sender, RoutedEventArgs e)
 		{
 			eClubHome.Visibility = Visibility.Visible;
@@ -357,6 +460,11 @@ namespace OMS
 		}
 
 		#region	----Account Creation Initialization
+		/// <summary>
+		/// Initialize the month selector in account creation
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void monthBox_Initialized(object sender, EventArgs e)
 		{
 			for (int i = 1; i <= 12; i++)
@@ -364,7 +472,11 @@ namespace OMS
 				monthBox.Items.Add(i);
 			}
 		}
-
+		/// <summary>
+		/// Initialized day selector in account creation based on month selection
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void monthBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			int days = 0;
@@ -396,7 +508,11 @@ namespace OMS
 				dayBox.Items.Add(i);
 			}
 		}
-
+		/// <summary>
+		/// Initialize the year selector in account creation
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void yearBox_Initialized(object sender, EventArgs e)
 		{
 			for (int i = DateTime.Now.Year; i != (DateTime.Now.Year - 120); i--)
@@ -404,20 +520,32 @@ namespace OMS
 				yearBox.Items.Add(i);
 			}
 		}
-
+		/// <summary>
+		/// Check if string is a number
+		/// </summary>
+		/// <param name="s"></param>
+		/// <returns></returns>
 		private bool IsDigit(string s)
 		{
 			Regex r = new Regex(@"^[0-9]+$");
 
 			return r.IsMatch(s);
 		}
-
+		/// <summary>
+		/// Validate phone number
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void phoneNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
 			if (phoneNumber.Text.Length == 10 || !IsDigit(e.Text))
 				e.Handled = true;
 		}
-
+		/// <summary>
+		/// Create account and send to database
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void DoneBtn_Click(object sender, RoutedEventArgs e) // Check fields for completion of new member
 		{
 			string message = "";
@@ -485,9 +613,9 @@ namespace OMS
 				currentMember.setPhoneNumber(phoneNumber.Text);
 				currentMember.email = email.Text;
 				currentMember.points += 1;
-
+				//
 				// Add code here to store account info in server
-
+				//
 				// Reset form
 				firstName.Clear();
 				lastName.Clear();
@@ -523,6 +651,5 @@ namespace OMS
 
 		}
 		#endregion
-
 	}
 }
