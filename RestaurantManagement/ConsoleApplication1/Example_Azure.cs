@@ -37,7 +37,9 @@ namespace ConnectAndQuery_Example
                 C.SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine(reader[0]+ " " + reader[1] +" " + reader[2]  + " ayylmao");
+                    int num = (int)reader[0]; // look you can even store the stuff by simply casting it to the correct data type
+                    string name = (string)reader[1];
+                    Console.WriteLine(num+ " " + name +" " + reader[2]  + " ayylmao");
                 } // here where it says reader[0] this is printing the first column of that row, so just dereference it with whatever column you want
             }
             Console.WriteLine("View the results here, then press any key to finish...");
