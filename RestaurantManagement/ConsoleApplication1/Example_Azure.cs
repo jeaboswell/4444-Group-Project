@@ -1,8 +1,7 @@
 ﻿using System;  // C#
-using G = System.Configuration;   // System.Configuration.dll
 using D = System.Data;            // System.Data.dll
 using C = System.Data.SqlClient;  // System.Data.dll
-using T = System.Text;
+
 
 namespace ConnectAndQuery_Example
 {
