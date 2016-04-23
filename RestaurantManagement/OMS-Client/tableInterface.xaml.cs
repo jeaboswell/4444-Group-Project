@@ -43,6 +43,7 @@ namespace OMS
 		// Temporary demo functions
 		public void createMenu()
 		{
+            /*// Temporary demo functions
 			myMenu.Add(new menuItem
 			{
 				itemNumber = 3,
@@ -142,6 +143,7 @@ namespace OMS
 				price = 2,
 				category = "drink"
 			});
+            */
 		}
 
 		#region Menu Functions
