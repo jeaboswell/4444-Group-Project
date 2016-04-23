@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Cart.cs" />
     <Compile Include="menuItem.cs" />
     <Compile Include="rewardMember.cs" />
     <Compile Include="SocketHelper.cs" />

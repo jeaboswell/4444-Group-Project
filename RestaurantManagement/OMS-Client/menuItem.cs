@@ -1,8 +1,10 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 
 namespace OMS
 {
-	public class menuItem
+    [Serializable]
+    public class menuItem
 	{
 		public int itemNumber { get; set; }
 		public string name { get; set; }
