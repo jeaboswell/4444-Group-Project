@@ -41,65 +41,58 @@ namespace OMS
 			InitializeComponent();
 			createMenu();
 		}
+		
+		#region Menu Functions
+		/// <summary>
+		/// Download the menu from the database
+		/// </summary>
+		public void createMenu()
+		{
+			string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+			// Create an SqlConnection from the provided connection string.
+			using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
+			{
+				// Formulate the command.
+				C.SqlCommand command = new C.SqlCommand();
+				command.Connection = connection;
 
-        // Temporary demo functions
-        public void createMenu()
-        {
-            string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
-            // Create an SqlConnection from the provided connection string.
-            using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
-            {
-                // Formulate the command.
-                C.SqlCommand command = new C.SqlCommand();
-                command.Connection = connection;
-
-                // Specify the query to be executed.
-                command.CommandType = D.CommandType.Text;
-                command.CommandText = @"
+				// Specify the query to be executed.
+				command.CommandType = D.CommandType.Text;
+				command.CommandText = @"
                     SELECT * FROM dbo.Menu
                     WHERE Available=1
                     ";
-                // Open a connection to database.
-                connection.Open();
-                // Read data returned for the query.
-                C.SqlDataReader reader = command.ExecuteReader();
+				// Open a connection to database.
+				connection.Open();
+				// Read data returned for the query.
+				C.SqlDataReader reader = command.ExecuteReader();
 
-                // while not done reading the stuff returned from the query
-                while (reader.Read())
-                {
-                    // create menu items from the database               
-                    myMenu.Add(new menuItem
-                    { // got rid of all the temp values for the sake of shorter prettier code
-                        itemNumber = (int)reader[0],
-                        name = (string)reader[1],
-                        description = (string)reader[2],
-                        imgSource = LoadImage((byte[])reader[4]),
-                        price = (decimal)reader[3],
-                        category = (string)reader[7]
-                    });
-                }              
-            }
-        }
+				// while not done reading the stuff returned from the query
+				while (reader.Read())
+				{
+					ImageSource tempSrc;
 
-		private static BitmapImage LoadImage(byte[] imageData)
-		{
-			if (imageData == null || imageData.Length == 0) return null;
-			var image = new BitmapImage();
-			using (var mem = new MemoryStream(imageData))
-			{
-				mem.Position = 0;
-				image.BeginInit();
-				image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-				image.CacheOption = BitmapCacheOption.OnLoad;
-				image.UriSource = null;
-				image.StreamSource = mem;
-				image.EndInit();
+					try
+					{
+						tempSrc = LoadImage((byte[])reader[4]);
+					}
+					catch (Exception ex)
+					{
+						tempSrc = new BitmapImage(new Uri("Resources/noImage.jpg", UriKind.Relative));
+					}
+					// create menu items from the database               
+					myMenu.Add(new menuItem
+					{ // got rid of all the temp values for the sake of shorter prettier code
+						itemNumber = (int)reader[0],
+						name = (string)reader[1],
+						description = (string)reader[2],
+						imgSource = tempSrc,// LoadImage((byte[])reader[4]),
+						price = (decimal)reader[3],
+						category = (string)reader[7]
+					});
+				}
 			}
-			image.Freeze();
-			return image;
 		}
-
-		#region Menu Functions
 		/// <summary>
 		/// Change data shown in menu screen when selected item is changed
 		/// </summary>
@@ -115,7 +108,7 @@ namespace OMS
 					{
 						menuImage.Source = item.imgSource;
 						menuDescription.Text = item.description;
-						menuPrice.Content = "$" + item.price.ToString();
+						menuPrice.Content = "$" + Decimal.ToInt32(item.price).ToString();
 					}
 				}
 				catch (Exception ex) { }
@@ -604,6 +597,31 @@ namespace OMS
 		private void cartButton_Click(object sender, RoutedEventArgs e)
 		{
 
+		}
+		#endregion
+
+		#region Helper Functions
+		/// <summary>
+		/// Convert byte array to imageSource
+		/// </summary>
+		/// <param name="imageData"></param>
+		/// <returns></returns>
+		private static BitmapImage LoadImage(byte[] imageData)
+		{
+			if (imageData == null || imageData.Length == 0) return null;
+			var image = new BitmapImage();
+			using (var mem = new MemoryStream(imageData))
+			{
+				mem.Position = 0;
+				image.BeginInit();
+				image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+				image.CacheOption = BitmapCacheOption.OnLoad;
+				image.UriSource = null;
+				image.StreamSource = mem;
+				image.EndInit();
+			}
+			image.Freeze();
+			return image;
 		}
 		#endregion
 	}
