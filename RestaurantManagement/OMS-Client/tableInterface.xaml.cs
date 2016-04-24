@@ -67,34 +67,17 @@ namespace OMS
                 // while not done reading the stuff returned from the query
                 while (reader.Read())
                 {
-                    // fill the temporary variables that will be used to construct menuitem object
-                    int temp_itemNumber = (int)reader[0];
-                    string temp_name = (string)reader[1];
-                    string temp_description = (string)reader[2];
-                    decimal temp_price = (decimal)reader[3];
-					ImageSource temp_image;
-					try
-					{
-						temp_image = LoadImage((byte[])reader[4]); //new BitmapImage(new Uri("Resources/Temp/pommesFrites.jpg", UriKind.Relative)); //reader[4] place holder until i figure out image query
-					}
-					catch (Exception ex)
-					{
-						temp_image = new BitmapImage(new Uri("Resources/Temp/pommesFrites.jpg", UriKind.Relative));
-					}
-                    string temp_category = (string)reader[7];
-
+                    // create menu items from the database               
                     myMenu.Add(new menuItem
-                    {
-                        itemNumber = temp_itemNumber,
-                        name = temp_name,
-                        description = temp_description,
-                        imgSource = temp_image,
-                        price = temp_price,
-                        category = temp_category
+                    { // got rid of all the temp values for the sake of shorter prettier code
+                        itemNumber = (int)reader[0],
+                        name = (string)reader[1],
+                        description = (string)reader[2],
+                        imgSource = LoadImage((byte[])reader[4]),
+                        price = (decimal)reader[3],
+                        category = (string)reader[7]
                     });
-                }
-
-                
+                }              
             }
         }
 
