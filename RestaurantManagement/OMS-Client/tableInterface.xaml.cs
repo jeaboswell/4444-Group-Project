@@ -63,6 +63,8 @@ namespace OMS
                 connection.Open();
                 // Read data returned for the query.
                 C.SqlDataReader reader = command.ExecuteReader();
+
+                // while not done reading the stuff returned from the query
                 while (reader.Read())
                 {
                     // fill the temporary variables that will be used to construct menuitem object
@@ -84,107 +86,7 @@ namespace OMS
                     });
                 }
 
-                /*// old Temporary demo functions KEEP HERE UNTIL I'm done loading them all into the database. If this is still here i'm not done loading into the database
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 3,
-                    name = "Truffled Pommes Frites",
-                    description = "Natural cut julienne fries topped with cracked pepper, parmesean cheese, and white truffle oil.",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/pommesFrites.jpg", UriKind.Relative)),
-                    price = 12,
-                    category = "appetizer"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 0,
-                    name = "Filet Mignon",
-                    description = "Our most tender steak! Signature Center-Cut Filet Mignon, perfectly lean, served thick & juciy. Served with a salad or soup, plus your choice of side.",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/filetMignon.jpg", UriKind.Relative)),
-                    price = 36,
-                    category = "entree"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 1,
-                    name = "Grilled Salmon",
-                    description = "Farm-raised Alaskan Salmon filet topped with lump crab, shrimp, and Béarnaise sauce over roasted garlic Parmesan mashed potatoes and sautéed vegetables.",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/grilledSalmon.jpg", UriKind.Relative)),
-                    price = 29,
-                    category = "entree"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 2,
-                    name = "Tiramisu",
-                    description = "The classic Italian dessert. A layer of creamy custard set atop espresso-soaked ladyfingers served with blueberries and raspberries.",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/tiramisu.jpg", UriKind.Relative)),
-                    price = 9,
-                    category = "dessert"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 4,
-                    name = "Crème Brûlée",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/cremeBrulee.jpg", UriKind.Relative)),
-                    price = 9,
-                    category = "dessert"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 5,
-                    name = "Coca-Cola",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/coke.jpg", UriKind.Relative)),
-                    price = 2,
-                    category = "drink"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 6,
-                    name = "Diet Coke",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/dietCoke.jpg", UriKind.Relative)),
-                    price = 2,
-                    category = "drink"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 7,
-                    name = "Coka-Cola Zero",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/cokeZero.jpg", UriKind.Relative)),
-                    price = 2,
-                    category = "drink"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 8,
-                    name = "Sprite",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/sprite.jpg", UriKind.Relative)),
-                    price = 2,
-                    category = "drink"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 9,
-                    name = "Orange Fanta",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/orangeFanta.jpg", UriKind.Relative)),
-                    price = 2,
-                    category = "drink"
-                });
-                myMenu.Add(new menuItem
-                {
-                    itemNumber = 10,
-                    name = "Root Beer",
-                    description = "",
-                    imgSource = new BitmapImage(new Uri("Resources/Temp/rootBeer.png", UriKind.Relative)),
-                    price = 2,
-                    category = "drink"
-                });
-                */
+                
             }
         }
 
