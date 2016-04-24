@@ -72,7 +72,15 @@ namespace OMS
                     string temp_name = (string)reader[1];
                     string temp_description = (string)reader[2];
                     decimal temp_price = (decimal)reader[3];
-                    ImageSource temp_image = new BitmapImage(new Uri("Resources/Temp/pommesFrites.jpg", UriKind.Relative)); //reader[4] place holder until i figure out image query
+					ImageSource temp_image;
+					try
+					{
+						temp_image = LoadImage((byte[])reader[4]); //new BitmapImage(new Uri("Resources/Temp/pommesFrites.jpg", UriKind.Relative)); //reader[4] place holder until i figure out image query
+					}
+					catch (Exception ex)
+					{
+						temp_image = new BitmapImage(new Uri("Resources/Temp/pommesFrites.jpg", UriKind.Relative));
+					}
                     string temp_category = (string)reader[7];
 
                     myMenu.Add(new menuItem
@@ -89,6 +97,24 @@ namespace OMS
                 
             }
         }
+
+		private static BitmapImage LoadImage(byte[] imageData)
+		{
+			if (imageData == null || imageData.Length == 0) return null;
+			var image = new BitmapImage();
+			using (var mem = new MemoryStream(imageData))
+			{
+				mem.Position = 0;
+				image.BeginInit();
+				image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+				image.CacheOption = BitmapCacheOption.OnLoad;
+				image.UriSource = null;
+				image.StreamSource = mem;
+				image.EndInit();
+			}
+			image.Freeze();
+			return image;
+		}
 
 		#region Menu Functions
 		/// <summary>
