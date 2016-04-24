@@ -28,7 +28,7 @@ namespace ConnectAndQuery_Example
                 command.CommandType = D.CommandType.Text;
                 command.CommandText = @"
                     SELECT * FROM dbo.Menu
-                    WHERE category LIKE 'drink'
+                    WHERE Available=1
                     ";
                 // Open a connection to database.
                 connection.Open();
