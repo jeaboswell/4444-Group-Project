@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -161,5 +163,44 @@ namespace OMS
 			setStop();
 		}
 		#endregion
+
+		private void sendClients()
+		{
+			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			{
+				string command = "INSERT into dbo.Clients (IPAddress, Name, Permission) VALUES (@ip, @name, @permission)";
+
+				foreach (ClientInfo client in clientList.Items)
+				{
+					using (SqlCommand querySave = new SqlCommand(command))
+					{
+						querySave.Connection = openCon;
+						querySave.Parameters.Add("@ip", SqlDbType.NVarChar).Value = client.IP.ToString();
+						querySave.Parameters.Add("@name", SqlDbType.NVarChar).Value = client.Name;
+						querySave.Parameters.Add("@permission", SqlDbType.NVarChar).Value = client.selectedPermission;
+
+						openCon.Open();
+						querySave.ExecuteScalar();
+						openCon.Close();
+					}
+				}
+			}
+		}
+
+		private void eraseClients()
+		{
+			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			{
+				string command = "delete from dbo.Clients";
+				
+				using (SqlCommand querySave = new SqlCommand(command))
+				{
+					querySave.Connection = openCon;
+					openCon.Open();
+					querySave.ExecuteScalar();
+					openCon.Close();
+				}
+			}
+		}
 	}
 }

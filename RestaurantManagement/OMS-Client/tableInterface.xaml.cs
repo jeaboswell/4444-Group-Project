@@ -39,9 +39,8 @@ namespace OMS
 		public tableInterface()
 		{
 			InitializeComponent();
-			createMenu();
 		}
-		
+
 		#region Menu Functions
 		/// <summary>
 		/// Download the menu from the database

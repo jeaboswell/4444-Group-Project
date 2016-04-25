@@ -195,5 +195,10 @@ namespace OMS
 			}
 		}
 		#endregion
+
+		private void main_ContentRendered(object sender, EventArgs e)
+		{
+			tableUI.createMenu();
+		}
 	}
 }

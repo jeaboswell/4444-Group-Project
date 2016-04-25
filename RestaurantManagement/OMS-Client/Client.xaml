@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OMS"
         mc:Ignorable="d"
-        Title="OMS-Client" Height="720" Width="1280" Closing="main_Closing" Loaded="main_Loaded" Icon="Resources/clientIcon.ico">
+        Title="OMS-Client" Height="720" Width="1280" Closing="main_Closing" Loaded="main_Loaded" Icon="Resources/clientIcon.ico" ContentRendered="main_ContentRendered">
     <Grid>
         <Grid x:Name="permissionGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Width="180">
             <Label x:Name="permLabel" Content="Waiting on server..." HorizontalAlignment="Left" Margin="69,0,0,0" VerticalAlignment="Top" Width="111"/>
