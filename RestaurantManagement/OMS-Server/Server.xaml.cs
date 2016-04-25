@@ -22,7 +22,7 @@ class ClientInfo
 {
 	public IPAddress IP { get; set; }
 	public string Name { get; set; }
-	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Server", "Kitchen", "Table" };
+	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
 	public string selectedPermission { get; set; }
 }
 
@@ -70,6 +70,24 @@ namespace OMS
 						case "clientClosed":
 							clientClosed(ClientEp.Address);
 							break;
+						case "requestHelp":
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								if (iter.selectedPermission == "Waiter")
+								{
+									// Add code here to send help request to waiter interface
+								}
+							}
+							break;
+						case "cancelHelp":
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								if (iter.selectedPermission == "Waiter")
+								{
+									// Add code here to send cancel request to employee interface
+								}
+							}
+							break;
 						default:
 							break;
 					}
@@ -112,9 +130,33 @@ namespace OMS
 			{
 				clientList.Items.Clear();
 				foreach (IPAddress client in clients)
-					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client) });
-			}));
+				{
+					string permission = "None";
+					// Check database for permission
+					using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+					{
+						// Create command
+						var sql = String.Format("select * from dbo.Clients where IPAddress = '{0}' and Name = '{1}'", client.ToString(), getClientName(client));
+						SqlCommand command = new SqlCommand(sql);
+						command.Connection = connection;
+						// Specify the query to be executed.
+						command.CommandType = CommandType.Text;
+						// Open a connection to database.
+						connection.Open();
+						// Read data returned for the query.
+						SqlDataReader reader = command.ExecuteReader();
 
+						// while not done reading the stuff returned from the query
+						while (reader.Read())
+						{
+							permission = (string)reader[2];
+						}
+					}
+
+					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = permission });
+					syncClientAuto(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = permission });
+				}
+			}));
 		}
 
 		private string getClientName(IPAddress ip)
@@ -131,13 +173,35 @@ namespace OMS
 		}
 		#endregion
 
-		#region Grant Permissions
+		#region Client Communication
 		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
 		{
 			var parent = VisualTreeHelper.GetParent(child);
 			if (parent != null && !(parent is T))
 				return (T)GetAncestorOfType<T>((FrameworkElement)parent);
 			return (T)parent;
+		}
+
+		private void syncClientAuto(ClientInfo client)
+		{
+			requestStop();
+			if (client.selectedPermission == null)
+				return;
+			IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
+			UdpClient connection = new UdpClient();
+
+			string command = "setPermission";
+			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+
+			connection.Send(sendCmd, sendCmd.Length, clientIP);
+
+			command = client.selectedPermission;
+			sendCmd = Encoding.ASCII.GetBytes(command);
+
+			connection.Send(sendCmd, sendCmd.Length, clientIP);
+
+			connection.Close();
+			setStop();
 		}
 
 		private void syncClient_Click(object sender, RoutedEventArgs e)
@@ -161,20 +225,55 @@ namespace OMS
 			
 			connection.Close();
 			setStop();
+
+			// Send client info to database
+			sendClient(client);
+		}
+
+		private void sendCommand(IPAddress clientIP, string command)
+		{
+			try
+			{
+				IPEndPoint client = new IPEndPoint(clientIP, 44446);
+				UdpClient connection = new UdpClient();
+
+				byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+
+				connection.Send(sendCmd, sendCmd.Length, client);
+
+				connection.Close();
+			}
+			catch (Exception ex) { }
 		}
 		#endregion
 
-		private void sendClients()
+		#region Database Functions
+		private void sendClient(ClientInfo client)
 		{
-			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			if (clientInDB(client))
 			{
-				string command = "INSERT into dbo.Clients (IPAddress, Name, Permission) VALUES (@ip, @name, @permission)";
-
-				foreach (ClientInfo client in clientList.Items)
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 				{
-					using (SqlCommand querySave = new SqlCommand(command))
+					using (SqlCommand querySave = new SqlCommand("update dbo.Clients set Permission = @permission where IPAddress = @ip and Name = @name", openCon))
 					{
-						querySave.Connection = openCon;
+						querySave.Parameters.AddWithValue("@ip", client.IP.ToString());
+						querySave.Parameters.AddWithValue("@name", client.Name);
+						querySave.Parameters.AddWithValue("@permission", client.selectedPermission);
+
+						openCon.Open();
+						querySave.ExecuteScalar();
+						openCon.Close();
+					}
+				}
+			}
+			else
+			{
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					string command = "INSERT into dbo.Clients (IPAddress, Name, Permission) VALUES (@ip, @name, @permission)";
+
+					using (SqlCommand querySave = new SqlCommand(command, openCon))
+					{
 						querySave.Parameters.Add("@ip", SqlDbType.NVarChar).Value = client.IP.ToString();
 						querySave.Parameters.Add("@name", SqlDbType.NVarChar).Value = client.Name;
 						querySave.Parameters.Add("@permission", SqlDbType.NVarChar).Value = client.selectedPermission;
@@ -187,20 +286,22 @@ namespace OMS
 			}
 		}
 
-		private void eraseClients()
+		private bool clientInDB(ClientInfo client)
 		{
 			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 			{
-				string command = "delete from dbo.Clients";
-				
-				using (SqlCommand querySave = new SqlCommand(command))
-				{
-					querySave.Connection = openCon;
-					openCon.Open();
-					querySave.ExecuteScalar();
-					openCon.Close();
-				}
+				SqlCommand myCommand = new SqlCommand("SELECT IPAddress FROM dbo.Clients WHERE IPAddress = @ip and Name = @name", openCon);
+				SqlDataAdapter sqlDa = new SqlDataAdapter(myCommand);
+
+				myCommand.Parameters.AddWithValue("@ip", client.IP.ToString());
+				myCommand.Parameters.AddWithValue("@name", client.Name);
+				openCon.Open();
+				SqlDataReader reader = myCommand.ExecuteReader();
+				bool hasRows = reader.HasRows;
+				openCon.Close();
+				return hasRows;
 			}
 		}
+		#endregion
 	}
 }

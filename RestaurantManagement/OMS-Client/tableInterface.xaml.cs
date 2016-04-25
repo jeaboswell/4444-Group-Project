@@ -583,9 +583,15 @@ namespace OMS
 		private void helpButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (helpButton.Background.ToString() == "#FF2D2D30")
+			{
 				helpButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C"));
+				commHelper.functionSend("requestHelp");
+			}
 			else
+			{
 				helpButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30"));
+				commHelper.functionSend("cancelHelp");
+			}
 		}
 
 		private void refillButton_Click(object sender, RoutedEventArgs e)

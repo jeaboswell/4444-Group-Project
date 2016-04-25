@@ -175,7 +175,7 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
 					break;
-				case "Server":
+				case "Waiter":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
