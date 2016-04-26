@@ -13,6 +13,6 @@ namespace OMS
 
         public int Order_num { get; set; }
 
-        public string Note { get; set; }
+        public List<string> Notes { get; set; }
     }
 }

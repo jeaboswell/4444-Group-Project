@@ -54,7 +54,7 @@ namespace OMS
 			findServer.IsBackground = true;
 			findServer.Start();
 			setPermission(Properties.Settings.Default.savedPermission);
-			dbConnect();
+			//dbConnect();
 		}
 
 		/// <summary>

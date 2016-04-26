@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using D = System.Data;            // System.Data.dll
 using C = System.Data.SqlClient;  // System.Data.dll
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace OMS
 {
@@ -32,6 +33,7 @@ namespace OMS
 		rewardMember currentMember = new rewardMember();
 		List<menuItem> myMenu = new List<menuItem>();
 		int funGames = 0, couponGames = 0;
+		Cart order = new Cart();
 		#endregion
 		/// <summary>
 		/// Interface initilization
@@ -81,11 +83,11 @@ namespace OMS
 					}
 					// create menu items from the database               
 					myMenu.Add(new menuItem
-					{ // got rid of all the temp values for the sake of shorter prettier code
+					{
 						itemNumber = (int)reader[0],
 						name = (string)reader[1],
 						description = (string)reader[2],
-						imgSource = tempSrc,// LoadImage((byte[])reader[4]),
+						imgSource = tempSrc,
 						price = (decimal)reader[3],
 						category = (string)reader[7]
 					});
@@ -190,6 +192,18 @@ namespace OMS
 					menuList.Items.Add(item.name);
 			}
 			menuList.SelectedIndex = 0;
+		}
+
+		private void submitOrder()
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize(ms, order);
+
+				ms.Position = 0;
+				byte[] orderData = ms.ToArray();
+			}
 		}
 		#endregion
 
