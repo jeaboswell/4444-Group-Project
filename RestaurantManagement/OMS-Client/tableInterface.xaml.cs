@@ -193,7 +193,9 @@ namespace OMS
 			}
 			menuList.SelectedIndex = 0;
 		}
-
+		/// <summary>
+		/// Send order to database
+		/// </summary>
 		private void submitOrder()
 		{
 			using (MemoryStream ms = new MemoryStream())
@@ -204,6 +206,15 @@ namespace OMS
 				ms.Position = 0;
 				byte[] orderData = ms.ToArray();
 			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void addToCart_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 		#endregion
 

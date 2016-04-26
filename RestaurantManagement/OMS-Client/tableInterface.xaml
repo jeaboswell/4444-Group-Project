@@ -339,7 +339,7 @@
                     <Image x:Name="menuImage" Height="527" VerticalAlignment="Top" Width="962" Stretch="Fill" Grid.Column="1"/>
                     <TextBlock x:Name="menuDescription" Margin="0,527,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="162" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="26.667" FontFamily="Baskerville Old Face" Padding="5,0" Grid.Column="1"/>
                     <Label x:Name="menuPrice" Content="$##" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Grid.Column="1" Height="46"/>
-                    <Button x:Name="button1" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201"/>
+                    <Button x:Name="addToCart" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201" Click="addToCart_Click"/>
                 </Grid>
             </Grid>
         </Viewbox>
