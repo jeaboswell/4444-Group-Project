@@ -78,7 +78,7 @@ namespace OMS
 					{
 						tempSrc = LoadImage((byte[])reader[4]);
 					}
-					catch (Exception ex)
+					catch (Exception)
 					{
 						tempSrc = new BitmapImage(new Uri("Resources/noImage.jpg", UriKind.Relative));
 					}
@@ -113,7 +113,7 @@ namespace OMS
 						menuPrice.Content = "$" + Decimal.ToInt32(item.price).ToString();
 					}
 				}
-				catch (Exception ex) { }
+				catch (Exception) { }
 			}
 		}
 		/// <summary>
@@ -241,9 +241,13 @@ namespace OMS
 							case "drink":
 								order.Items.Add(item);
 								order.Notes.Add("");
-								//
-								// Show item added notification
-								//
+								// Show addition alert
+								overlay.Visibility = Visibility.Visible;
+								addedAlert.Content = item.name + "added to cart.";
+								addedAlert.Visibility = Visibility.Visible;
+								Thread.Sleep(1000);
+								addedAlert.Visibility = Visibility.Hidden;
+								overlay.Visibility = Visibility.Hidden;
 								break;
 							case "appetizer":
 								//
@@ -251,9 +255,8 @@ namespace OMS
 								//
 								break;
 							case "entree":
-								//
-								// Show add to cart interface to select sides and allow notes to be added.
-								//
+								overlay.Visibility = Visibility.Visible;
+								entreeAddition.Visibility = Visibility.Visible;
 								break;
 							case "dessert":
 								//
@@ -263,15 +266,57 @@ namespace OMS
 							default:
 								break;
 						}
-
-						menuImage.Source = item.imgSource;
-						menuDescription.Text = item.description;
-						menuPrice.Content = "$" + Decimal.ToInt32(item.price).ToString();
 					}
 				}
-				catch (Exception ex) { }
+				catch (Exception) { }
 			}
 		}
+
+		#region Entree Addition
+		private void cancelEntreeAddition_Click(object sender, RoutedEventArgs e)
+		{
+			entreeAddition.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
+			saladChoice.SelectedIndex = -1;
+			sideChoice.SelectedIndex = -1;
+			entreeNotes.Text = "";
+		}
+
+		private void submitEntree_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (menuItem item in myMenu)
+			{
+				try
+				{
+					if (item.name == menuList.SelectedValue.ToString())
+					{
+						// Add item to cart
+						order.Items.Add(item);
+						// Add notes with sides to cart
+						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + "\n\nSide Choice: " + sideChoice.SelectedValue.ToString() + "\n\nNotes:\n" + entreeNotes.Text;
+						order.Notes.Add(fullNotes);
+						// Show addition alert
+						entreeAddition.Visibility = Visibility.Hidden;
+						addedAlert.Content = item.name + "added to cart.";
+						addedAlert.Visibility = Visibility.Visible;
+						Thread.Sleep(1000);
+						addedAlert.Visibility = Visibility.Hidden;
+						// Reset form
+						overlay.Visibility = Visibility.Hidden;
+						saladChoice.SelectedIndex = -1;
+						sideChoice.SelectedIndex = -1;
+						entreeNotes.Text = "";
+					}
+				}
+				catch (Exception)
+				{
+					string errorMsg = "";
+					if (saladChoice.SelectedValue == null)
+						errorMsg += "";
+				}
+			}
+		}
+		#endregion
 		#endregion
 
 		#region Game Functions

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+[Serializable]
 class ClientInfo
 {
 	public IPAddress IP { get; set; }
@@ -92,11 +95,23 @@ namespace OMS
 								}
 							}
 							break;
+						case "getTables":
+							// Generate table list
+							List<ClientInfo> tableList = new List<ClientInfo>();
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								if (iter.selectedPermission == "Table")
+									tableList.Add(iter);
+							}
+							byte[] sendData = ObjectToByteArray(tableList);
+
+							client.Send(sendData, sendData.Length, ClientEp);
+							break;
 						default:
 							break;
 					}
 				}
-				catch (Exception ex) { }
+				catch (Exception) { }
 			}
 			client.Close();
 		}
@@ -172,7 +187,7 @@ namespace OMS
 
 				machineName = hostEntry.HostName;
 			}
-			catch (Exception ex) { }
+			catch (Exception) { }
 			return machineName;
 		}
 		#endregion
@@ -247,7 +262,7 @@ namespace OMS
 
 				connection.Close();
 			}
-			catch (Exception ex) { }
+			catch (Exception) { }
 		}
 		#endregion
 
@@ -307,5 +322,32 @@ namespace OMS
 			}
 		}
 		#endregion
+
+		private byte[] ObjectToByteArray(object obj)
+		{
+			if (obj == null)
+				return null;
+			BinaryFormatter bf = new BinaryFormatter();
+			using (MemoryStream ms = new MemoryStream())
+			{
+				bf.Serialize(ms, obj);
+				return ms.ToArray();
+			}
+		}
+
+		private object ByteToObject(byte[] byteArray)
+		{
+			try
+			{
+				MemoryStream ms = new MemoryStream(byteArray);
+				BinaryFormatter bf = new BinaryFormatter();
+				ms.Position = 0;
+
+				return bf.Deserialize(ms);
+			}
+			catch (Exception) { }
+
+			return null;
+		}
 	}
 }
