@@ -7,7 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
     <Grid Background="Black">
-        <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="310" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868"/>
-        <CheckBox x:Name="itemCbox" Content="CheckBox" HorizontalAlignment="Left" Margin="310,0,0,0" VerticalAlignment="Top" Height="689" Width="962" Checked="checkBox_Checked"/>
+        <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="315" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="backButton_Click"/>
+        <Button x:Name="menuButton" Content="Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="315" Height="50" Background="#FF2D2D30" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="menuButton_Click" Visibility="Hidden"/>
+        <ListBox x:Name="menuList" HorizontalAlignment="Left" Height="689" Margin="315,0,0,0" VerticalAlignment="Top" Width="957" SelectionChanged="menuBox_SelectionChanged"/>
+        <ListBox x:Name="orderList" HorizontalAlignment="Left" Height="689" Margin="315,0,0,0" VerticalAlignment="Top" Width="957" SelectionChanged="orderBox_SelectionChanged" Visibility="Hidden"/>
+        <Button x:Name="removeButton" Content="Remove" HorizontalAlignment="Left" Margin="0,588,0,0" VerticalAlignment="Top" Width="315" Height="100" Background="#FFA61313" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="removeButton_Click"/>
+        <Button x:Name="doneButton" Content="Done" HorizontalAlignment="Left" Margin="0,588,0,0" VerticalAlignment="Top" Width="315" Height="100" Background="#FFA61313" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="doneButton_Click" Visibility="Hidden"/>
     </Grid>
 </UserControl>
