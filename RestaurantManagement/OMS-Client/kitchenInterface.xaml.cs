@@ -31,14 +31,24 @@ namespace OMS
 	public partial class Kitchen : UserControl
 	{
         List<menuItem> myMenu = new List<menuItem>();
+        List<Cart> myOrders = new List<Cart>();
+
+        string removeItem = "";
+        string removeOrder = "";
 
         public Kitchen()
 		{
 			InitializeComponent();
             createMenu();
+            createOrder();
             foreach (menuItem item in myMenu)
             {
                 menuList.Items.Add(item.name);
+            }
+
+            foreach(Cart item in myOrders)
+            {
+                orderList.Items.Add(item.Order_num);
             }
         }
 
@@ -80,6 +90,41 @@ namespace OMS
             }
         }
 
+        public void createOrder()
+        {
+            string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+            // Create an SqlConnection from the provided connection string.
+            using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
+            {
+                // Formulate the command.
+                C.SqlCommand command = new C.SqlCommand();
+                command.Connection = connection;
+
+                // Specify the query to be executed.
+                command.CommandType = D.CommandType.Text;
+                command.CommandText = @"
+                    SELECT * FROM dbo.Orders
+                    WHERE Finished=0
+                    ";
+                // Open a connection to database.
+                connection.Open();
+                // Read data returned for the query.
+                C.SqlDataReader reader = command.ExecuteReader();
+
+                // while not done reading the stuff returned from the query
+                while (reader.Read())
+                {
+                    // create menu items from the database               
+                    myOrders.Add(new Cart
+                    {
+                        //Items = (List<menuItem>)reader[0],
+                        //Order_num = (int)reader[1],
+                        //Notes = (List<string>)reader[2]
+                    });
+                }
+            }
+        }
+
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             orderList.Visibility = Visibility.Visible;
@@ -106,12 +151,12 @@ namespace OMS
 
         private void menuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            removeItem = menuList.SelectedValue.ToString();
         }
 
         private void orderBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            removeOrder = orderList.SelectedValue.ToString();
         }
     }
 }

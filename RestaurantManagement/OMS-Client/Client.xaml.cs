@@ -168,26 +168,31 @@ namespace OMS
 					permLabel.Content = "Waiting on server...";
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
+					employeeUI.Visibility = Visibility.Hidden;
 					break;
 				case "Manager":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
+					employeeUI.Visibility = Visibility.Hidden;
 					break;
 				case "Waiter":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
+					employeeUI.Visibility = Visibility.Visible;
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Visible;
+					employeeUI.Visibility = Visibility.Hidden;
 					break;
 				case "Table":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Visible;
 					kitchenUI.Visibility = Visibility.Hidden;
+					employeeUI.Visibility = Visibility.Hidden;
 					break;
 				default:
 					break;
