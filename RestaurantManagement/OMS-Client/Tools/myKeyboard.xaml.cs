@@ -48,7 +48,7 @@ namespace OMS
 							target.CaretIndex = tempIndex - 1;
 						}
 					}
-					catch (Exception ex) { }
+					catch (Exception) { }
 					break;
 
 				default:
@@ -74,7 +74,7 @@ namespace OMS
 							target.CaretIndex = target.Text.Length;
 						}
 					}
-					catch (Exception ex) { }
+					catch (Exception) { }
 					break;
 			}
 		}

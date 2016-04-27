@@ -37,7 +37,7 @@ namespace OMS
     /// </summary>
     public partial class EmployeeInterface : UserControl
     {
-        List<ClientInfo> TableList = new List<ClientInfo>;
+        List<ClientInfo> TableList = new List<ClientInfo>();
 
         public EmployeeInterface()
         {

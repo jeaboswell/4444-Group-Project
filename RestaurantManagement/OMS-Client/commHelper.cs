@@ -25,7 +25,7 @@ namespace OMS
 
 				connection.Close();
 			}
-			catch (Exception ex) { }
+			catch (Exception) { }
 		}
 	}
 }
