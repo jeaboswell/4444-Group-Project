@@ -82,6 +82,9 @@
     <Compile Include="Cart.cs" />
     <Compile Include="commHelper.cs" />
     <Compile Include="coupon.cs" />
+    <Compile Include="EmployeeInterface.xaml.cs">
+      <DependentUpon>EmployeeInterface.xaml</DependentUpon>
+    </Compile>
     <Compile Include="kitchenInterface.xaml.cs">
       <DependentUpon>kitchenInterface.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
       <DependentUpon>Client.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="EmployeeInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="kitchenInterface.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
