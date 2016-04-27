@@ -19,14 +19,11 @@ using System.Windows.Shapes;
 
 [Serializable]
 
-class ClientInfo
+public class ClientInfo
 {
     public IPAddress IP { get; set; }
-
     public string Name { get; set; }
-
     public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
-
     public string selectedPermission { get; set; }
 }
 
@@ -42,7 +39,7 @@ namespace OMS
         public EmployeeInterface()
         {
             InitializeComponent();
-            testTable();
+            //testTable();
             updateTables();
         }
 
@@ -52,25 +49,27 @@ namespace OMS
             TableList.Add(new ClientInfo { Name = "Table 2" });
         }
 
-        private void updateTables()
+		public void getTableList(List<ClientInfo> list)
+		{
+			TableList = list;
+			//commHelper.functionSend("getTables");
+
+			//IPAddress tempAdr = IPAddress.Parse(Properties.Settings.Default.serverIP);
+			//IPEndPoint serverEp = new IPEndPoint(tempAdr, 0);
+			//UdpClient server = new UdpClient(44446);
+
+			//try
+			//{
+			//	byte[] command = server.Receive(ref serverEp);
+			//	TableList = (List<ClientInfo>)ByteToObject(command);
+			//}
+			//catch (Exception) { }
+
+			//server.Close();
+		}
+
+		private void updateTables()
         {
-            //commHelper.functionSend("getTables");
-
-            //IPAddress tempAdr = IPAddress.Parse(Properties.Settings.Default.serverIP);
-            //IPEndPoint serverEp = new IPEndPoint(tempAdr, 0);
-            //UdpClient server = new UdpClient(44446);
-
-
-
-            //try
-            //{
-            //    byte[] command = server.Receive(ref serverEp);
-            //    TableList = (List<ClientInfo>)ByteToObject(command);
-            //}
-            //catch (Exception) { }
-        
-            //server.Close();
-
             foreach (ClientInfo iter in TableList)
             {
                 Button tmpButton = new Button();
@@ -82,23 +81,6 @@ namespace OMS
             }
 
         }
-
-
-
-        private object ByteToObject(byte[] byteArray)
-        {
-            try
-            {
-                MemoryStream ms = new MemoryStream(byteArray);
-                BinaryFormatter bf = new BinaryFormatter();
-                ms.Position = 0;
-
-                return bf.Deserialize(ms);
-            }
-            catch (Exception) { }
-
-            return null;
-        }
-    }
+	}
 }
 

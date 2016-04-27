@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,7 +54,7 @@ namespace OMS
 			Thread findServer = new Thread(Connect);
 			findServer.IsBackground = true;
 			findServer.Start();
-			setPermission(Properties.Settings.Default.savedPermission);
+			//setPermission(Properties.Settings.Default.savedPermission);
 			//dbConnect();
 		}
 
@@ -144,6 +145,10 @@ namespace OMS
 								setPermission(Encoding.ASCII.GetString(command));
 							}));
 							break;
+						case "receiveTables":
+							command = server.Receive(ref serverEp);
+							employeeUI.getTableList((List<ClientInfo>)ByteToObject(command));
+							break;
 						default:
 							break;
 					}
@@ -181,12 +186,14 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Visible;
+					commHelper.functionSend("getTables");
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Visible;
 					employeeUI.Visibility = Visibility.Hidden;
+
 					break;
 				case "Table":
 					permLabel.Content = permission;
@@ -203,6 +210,21 @@ namespace OMS
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
 			tableUI.createMenu();
+		}
+
+		private object ByteToObject(byte[] byteArray)
+		{
+			try
+			{
+				MemoryStream ms = new MemoryStream(byteArray);
+				BinaryFormatter bf = new BinaryFormatter();
+				ms.Position = 0;
+
+				return bf.Deserialize(ms);
+			}
+			catch (Exception) { }
+
+			return null;
 		}
 	}
 }
