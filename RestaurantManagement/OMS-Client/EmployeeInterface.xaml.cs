@@ -42,26 +42,34 @@ namespace OMS
         public EmployeeInterface()
         {
             InitializeComponent();
+            testTable();
+            updateTables();
+        }
+
+        private void testTable()
+        {
+            TableList.Add(new ClientInfo { Name = "Table 1" });
+            TableList.Add(new ClientInfo { Name = "Table 2" });
         }
 
         private void updateTables()
         {
-            commHelper.functionSend("getTables");
+            //commHelper.functionSend("getTables");
 
-            IPAddress tempAdr = IPAddress.Parse(Properties.Settings.Default.serverIP);
-            IPEndPoint serverEp = new IPEndPoint(tempAdr, 0);
-            UdpClient server = new UdpClient(44446);
+            //IPAddress tempAdr = IPAddress.Parse(Properties.Settings.Default.serverIP);
+            //IPEndPoint serverEp = new IPEndPoint(tempAdr, 0);
+            //UdpClient server = new UdpClient(44446);
 
 
 
-            try
-            {
-                byte[] command = server.Receive(ref serverEp);
-                TableList = (List<ClientInfo>)ByteToObject(command);
-            }
-            catch (Exception) { }
+            //try
+            //{
+            //    byte[] command = server.Receive(ref serverEp);
+            //    TableList = (List<ClientInfo>)ByteToObject(command);
+            //}
+            //catch (Exception) { }
         
-            server.Close();
+            //server.Close();
 
             foreach (ClientInfo iter in TableList)
             {
