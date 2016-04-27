@@ -107,7 +107,7 @@ namespace OMS
 					serverIp = ServerEp.Address;
 					success = true;
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					Console.WriteLine("Error: No Server Found");    // For debugging
 				}
@@ -148,7 +148,7 @@ namespace OMS
 							break;
 					}
 				}
-				catch (Exception ex) { }
+				catch (Exception) { }
 			}
 			server.Close();
 		}

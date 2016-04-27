@@ -96,7 +96,7 @@ namespace OMS
 							break;
 					}
 				}
-				catch (Exception ex) { }
+				catch (Exception) { }
 			}
 			client.Close();
 		}
@@ -172,7 +172,7 @@ namespace OMS
 
 				machineName = hostEntry.HostName;
 			}
-			catch (Exception ex) { }
+			catch (Exception) { }
 			return machineName;
 		}
 		#endregion
@@ -247,7 +247,7 @@ namespace OMS
 
 				connection.Close();
 			}
-			catch (Exception ex) { }
+			catch (Exception) { }
 		}
 		#endregion
 
