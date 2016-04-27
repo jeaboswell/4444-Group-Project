@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using D = System.Data;            // System.Data.dll
 using C = System.Data.SqlClient;  // System.Data.dll
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Net;
 
 namespace OMS
 {
@@ -205,16 +206,71 @@ namespace OMS
 
 				ms.Position = 0;
 				byte[] orderData = ms.ToArray();
+
+				using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					string command = "INSERT into dbo.Orders (Order, Client) VALUES (@order, @client)";
+
+					using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
+					{
+						querySave.Parameters.AddWithValue("@order", orderData);
+						querySave.Parameters.AddWithValue("@client", Dns.GetHostAddresses(Dns.GetHostName()));
+
+						openCon.Open();
+						querySave.ExecuteScalar();
+						openCon.Close();
+					}
+				}
 			}
 		}
 		/// <summary>
-		/// 
+		/// Function to add item to cart
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void addToCart_Click(object sender, RoutedEventArgs e)
 		{
+			foreach (menuItem item in myMenu)
+			{
+				try
+				{
+					if (item.name == menuList.SelectedValue.ToString())
+					{
+						switch (item.category)
+						{
+							case "drink":
+								order.Items.Add(item);
+								order.Notes.Add("");
+								//
+								// Show item added notification
+								//
+								break;
+							case "appetizer":
+								//
+								// Show add to cart interface to allow notes to be added.
+								//
+								break;
+							case "entree":
+								//
+								// Show add to cart interface to select sides and allow notes to be added.
+								//
+								break;
+							case "dessert":
+								//
+								// Show add to cart interface to allow notes to be added.
+								//
+								break;
+							default:
+								break;
+						}
 
+						menuImage.Source = item.imgSource;
+						menuDescription.Text = item.description;
+						menuPrice.Content = "$" + Decimal.ToInt32(item.price).ToString();
+					}
+				}
+				catch (Exception ex) { }
+			}
 		}
 		#endregion
 

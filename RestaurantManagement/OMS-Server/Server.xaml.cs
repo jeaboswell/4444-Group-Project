@@ -75,7 +75,9 @@ namespace OMS
 							{
 								if (iter.selectedPermission == "Waiter")
 								{
+									//
 									// Add code here to send help request to waiter interface
+									//
 								}
 							}
 							break;
@@ -84,7 +86,9 @@ namespace OMS
 							{
 								if (iter.selectedPermission == "Waiter")
 								{
+									//
 									// Add code here to send cancel request to employee interface
+									//
 								}
 							}
 							break;

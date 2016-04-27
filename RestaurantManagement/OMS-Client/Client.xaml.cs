@@ -100,7 +100,6 @@ namespace OMS
 			{
 				try
 				{
-
 					server.Send(RequestData, RequestData.Length, new IPEndPoint(IPAddress.Broadcast, 44445));
 					byte[] ServerResponseData = server.Receive(ref ServerEp);
 					string ServerResponse = Encoding.ASCII.GetString(ServerResponseData);
