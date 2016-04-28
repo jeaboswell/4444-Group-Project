@@ -70,7 +70,10 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Menu">
-                    <Grid Background="#FFE5E5E5"/>
+                    <Grid Background="#FFE5E5E5">
+                        <ListBox x:Name="menuList" HorizontalAlignment="Left" Height="239" VerticalAlignment="Top" Width="511"/>
+                        <Button x:Name="more_info" Content="More info" Margin="218,243,218,10"/>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Customers">
                     <Grid Background="#FFE5E5E5"/>

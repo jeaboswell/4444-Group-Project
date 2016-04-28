@@ -37,17 +37,21 @@ namespace OMS
     public partial class MainWindow : Window
 	{
 		private List<IPAddress> clients = new List<IPAddress>();
-		public Thread listener;
+		public Thread listener, menu_load;
 		public object selectedPermission { get; set; }
 
-		public MainWindow()
+        public MainWindow()
         {
             InitializeComponent();
 
 			Thread temp = new Thread(commandListener);
+            Thread temp1 = new Thread(menuLoader);
+            menu_load = temp1;
+            menu_load.IsBackground = true;
 			listener = temp;
 			listener.IsBackground = true;
 			listener.Start();
+            menu_load.Start();
 		}
 
 		#region Listener
@@ -349,5 +353,55 @@ namespace OMS
 
 			return null;
 		}
-	}
+
+        #region Menu
+        private void menuLoader()
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                int i = 1;
+                while (/*true*/i > 0) // change from using the i to using just true and uncomment the sleep call at the bottom
+                {
+                    menuList.Items.Clear(); // clear the menu
+                    using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+                    {
+                        // Formulate the command.
+                        SqlCommand command = new SqlCommand();
+                        command.Connection = connection;
+
+                        // Specify the query to be executed.
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = @"
+                                               SELECT * FROM dbo.Menu
+                                               WHERE Available=1
+                                               ";
+                        // Open a connection to database.
+                        connection.Open();
+                        // Read data returned for the query.
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        // while not done reading the stuff returned from the query
+                        while (reader.Read())
+                        {
+                            menuItem temp = new menuItem
+                            {
+                                itemNumber = (int)reader[0],
+                                name = (string)reader[1],
+                                description = (string)reader[2],
+                                price = (decimal)reader[3],
+                                category = (string)reader[7]
+                            };
+                            menuList.Items.Add(temp.name);
+                            //Thread.Sleep(60000); // wait a minute before updating the menu list box // this breaks it
+                            i--; // this is just a bandaid
+                        }
+
+                    }
+                }
+
+            }));
+        }
+
+        #endregion
+    }
 }
