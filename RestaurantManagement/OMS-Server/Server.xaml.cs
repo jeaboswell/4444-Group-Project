@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -37,21 +38,25 @@ namespace OMS
     public partial class MainWindow : Window
 	{
 		private List<IPAddress> clients = new List<IPAddress>();
-		public Thread listener, menu_load;
+		public Thread listener;
+		BackgroundWorker menu_load;
 		public object selectedPermission { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-
-			Thread temp = new Thread(commandListener);
-            Thread temp1 = new Thread(menuLoader);
-            menu_load = temp1;
-            menu_load.IsBackground = true;
-			listener = temp;
+			
+			menu_load= new BackgroundWorker();
+			menu_load.DoWork += new DoWorkEventHandler(menu_load_DoWork);
+			menu_load.RunWorkerAsync();
+			listener = new Thread(commandListener); ;
 			listener.IsBackground = true;
 			listener.Start();
-            menu_load.Start();
+		}
+
+		private void menu_load_DoWork(object sender, DoWorkEventArgs e)
+		{
+			menuLoader();
 		}
 
 		#region Listener
