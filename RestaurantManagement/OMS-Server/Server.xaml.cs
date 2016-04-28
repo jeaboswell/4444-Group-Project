@@ -361,7 +361,6 @@ namespace OMS
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                menuList.Items.Clear(); // clear the menu
                 using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
                 {
                     // Formulate the command.
