@@ -62,7 +62,7 @@ namespace OMS
 				try
 				{
 					byte[] clientRequest = client.Receive(ref ClientEp);
-
+					Console.WriteLine(Encoding.ASCII.GetString(clientRequest));
 					switch (Encoding.ASCII.GetString(clientRequest))
 					{
 						case "OMS-Client":
@@ -96,17 +96,18 @@ namespace OMS
 							}
 							break;
 						case "getTables":
+							IPEndPoint TempEp = new IPEndPoint(ClientEp.Address, 44446);
 							// Generate table list
 							List<ClientInfo> tableList = new List<ClientInfo>();
+							byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
+							client.Send(prepData, prepData.Length, TempEp);
 							foreach (ClientInfo iter in clientList.Items)
 							{
 								if (iter.selectedPermission == "Table")
 									tableList.Add(iter);
 							}
 							byte[] sendData = ObjectToByteArray(tableList);
-							byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
-							client.Send(prepData, prepData.Length, ClientEp);
-							client.Send(sendData, sendData.Length, ClientEp);
+							client.Send(sendData, sendData.Length, TempEp);
 							break;
 						default:
 							break;
