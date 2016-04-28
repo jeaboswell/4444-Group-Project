@@ -38,6 +38,7 @@ namespace OMS
     public partial class MainWindow : Window
 	{
 		private List<IPAddress> clients = new List<IPAddress>();
+        private List<menuItem> myList = new List<menuItem>();
 		public Thread listener;
 		BackgroundWorker menu_load;
 		public object selectedPermission { get; set; }
@@ -52,11 +53,6 @@ namespace OMS
 			listener = new Thread(commandListener); ;
 			listener.IsBackground = true;
 			listener.Start();
-		}
-
-		private void menu_load_DoWork(object sender, DoWorkEventArgs e)
-		{
-			menuLoader();
 		}
 
 		#region Listener
@@ -362,6 +358,10 @@ namespace OMS
 		}
 
         #region Menu
+        private void menu_load_DoWork(object sender, DoWorkEventArgs e)
+        {
+            menuLoader();
+        }
         private void menuLoader()
         {
             this.Dispatcher.Invoke((Action)(() =>
@@ -394,13 +394,22 @@ namespace OMS
                             price = (decimal)reader[3],
                             category = (string)reader[7]
                         };
+                        myList.Add(temp);
                         menuList.Items.Add(temp.name);
                     }
                 }
 
             }));
         }
-
+        private void more_info_Click(object sender, RoutedEventArgs e)
+        {
+            if(menuList.SelectedIndex != -1)
+            {
+                int position = menuList.SelectedIndex;
+                menuItem temp = myList[position];
+                MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description);
+            }
+        }
         #endregion
     }
 }

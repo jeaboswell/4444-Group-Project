@@ -72,7 +72,7 @@
                 <TabItem Header="Menu">
                     <Grid Background="#FFE5E5E5">
                         <ListBox x:Name="menuList" HorizontalAlignment="Left" Height="239" VerticalAlignment="Top" Width="511"/>
-                        <Button x:Name="more_info" Content="More info" Margin="218,243,218,10"/>
+                        <Button x:Name="more_info" Content="More info" Margin="218,243,218,10" Click="more_info_Click"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Customers">
