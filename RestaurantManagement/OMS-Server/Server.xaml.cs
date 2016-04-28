@@ -108,7 +108,8 @@ namespace OMS
 									tableList.Add(iter);
 							}
 							byte[] sendData = ObjectToByteArray(tableList);
-
+							byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
+							client.Send(prepData, prepData.Length, ClientEp);
 							client.Send(sendData, sendData.Length, ClientEp);
 							break;
 						default:

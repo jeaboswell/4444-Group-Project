@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -134,7 +135,7 @@ namespace OMS
 				try
 				{
 					byte[] command = server.Receive(ref serverEp);
-					
+					Console.WriteLine(Encoding.ASCII.GetString(command));
 					switch (Encoding.ASCII.GetString(command))
 					{
 						case "setPermission":
@@ -143,6 +144,11 @@ namespace OMS
 							{
 								setPermission(Encoding.ASCII.GetString(command));
 							}));
+							break;
+						case "receiveTables":
+							command = server.Receive(ref serverEp);
+							object obj = ByteToObject(command);
+							employeeUI.getTableList((List<ClientInfo>)obj);
 							break;
 						default:
 							break;
@@ -187,6 +193,7 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Visible;
 					employeeUI.Visibility = Visibility.Hidden;
+
 					break;
 				case "Table":
 					permLabel.Content = permission;
@@ -203,6 +210,22 @@ namespace OMS
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
 			tableUI.createMenu();
+			commHelper.functionSend("getTables");
+		}
+
+		private object ByteToObject(byte[] byteArray)
+		{
+			try
+			{
+				MemoryStream ms = new MemoryStream(byteArray);
+				BinaryFormatter bf = new BinaryFormatter();
+				ms.Position = 0;
+
+				return bf.Deserialize(ms);
+			}
+			catch (Exception) { }
+
+			return null;
 		}
 	}
 }
