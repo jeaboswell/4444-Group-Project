@@ -362,10 +362,19 @@ namespace OMS
         {
             menuLoader();
         }
+
         private void menuLoader()
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
+                if(myList.Count != 0)
+                {
+                    myList.Clear();
+                }
+                if(menuList.Items.Count != 0)
+                {
+                    menuList.Items.Clear();
+                }
                 using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
                 {
                     // Formulate the command.
@@ -411,5 +420,13 @@ namespace OMS
             }
         }
         #endregion
+
+        private void updateMenu_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundWorker menu_REload;
+            menu_REload = new BackgroundWorker();
+            menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
+            menu_REload.RunWorkerAsync();
+        }
     }
 }

@@ -71,8 +71,9 @@
                 </TabItem>
                 <TabItem Header="Menu">
                     <Grid Background="#FFE5E5E5">
-                        <ListBox x:Name="menuList" HorizontalAlignment="Left" Height="239" VerticalAlignment="Top" Width="511"/>
-                        <Button x:Name="more_info" Content="More info" Margin="218,243,218,10" Click="more_info_Click"/>
+                        <ListBox x:Name="menuList" Margin="0,0,0,52"/>
+                        <Button x:Name="more_info" Content="More info" Margin="0,0,275,5" Click="more_info_Click" HorizontalAlignment="Right" Width="82" Height="42" VerticalAlignment="Bottom"/>
+                        <Button x:Name="updateMenu" Content="Update Menu" HorizontalAlignment="Left" Width="82" Margin="275,0,0,5" Click="updateMenu_Click" Height="42" VerticalAlignment="Bottom"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Customers">
