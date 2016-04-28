@@ -54,7 +54,7 @@ namespace OMS
 			Thread findServer = new Thread(Connect);
 			findServer.IsBackground = true;
 			findServer.Start();
-			//setPermission(Properties.Settings.Default.savedPermission);
+			setPermission(Properties.Settings.Default.savedPermission);
 			//dbConnect();
 		}
 
@@ -135,7 +135,7 @@ namespace OMS
 				try
 				{
 					byte[] command = server.Receive(ref serverEp);
-					
+					Console.WriteLine(Encoding.ASCII.GetString(command));
 					switch (Encoding.ASCII.GetString(command))
 					{
 						case "setPermission":
@@ -147,7 +147,8 @@ namespace OMS
 							break;
 						case "receiveTables":
 							command = server.Receive(ref serverEp);
-							employeeUI.getTableList((List<ClientInfo>)ByteToObject(command));
+							object obj = ByteToObject(command);
+							employeeUI.getTableList((List<ClientInfo>)obj);
 							break;
 						default:
 							break;
@@ -186,7 +187,6 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Visible;
-					commHelper.functionSend("getTables");
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
@@ -210,6 +210,7 @@ namespace OMS
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
 			tableUI.createMenu();
+			commHelper.functionSend("getTables");
 		}
 
 		private object ByteToObject(byte[] byteArray)
