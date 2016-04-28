@@ -1,6 +1,7 @@
 ﻿#region Usings
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -32,9 +33,9 @@ namespace OMS
 	{
 		#region Variables
 		Thread listener;
+		BackgroundWorker menuLoader;
 		private volatile bool stop;
 		IPAddress serverIp;
-		SqlConnection database;
 		#endregion
 
 		public Client()
@@ -51,22 +52,20 @@ namespace OMS
 		/// <param name="e"></param>
 		private void main_Loaded(object sender, RoutedEventArgs e)
 		{
-			Thread findServer = new Thread(Connect);
-			findServer.IsBackground = true;
-			findServer.Start();
+			menuLoader = new BackgroundWorker();
+			menuLoader.DoWork += new DoWorkEventHandler(menuLoader_DoWork);
+			menuLoader.RunWorkerAsync();
+
+			//Thread findServer = new Thread(Connect);
+			//findServer.IsBackground = true;
+			//findServer.Start();
 			setPermission(Properties.Settings.Default.savedPermission);
-			//dbConnect();
 		}
 
-		/// <summary>
-		/// Creates a database connection
-		/// </summary>
-		private void dbConnect()
+		private void menuLoader_DoWork(object sender, DoWorkEventArgs e)
 		{
-			using (database = new SqlConnection(Properties.Settings.Default.DatabasesConnectionString))
-			{
-				database.Open();
-			}
+			tableUI.createMenu();
+			Connect();
 		}
 
 		/// <summary>
@@ -209,7 +208,6 @@ namespace OMS
 
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
-			tableUI.createMenu();
 			commHelper.functionSend("getTables");
 		}
 
