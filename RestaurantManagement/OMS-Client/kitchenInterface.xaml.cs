@@ -87,6 +87,7 @@ namespace OMS
                         category = (string)reader[7]
                     });
                 }
+                connection.Close();
             }
         }
 
@@ -125,6 +126,8 @@ namespace OMS
                         //Notes = (List<string>)reader[2]
                     });
                 }
+
+                connection.Close();
             }
         }
 
@@ -153,19 +156,18 @@ namespace OMS
             // Create an SqlConnection from the provided connection string.
             using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
             {
-                // Formulate the command.
-                C.SqlCommand command = new C.SqlCommand();
-                command.Connection = connection;
+                try {
+                    // Formulate the command.
+                    C.SqlCommand command = new C.SqlCommand();
+                    command.Connection = connection;
 
-                // Specify the query to be executed.
-                command.CommandType = D.CommandType.Text;
-                command.CommandText = @"
-                    SELECT * FROM dbo.Orders
-                    WHERE ItemName=" + removeItem +
-                    "SET Finished = 1"
-                    ;
-                // Open a connection to database.
-                connection.Open();
+                    // Specify the query to be executed.
+                    command.CommandType = D.CommandType.Text;
+                    command.CommandText = @"UPDATE * FROM dbo.Menu SET Available = 0x00 WHERE ItemName = 'Sprite'";
+                    // Open a connection to database.
+                    connection.Open();
+                    command.ExecuteScalar(); }
+                catch{ };
             }
         }
 
