@@ -53,20 +53,6 @@ namespace OMS
 		public void getTableList(List<ClientInfo> list)
 		{
 			TableList = list;
-			//commHelper.functionSend("getTables");
-
-			//IPAddress tempAdr = IPAddress.Parse(Properties.Settings.Default.serverIP);
-			//IPEndPoint serverEp = new IPEndPoint(tempAdr, 0);
-			//UdpClient server = new UdpClient(44446);
-
-			//try
-			//{
-			//	byte[] command = server.Receive(ref serverEp);
-			//	TableList = (List<ClientInfo>)ByteToObject(command);
-			//}
-			//catch (Exception) { }
-
-			//server.Close();
 		}
 
 		private void updateTables()

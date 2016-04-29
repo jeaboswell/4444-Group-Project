@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -18,10 +22,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using D = System.Data;            // System.Data.dll
-using C = System.Data.SqlClient;  // System.Data.dll
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Net;
 
 namespace OMS
 {
@@ -52,14 +52,14 @@ namespace OMS
 		{
 			string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
 			// Create an SqlConnection from the provided connection string.
-			using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
+			using (SqlConnection connection = new SqlConnection(SQLConnectionString))
 			{
 				// Formulate the command.
-				C.SqlCommand command = new C.SqlCommand();
+				SqlCommand command = new SqlCommand();
 				command.Connection = connection;
 
 				// Specify the query to be executed.
-				command.CommandType = D.CommandType.Text;
+				command.CommandType = CommandType.Text;
 				command.CommandText = @"
                     SELECT * FROM dbo.Menu
                     WHERE Available=1
@@ -67,7 +67,7 @@ namespace OMS
 				// Open a connection to database.
 				connection.Open();
 				// Read data returned for the query.
-				C.SqlDataReader reader = command.ExecuteReader();
+				SqlDataReader reader = command.ExecuteReader();
 
 				// while not done reading the stuff returned from the query
 				while (reader.Read())
@@ -207,11 +207,11 @@ namespace OMS
 				ms.Position = 0;
 				byte[] orderData = ms.ToArray();
 
-				using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 				{
 					string command = "INSERT into dbo.Orders (Order, Client) VALUES (@order, @client)";
 
-					using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
+					using (SqlCommand querySave = new SqlCommand(command, openCon))
 					{
 						querySave.Parameters.AddWithValue("@order", orderData);
 						querySave.Parameters.AddWithValue("@client", Dns.GetHostAddresses(Dns.GetHostName()));
@@ -272,7 +272,12 @@ namespace OMS
 			}
 		}
 
-		#region Entree Addition
+		#region |   Entree Addition   |
+		/// <summary>
+		/// Closes current entree addition overlay and resets fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cancelEntreeAddition_Click(object sender, RoutedEventArgs e)
 		{
 			entreeAddition.Visibility = Visibility.Hidden;
@@ -281,9 +286,28 @@ namespace OMS
 			sideChoice.SelectedIndex = -1;
 			entreeNotes.Text = "";
 		}
-		// WIP
+		/// <summary>
+		/// Verifies all fields are filled and adds item to cart
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void submitEntree_Click(object sender, RoutedEventArgs e)
 		{
+			bool complete = false;
+			string errorMsg = "";
+
+			if (saladChoice.SelectedValue == null)
+				errorMsg += "Please select a salad/soup.\n";
+			if (sideChoice.SelectedValue == null)
+				errorMsg += "Pleses select a side dish.\n";
+			if (errorMsg != "")
+				MessageBox.Show(errorMsg);
+			else
+				complete = true;
+
+			if (!complete)
+				return;
+
 			foreach (menuItem item in myMenu)
 			{
 				try
@@ -308,12 +332,7 @@ namespace OMS
 						entreeNotes.Text = "";
 					}
 				}
-				catch (Exception)
-				{
-					string errorMsg = "";
-					if (saladChoice.SelectedValue == null)
-						errorMsg += "";
-				}
+				catch (Exception) {	}
 			}
 		}
 		#endregion
@@ -529,7 +548,7 @@ namespace OMS
 			newAccountGrid.Visibility = Visibility.Hidden;
 		}
 
-		#region	----Account Creation Initialization
+		#region	|   Account Creation Initialization   |
 		/// <summary>
 		/// Initialize the month selector in account creation
 		/// </summary>
