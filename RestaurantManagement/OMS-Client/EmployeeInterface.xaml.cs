@@ -17,16 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-[Serializable]
-
-public class ClientInfo
-{
-    public IPAddress IP { get; set; }
-    public string Name { get; set; }
-    public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
-    public string selectedPermission { get; set; }
-}
+using OMS_Library;
 
 namespace OMS
 {
@@ -53,6 +44,10 @@ namespace OMS
 		public void getTableList(List<ClientInfo> list)
 		{
 			TableList = list;
+			Dispatcher.Invoke((Action)(() =>
+			{
+				updateTables();
+			}));
 		}
 
 		private void updateTables()

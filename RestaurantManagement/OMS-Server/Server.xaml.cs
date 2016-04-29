@@ -20,7 +20,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using OMS_Library;
+/*
 [Serializable]
 class ClientInfo
 {
@@ -28,8 +29,10 @@ class ClientInfo
 	public string Name { get; set; }
 	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
 	public string selectedPermission { get; set; }
-}
 
+	public ClientInfo() { }
+}
+*/
 namespace OMS
 {
     /// <summary>
@@ -106,12 +109,23 @@ namespace OMS
 							List<ClientInfo> tableList = new List<ClientInfo>();
 							byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
 							client.Send(prepData, prepData.Length, TempEp);
+							tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
+							tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
+							tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
+							tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
+							/*
 							foreach (ClientInfo iter in clientList.Items)
 							{
 								if (iter.selectedPermission == "Table")
 									tableList.Add(iter);
 							}
+							*/
 							byte[] sendData = ObjectToByteArray(tableList);
+
+							FileStream fs = File.Create("C:\\Users\\jeabo\\Desktop\\serverArray.txt");
+							fs.Write(sendData, 0, sendData.Length);
+							fs.Close();
+
 							client.Send(sendData, sendData.Length, TempEp);
 							break;
 						default:
@@ -338,6 +352,12 @@ namespace OMS
 			using (MemoryStream ms = new MemoryStream())
 			{
 				bf.Serialize(ms, obj);
+				ms.Position = 0;
+				List<ClientInfo> temp = (List<ClientInfo>)bf.Deserialize(ms);
+				foreach (ClientInfo c in temp)
+				{
+					Console.WriteLine("IP: " + c.IP.ToString() + " Name: " + c.Name + "\n");
+				}
 				return ms.ToArray();
 			}
 		}

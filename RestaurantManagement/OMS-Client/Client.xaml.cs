@@ -22,8 +22,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
-#endregion
 
+using OMS_Library;
+#endregion
+/*
+[Serializable]
+public class ClientInfo
+{
+	public IPAddress IP { get; set; }
+	public string Name { get; set; }
+	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
+	public string selectedPermission { get; set; }
+}
+*/
 namespace OMS
 {
 	/// <summary>
@@ -147,6 +158,8 @@ namespace OMS
 						case "receiveTables":
 							command = server.Receive(ref serverEp);
 							object obj = ByteToObject(command);
+							List<ClientInfo> temp = (List<ClientInfo>)obj;
+							MessageBox.Show(temp[0].Name);
 							employeeUI.getTableList((List<ClientInfo>)obj);
 							break;
 						default:
@@ -214,6 +227,9 @@ namespace OMS
 
 		private object ByteToObject(byte[] byteArray)
 		{
+			FileStream fs = File.Create("C:\\Users\\jeabo\\Desktop\\clientArray.txt");
+			fs.Write(byteArray, 0, byteArray.Length);
+			fs.Close();
 			try
 			{
 				MemoryStream ms = new MemoryStream(byteArray);
