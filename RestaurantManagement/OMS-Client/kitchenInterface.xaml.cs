@@ -152,24 +152,31 @@ namespace OMS
 
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
-            string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
-            // Create an SqlConnection from the provided connection string.
-            using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
-            {
-                try {
-                    // Formulate the command.
-                    C.SqlCommand command = new C.SqlCommand();
-                    command.Connection = connection;
+			using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			{
+				string command = "update dbo.Menu set Available = @false where Id = @id";
 
-                    // Specify the query to be executed.
-                    command.CommandType = D.CommandType.Text;
-                    command.CommandText = @"UPDATE * FROM dbo.Menu SET Available = 0x00 WHERE ItemName = 'Sprite'";
-                    // Open a connection to database.
-                    connection.Open();
-                    command.ExecuteScalar(); }
-                catch{ };
-            }
-        }
+				using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
+				{
+					querySave.Parameters.AddWithValue("@false", BitConverter.GetBytes(0));
+					querySave.Parameters.AddWithValue("@id", getID(removeItem));
+
+					openCon.Open();
+					querySave.ExecuteScalar();
+					openCon.Close();
+				}
+			}
+		}
+
+		private int getID(string item)
+		{
+			foreach (menuItem iter in myMenu)
+			{
+				if (iter.name == item)
+					return iter.itemNumber;
+			}
+			return -1;
+		}
 
         private void menuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

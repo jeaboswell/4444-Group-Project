@@ -94,6 +94,17 @@ namespace OMS
 					});
 				}
 			}
+
+			foreach (menuItem item in myMenu)
+			{
+				this.Dispatcher.Invoke((Action)(() =>
+				{
+					if (item.category == "salad" || item.category == "soup")
+						saladChoice.Items.Add(item.name);
+					else if (item.category == "side")
+						sideChoice.Items.Add(item.name);
+				}));
+			}
 		}
 		/// <summary>
 		/// Change data shown in menu screen when selected item is changed

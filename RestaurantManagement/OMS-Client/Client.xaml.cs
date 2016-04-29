@@ -186,13 +186,14 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Visible;
+					commHelper.functionSend("getTables");
+					MessageBox.Show("Sent getTables");
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Visible;
 					employeeUI.Visibility = Visibility.Hidden;
-
 					break;
 				case "Table":
 					permLabel.Content = permission;
@@ -208,7 +209,7 @@ namespace OMS
 
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
-			commHelper.functionSend("getTables");
+			
 		}
 
 		private object ByteToObject(byte[] byteArray)
