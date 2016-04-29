@@ -90,6 +90,9 @@ namespace OMS
             }
         }
 
+        /// <summary>
+        /// Update the database to make it work nicer, and change the 
+        /// </summary>
         public void createOrder()
         {
             string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
@@ -146,7 +149,24 @@ namespace OMS
 
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
+            string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+            // Create an SqlConnection from the provided connection string.
+            using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
+            {
+                // Formulate the command.
+                C.SqlCommand command = new C.SqlCommand();
+                command.Connection = connection;
 
+                // Specify the query to be executed.
+                command.CommandType = D.CommandType.Text;
+                command.CommandText = @"
+                    SELECT * FROM dbo.Orders
+                    WHERE ItemName=" + removeItem +
+                    "SET Finished = 1"
+                    ;
+                // Open a connection to database.
+                connection.Open();
+            }
         }
 
         private void menuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
