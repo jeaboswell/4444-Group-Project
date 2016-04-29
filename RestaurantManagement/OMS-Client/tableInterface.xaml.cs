@@ -281,7 +281,7 @@ namespace OMS
 			sideChoice.SelectedIndex = -1;
 			entreeNotes.Text = "";
 		}
-
+		// WIP
 		private void submitEntree_Click(object sender, RoutedEventArgs e)
 		{
 			foreach (menuItem item in myMenu)
@@ -477,9 +477,6 @@ namespace OMS
 				coupon newCoupon = new coupon();
 				newCoupon.generateCoupon();
 				MessageBox.Show("Congratulations! Your coupon code is " + newCoupon.code);
-				//
-				// Add code to send coupon to database
-				//
 			}
 			else
 				MessageBox.Show("Sorry, that is not the winning number. Thank you for playing!");
@@ -576,6 +573,7 @@ namespace OMS
 				default:
 					break;
 			}
+			dayBox.Items.Clear();
 			for (int i = 1; i <= days; i++)
 			{
 				dayBox.Items.Add(i);
@@ -615,11 +613,12 @@ namespace OMS
 				e.Handled = true;
 		}
 		/// <summary>
+		/// Check fields for completion of new member
 		/// Create account and send to database
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void DoneBtn_Click(object sender, RoutedEventArgs e) // Check fields for completion of new member
+		private void DoneBtn_Click(object sender, RoutedEventArgs e) // WIP
 		{
 			string message = "";
 			bool pass = true;
