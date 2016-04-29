@@ -25,16 +25,7 @@ using System.Xml;
 
 using OMS_Library;
 #endregion
-/*
-[Serializable]
-public class ClientInfo
-{
-	public IPAddress IP { get; set; }
-	public string Name { get; set; }
-	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
-	public string selectedPermission { get; set; }
-}
-*/
+
 namespace OMS
 {
 	/// <summary>
@@ -157,10 +148,7 @@ namespace OMS
 							break;
 						case "receiveTables":
 							command = server.Receive(ref serverEp);
-							object obj = ByteToObject(command);
-							List<ClientInfo> temp = (List<ClientInfo>)obj;
-							MessageBox.Show(temp[0].Name);
-							employeeUI.getTableList((List<ClientInfo>)obj);
+							employeeUI.getTableList((List<ClientInfo>)ByteToObject(command));
 							break;
 						default:
 							break;
@@ -200,7 +188,6 @@ namespace OMS
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Visible;
 					commHelper.functionSend("getTables");
-					MessageBox.Show("Sent getTables");
 					break;
 				case "Kitchen":
 					permLabel.Content = permission;
@@ -222,14 +209,10 @@ namespace OMS
 
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
-			
 		}
 
 		private object ByteToObject(byte[] byteArray)
 		{
-			FileStream fs = File.Create("C:\\Users\\jeabo\\Desktop\\clientArray.txt");
-			fs.Write(byteArray, 0, byteArray.Length);
-			fs.Close();
 			try
 			{
 				MemoryStream ms = new MemoryStream(byteArray);
