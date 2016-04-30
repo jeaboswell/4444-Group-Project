@@ -7,28 +7,35 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
     <Grid Background="Black">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="310"/>
-            <ColumnDefinition Width="241*"/>
-        </Grid.ColumnDefinitions>
         <WrapPanel x:Name="Table_Grid" Margin="0" Visibility="Hidden" Grid.ColumnSpan="2">
         </WrapPanel>
         <Grid x:Name="tableOptions" Grid.ColumnSpan="2">
-            <Button x:Name="backButton" Content="Back" Height="99" VerticalAlignment="Top" FontSize="35" Margin="0,0,962,0"/>
-            <Button x:Name="tableFinished" Content="Table Finished" Height="95" VerticalAlignment="Bottom" FontSize="35" Margin="0,0,962,0"/>
-            <Button x:Name="createOrder" Content="Create Order" Height="99" VerticalAlignment="Top" FontSize="35" Margin="0,198,962,0"/>
-            <Button x:Name="alerts" Content="Alerts" Height="99" VerticalAlignment="Top" FontSize="35" Margin="0,396,962,0"/>
-            <Button x:Name="payWithCash" Content="Pay With Cash" Height="99" VerticalAlignment="Top" FontSize="35" Margin="0,99,962,0"/>
-            <Button x:Name="payWithCheck" Content="Pay With Check" Height="99" VerticalAlignment="Top" FontSize="35" Margin="0,297,962,0"/>
-            <Button x:Name="ticketAdjustment" Content="Ticket Adjustment" Height="99" VerticalAlignment="Top" FontSize="35" Margin="0,495,962,0"/>
-            <Grid x:Name="infoGrid" Margin="310,0,0,0" Background="#FFDDDDDD">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="310"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="infoGrid" Margin="0" Background="#FFDDDDDD" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <Separator Margin="0" VerticalAlignment="Center" Grid.RowSpan="2"/>
+            </Grid>
+            <Grid Margin="0" Background="#FFDDDDDD">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="backButton" Content="Back" FontSize="35" Margin="0"/>
+                <Button x:Name="createOrder" Content="Create Order" FontSize="35" Margin="0" Grid.Row="1"/>
+                <Button x:Name="ticketAdjustment" Content="Ticket Adjustment" FontSize="35" Margin="0" Grid.Row="2"/>
+                <Button x:Name="payWithCash" Content="Pay With Cash" FontSize="35" Margin="0" Grid.Row="3"/>
+                <Button x:Name="payWithCheck" Content="Pay With Check" FontSize="35" Margin="0" Grid.Row="4"/>
+                <Button x:Name="tableFinished" Content="Table Finished" FontSize="35" Margin="0" Grid.Row="5"/>
             </Grid>
 
         </Grid>
