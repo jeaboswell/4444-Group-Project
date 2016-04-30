@@ -63,6 +63,16 @@ namespace OMS
             }
 
         }
+
+        public void tableHelp()
+        {
+
+        }
+
+        public void tableClick()
+        {
+
+        }
 	}
 }
 
