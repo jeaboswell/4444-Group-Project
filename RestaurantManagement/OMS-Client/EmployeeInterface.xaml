@@ -8,14 +8,12 @@
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
     <Grid Background="Black">
         <Grid.RowDefinitions>
-            <RowDefinition Height="261*"/>
-            <RowDefinition Height="428*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="386*"/>
-            <ColumnDefinition Width="887*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <WrapPanel x:Name="Table_Grid" Margin="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <WrapPanel x:Name="Table_Grid" Margin="0">
             <Button x:Name="backButton" Content="Back" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35"/>
             <ListBox x:Name="listBox" Height="340" Width="962">
                 <Label x:Name="label_Copy" Content="&#x9;&#x9;  Table Information" Width="914" Height="50" HorizontalAlignment="Right" RenderTransformOrigin="0.512,0.44" FontSize="35" Margin="0"/>
@@ -26,11 +24,11 @@
             </ListBox>
         </WrapPanel>
         <Button x:Name="createOrder" Content="Create Order" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,98,0,0"/>
-        <Button x:Name="alerts" Content="Alerts" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,198,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="payWithCash" Content="Pay With Cash" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,37,0,0" Grid.Row="1"/>
+        <Button x:Name="alerts" Content="Alerts" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,198,0,0"/>
+        <Button x:Name="payWithCash" Content="Pay With Cash" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,298,0,0"/>
         <Button x:Name="backButton_Copy3" Content="Back" Width="310" Height="97" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35"/>
-        <Button x:Name="payWithCheck" Content="Pay With Check" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,137,0,0" Grid.Row="1"/>
-        <Button x:Name="ticketAdjustment" Content="Ticket Adjustment" Width="310" Height="97" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,237,0,0" Grid.Row="1"/>
+        <Button x:Name="payWithCheck" Content="Pay With Check" Width="310" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,398,0,0"/>
+        <Button x:Name="ticketAdjustment" Content="Ticket Adjustment" Width="310" Height="97" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="35" Margin="0,498,0,0"/>
 
     </Grid>
 </UserControl>
