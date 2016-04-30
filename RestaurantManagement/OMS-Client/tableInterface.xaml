@@ -347,7 +347,7 @@
                         <Label x:Name="label13" Content="Choose Your Options:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
                         <Label x:Name="label14" Content="Choose a Soup/Salad:" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
                         <Separator Margin="0,54,0,0" VerticalAlignment="Top"/>
-                        <ComboBox x:Name="saladChoice" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Height="33" FontFamily="Baskerville Old Face" FontSize="20" Width="184">
+                        <ComboBox x:Name="saladChoice" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Height="33" FontFamily="Baskerville Old Face" FontSize="20" MinWidth="184">
                             <ComboBox.Background>
                                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                     <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -356,7 +356,7 @@
                             </ComboBox.Background>
                         </ComboBox>
                         <Label x:Name="label15" Content="Choose a Side:" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
-                        <ComboBox x:Name="sideChoice" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Height="33" FontFamily="Baskerville Old Face" FontSize="20" Width="184">
+                        <ComboBox x:Name="sideChoice" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Height="33" FontFamily="Baskerville Old Face" FontSize="20" MinWidth="184">
                             <ComboBox.Background>
                                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                     <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -365,7 +365,7 @@
                             </ComboBox.Background>
                         </ComboBox>
                         <Label x:Name="label16" Content="Special Instructions:" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
-                        <TextBox x:Name="entreeNotes" HorizontalAlignment="Left" Height="194" Margin="10,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="670" FontFamily="Baskerville Old Face" FontSize="20" Background="#FFE8E8E8"/>
+                        <TextBox x:Name="entreeNotes" Text="" HorizontalAlignment="Left" Height="194" Margin="10,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="670" FontFamily="Baskerville Old Face" FontSize="20" Background="#FFE8E8E8"/>
                         <Button x:Name="cancelEntreeAddition" Content="Cancel" HorizontalAlignment="Right" Margin="768,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" Click="cancelEntreeAddition_Click"/>
                         <Button x:Name="submitEntree" Content="Add to Order" HorizontalAlignment="Left" Margin="685,391,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" Click="submitEntree_Click"/>
                     </Grid>

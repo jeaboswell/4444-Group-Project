@@ -150,6 +150,16 @@ namespace OMS
 							command = server.Receive(ref serverEp);
 							employeeUI.getTableList((List<ClientInfo>)ByteToObject(command));
 							break;
+						case "requestHelp":
+							//
+							// Add code here to call request help function from employeeInterface
+							//
+							break;
+						case "cancelHelp":
+							//
+							// Add code here to call cancel help function from employeeInterface
+							//
+							break;
 						default:
 							break;
 					}

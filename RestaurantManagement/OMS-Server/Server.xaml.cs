@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region Usings
+using OMS_Library;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,19 +22,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using OMS_Library;
-/*
-[Serializable]
-class ClientInfo
-{
-	public IPAddress IP { get; set; }
-	public string Name { get; set; }
-	public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
-	public string selectedPermission { get; set; }
+#endregion
 
-	public ClientInfo() { }
-}
-*/
 namespace OMS
 {
     /// <summary>
@@ -40,13 +31,19 @@ namespace OMS
     /// </summary>
     public partial class MainWindow : Window
 	{
+		#region Variables
+		private volatile bool stop;
 		private List<IPAddress> clients = new List<IPAddress>();
         private List<menuItem> myList = new List<menuItem>();
 		public Thread listener;
 		BackgroundWorker menu_load;
-		public object selectedPermission { get; set; }
-
-        public MainWindow()
+		#endregion
+		/// <summary>
+		/// Initializes application
+		/// Loads menu
+		/// Starts command listener
+		/// </summary>
+		public MainWindow()
         {
             InitializeComponent();
 			
@@ -57,8 +54,26 @@ namespace OMS
 			listener.IsBackground = true;
 			listener.Start();
 		}
+		/// <summary>
+		/// When application attempts to close verify no clients are connected.
+		/// Request all threads stop when closing
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void main_Closing(object sender, CancelEventArgs e)
+		{
+			if (clientList.HasItems)
+			{
+				e.Cancel = true;
+				MessageBox.Show("Unable to close server while clients are connected.");
+			}
+			requestStop();
+		}
 
 		#region Listener
+		/// <summary>
+		/// Listens to the network for requests from clients
+		/// </summary>
 		private void commandListener()
 		{
 			UdpClient client = new UdpClient(44445);
@@ -86,9 +101,7 @@ namespace OMS
 							{
 								if (iter.selectedPermission == "Waiter")
 								{
-									//
-									// Add code here to send help request to waiter interface
-									//
+									sendCommand(ClientEp.Address, "requestHelp");
 								}
 							}
 							break;
@@ -97,32 +110,12 @@ namespace OMS
 							{
 								if (iter.selectedPermission == "Waiter")
 								{
-									//
-									// Add code here to send cancel request to employee interface
-									//
+									sendCommand(ClientEp.Address, "cancelHelp");
 								}
 							}
 							break;
 						case "getTables":
-							IPEndPoint TempEp = new IPEndPoint(ClientEp.Address, 44446);
-							// Generate table list
-							List<ClientInfo> tableList = new List<ClientInfo>();
-
-							byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
-							client.Send(prepData, prepData.Length, TempEp);
-							//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
-							//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
-							//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
-							//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
-							
-							foreach (ClientInfo iter in clientList.Items)
-							{
-								if (iter.selectedPermission == "Table")
-									tableList.Add(iter);
-							}
-							
-							byte[] sendData = ObjectToByteArray(tableList);
-							client.Send(sendData, sendData.Length, TempEp);
+							sendTables(ClientEp.Address);
 							break;
 						default:
 							break;
@@ -132,25 +125,43 @@ namespace OMS
 			}
 			client.Close();
 		}
-
+		/// <summary>
+		/// Request threads stop
+		/// </summary>
 		public void requestStop()
 		{
 			stop = true;
 		}
-
+		/// <summary>
+		/// Allow threads to run
+		/// </summary>
 		public void setStop()
 		{
 			stop = false;
 		}
-
-		private volatile bool stop;
 		#endregion
 
 		#region Client Add/Remove
+		/// <summary>
+		/// Adds client to local clients list
+		/// Syncs client with sotred permission
+		/// Sends tables to waiter clients when new table connects
+		/// Updates clientList interface element
+		/// </summary>
+		/// <param name="ip"></param>
 		public void addClient(IPAddress ip)
 		{
 			if (clients == null || !clients.Exists(x => x.Equals(ip)))
 				clients.Add(ip);
+			syncClientAuto(new ClientInfo { IP = ip, Name = getClientName(ip), selectedPermission = getClientPermission(ip) });
+			if (getClientPermission(ip) == "Table")
+			{
+				foreach (ClientInfo c in clientList.Items)
+				{
+					if (c.selectedPermission == "Waiter")
+						sendTables(c.IP);
+				}
+			}
 			updateClientList();
 		}
 
@@ -162,37 +173,40 @@ namespace OMS
 
 		private void updateClientList()
 		{
-			this.Dispatcher.Invoke((Action)(() =>
+			Dispatcher.Invoke((Action)(() =>
 			{
 				clientList.Items.Clear();
 				foreach (IPAddress client in clients)
 				{
-					string permission = "None";
-					// Check database for permission
-					using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-					{
-						// Create command
-						var sql = String.Format("select * from dbo.Clients where IPAddress = '{0}' and Name = '{1}'", client.ToString(), getClientName(client));
-						SqlCommand command = new SqlCommand(sql);
-						command.Connection = connection;
-						// Specify the query to be executed.
-						command.CommandType = CommandType.Text;
-						// Open a connection to database.
-						connection.Open();
-						// Read data returned for the query.
-						SqlDataReader reader = command.ExecuteReader();
-
-						// while not done reading the stuff returned from the query
-						while (reader.Read())
-						{
-							permission = (string)reader[2];
-						}
-					}
-
-					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = permission });
-					syncClientAuto(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = permission });
+					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = getClientPermission(client) });
 				}
 			}));
+		}
+
+		private string getClientPermission(IPAddress client)
+		{
+			string permission = "None";
+			// Check database for permission
+			using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			{
+				// Create command
+				var sql = String.Format("select * from dbo.Clients where IPAddress = '{0}' and Name = '{1}'", client.ToString(), getClientName(client));
+				SqlCommand command = new SqlCommand(sql);
+				command.Connection = connection;
+				// Specify the query to be executed.
+				command.CommandType = CommandType.Text;
+				// Open a connection to database.
+				connection.Open();
+				// Read data returned for the query.
+				SqlDataReader reader = command.ExecuteReader();
+
+				// while not done reading the stuff returned from the query
+				while (reader.Read())
+				{
+					permission = (string)reader[2];
+				}
+			}
+			return permission;
 		}
 
 		private string getClientName(IPAddress ip)
@@ -280,6 +294,30 @@ namespace OMS
 				connection.Close();
 			}
 			catch (Exception) { }
+		}
+
+		private void sendTables(IPAddress clientIP)
+		{
+			UdpClient client = new UdpClient();
+			IPEndPoint ClientEp = new IPEndPoint(clientIP, 44446);
+			// Generate table list
+			List<ClientInfo> tableList = new List<ClientInfo>();
+
+			byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
+			client.Send(prepData, prepData.Length, ClientEp);
+			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
+			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
+			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
+			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
+
+			foreach (ClientInfo iter in clientList.Items)
+			{
+				if (iter.selectedPermission == "Table")
+					tableList.Add(iter);
+			}
+
+			byte[] sendData = ObjectToByteArray(tableList);
+			client.Send(sendData, sendData.Length, ClientEp);
 		}
 		#endregion
 
@@ -444,5 +482,5 @@ namespace OMS
             menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
             menu_REload.RunWorkerAsync();
         }
-    }
+	}
 }

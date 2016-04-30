@@ -3,6 +3,7 @@ using System.Windows.Media;
 
 namespace OMS
 {
+	/*
     [Serializable]
     public class menuItem
 	{
@@ -14,4 +15,5 @@ namespace OMS
 		public string category { get; set; }
 		public bool visible { get; set; }
 	}
+	*/
 }

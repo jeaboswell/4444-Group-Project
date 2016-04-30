@@ -22,6 +22,7 @@ using D = System.Data;            // System.Data.dll
 using C = System.Data.SqlClient;  // System.Data.dll
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Net;
+using OMS_Library;
 
 namespace OMS
 {

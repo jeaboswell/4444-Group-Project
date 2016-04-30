@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OMS
 {
+	/*
     [Serializable]
     public class Cart
     {
@@ -15,4 +16,5 @@ namespace OMS
 
         public List<string> Notes { get; set; }
     }
+	*/
 }

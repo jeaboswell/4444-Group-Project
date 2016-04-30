@@ -22,6 +22,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OMS_Library;
 
 namespace OMS
 {
@@ -50,6 +51,14 @@ namespace OMS
 		/// </summary>
 		public void createMenu()
 		{
+			// Clear all affected lists
+			myMenu.Clear();
+			Dispatcher.Invoke((Action)(() =>
+			{
+				saladChoice.Items.Clear();
+				sideChoice.Items.Clear();
+			}));
+
 			string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
 			// Create an SqlConnection from the provided connection string.
 			using (SqlConnection connection = new SqlConnection(SQLConnectionString))
@@ -95,9 +104,15 @@ namespace OMS
 				}
 			}
 
+			Dispatcher.Invoke((Action)(() =>
+			{
+				saladChoice.Items.Add("None");
+				sideChoice.Items.Add("None");
+			}));
+
 			foreach (menuItem item in myMenu)
 			{
-				this.Dispatcher.Invoke((Action)(() =>
+				Dispatcher.Invoke((Action)(() =>
 				{
 					if (item.category == "salad" || item.category == "soup")
 						saladChoice.Items.Add(item.name);
@@ -325,18 +340,18 @@ namespace OMS
 				{
 					if (item.name == menuList.SelectedValue.ToString())
 					{
+						// Show addition alert
+						entreeAddition.Visibility = Visibility.Hidden;
+						addedAlert.Content = item.name + "added to cart.";
+						addedAlert.Visibility = Visibility.Visible;
 						// Add item to cart
 						order.Items.Add(item);
 						// Add notes with sides to cart
 						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + "\n\nSide Choice: " + sideChoice.SelectedValue.ToString() + "\n\nNotes:\n" + entreeNotes.Text;
 						order.Notes.Add(fullNotes);
-						// Show addition alert
-						entreeAddition.Visibility = Visibility.Hidden;
-						addedAlert.Content = item.name + "added to cart.";
-						addedAlert.Visibility = Visibility.Visible;
-						Thread.Sleep(1000);
-						addedAlert.Visibility = Visibility.Hidden;
 						// Reset form
+						//Thread.Sleep(1000);
+						addedAlert.Visibility = Visibility.Hidden;
 						overlay.Visibility = Visibility.Hidden;
 						saladChoice.SelectedIndex = -1;
 						sideChoice.SelectedIndex = -1;
