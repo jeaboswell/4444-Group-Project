@@ -69,10 +69,45 @@ namespace OMS
 
         }
 
-        public void tableClick()
+        private void tableClick()
         {
 
         }
-	}
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void createOrder_Click(object sender, RoutedEventArgs e)
+        {
+      
+        }
+
+        private void alerts_Click(object sender, RoutedEventArgs e)
+        {
+        
+        }
+
+        private void payWithCash_Click(object sender, RoutedEventArgs e)
+        {
+      
+        }
+
+        private void payWithCheck_Click(object sender, RoutedEventArgs e)
+        {
+         
+        }
+    
+        private void ticketAdjustment_Click(object sender, RoutedEventArgs e)
+        {
+        
+        }
+
+        private void tableFinished_Click(object sender, RoutedEventArgs e)
+        {
+      
+        }
+    }
 }
 
