@@ -136,7 +136,8 @@ namespace OMS
 					{
 						menuImage.Source = item.imgSource;
 						menuDescription.Text = item.description;
-						menuPrice.Content = "$" + Decimal.ToInt32(item.price).ToString();
+                        menuPrice.Content = "$" + item.price.ToString("0.##");//Decimal.ToInt32(item.price).ToString();
+                        // the above technically rounds the decimal number, but our values only ever hold two decimals so this is a non issue
 					}
 				}
 				catch (Exception) { }
