@@ -37,13 +37,16 @@ namespace OMS
         private List<menuItem> myList = new List<menuItem>();
 		public Thread listener;
 		BackgroundWorker menu_load;
-		#endregion
-		/// <summary>
-		/// Initializes application
-		/// Loads menu
-		/// Starts command listener
-		/// </summary>
-		public MainWindow()
+        #endregion
+
+        /// <summary>
+        /// Initializes application
+        /// Loads menu
+        /// Starts command listener
+        /// </summary> 
+
+        #region Main
+        public MainWindow()
         {
             InitializeComponent();
 			
@@ -69,12 +72,13 @@ namespace OMS
 			}
 			requestStop();
 		}
+        #endregion
 
-		#region Listener
-		/// <summary>
-		/// Listens to the network for requests from clients
-		/// </summary>
-		private void commandListener()
+        #region Listener
+        /// <summary>
+        /// Listens to the network for requests from clients
+        /// </summary>
+        private void commandListener()
 		{
 			UdpClient client = new UdpClient(44445);
 			byte[] ResponseData = Encoding.ASCII.GetBytes("OMS-Server");
@@ -376,9 +380,10 @@ namespace OMS
 				return hasRows;
 			}
 		}
-		#endregion
+        #endregion
 
-		private byte[] ObjectToByteArray(object obj)
+        #region Byte Stuff
+        private byte[] ObjectToByteArray(object obj)
 		{
 			if (obj == null)
 				return null;
@@ -410,6 +415,7 @@ namespace OMS
 
 			return null;
 		}
+        #endregion
 
         #region Menu
         private void menu_load_DoWork(object sender, DoWorkEventArgs e)
@@ -439,7 +445,6 @@ namespace OMS
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"
                                             SELECT * FROM dbo.Menu
-                                            WHERE Available=1
                                             ";
                     // Open a connection to database.
                     connection.Open();
@@ -449,12 +454,14 @@ namespace OMS
                     // while not done reading the stuff returned from the query
                     while (reader.Read())
                     {
+                        //Console.WriteLine((byte)reader[5] + " ayy");
                         menuItem temp = new menuItem
                         {
                             itemNumber = (int)reader[0],
                             name = (string)reader[1],
                             description = (string)reader[2],
                             price = (decimal)reader[3],
+                            visible = (bool)reader[5], // if visible is 1 visible evaluates to true else visible is false
                             category = (string)reader[7]
                         };
                         myList.Add(temp);
@@ -470,11 +477,14 @@ namespace OMS
             {
                 int position = menuList.SelectedIndex;
                 menuItem temp = myList[position];
-                MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description);
+                string available = "Unavailable";
+                if (temp.visible == true)
+                {
+                    available = "Available";
+                }
+                MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description + "\nAvailability: " + available);
             }
         }
-        #endregion
-
         private void updateMenu_Click(object sender, RoutedEventArgs e)
         {
             BackgroundWorker menu_REload;
@@ -482,5 +492,6 @@ namespace OMS
             menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
             menu_REload.RunWorkerAsync();
         }
-	}
+        #endregion
+    }
 }
