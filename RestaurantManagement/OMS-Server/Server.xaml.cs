@@ -154,6 +154,10 @@ namespace OMS
 						case "getTables":
 							sendTables(ClientEp.Address);
 							break;
+						case "recieveClient":
+							clientRequest = client.Receive(ref ClientEp);
+							ByteToObject(clientRequest);
+							break;
 						default:
 							break;
 					}
@@ -356,6 +360,26 @@ namespace OMS
 			byte[] sendData = ObjectToByteArray(tableList);
 			client.Send(sendData, sendData.Length, ClientEp);
 		}
+
+		private void updateClientStatus(ClientInfo client)
+		{
+			foreach (ClientInfo iter in clientList.Items)
+			{
+				if (client.IP == iter.IP)
+				{
+					iter.priorStatus = client.priorStatus;
+					iter.status = client.status;
+				}
+			}
+
+			foreach (ClientInfo iter in clientList.Items)
+			{
+				if (iter.selectedPermission == "Waiter")
+				{
+					sendTables(iter.IP);
+				}
+			}
+		}
 		#endregion
 
 		#region Database Functions
@@ -425,11 +449,6 @@ namespace OMS
 			{
 				bf.Serialize(ms, obj);
 				ms.Position = 0;
-				List<ClientInfo> temp = (List<ClientInfo>)bf.Deserialize(ms);
-				foreach (ClientInfo c in temp)
-				{
-					Console.WriteLine("IP: " + c.IP.ToString() + " Name: " + c.Name + "\n");
-				}
 				return ms.ToArray();
 			}
 		}

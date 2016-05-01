@@ -78,6 +78,8 @@ namespace OMS
                 {
                     itr.priorStatus = itr.status;
                     itr.status = "Help Requested";
+					commHelper.functionSend("recieveClient");
+					commHelper.objectSend(itr);
                 }
             }    
         }
@@ -89,7 +91,9 @@ namespace OMS
                 if (itr.IP == table)
                 {
                     itr.status = itr.priorStatus;
-                }
+					commHelper.functionSend("recieveClient");
+					commHelper.objectSend(itr);
+				}
             }
         }
 
@@ -100,7 +104,7 @@ namespace OMS
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-           
+			tableOptions.Visibility = Visibility.Hidden;
         }
 
         private void createOrder_Click(object sender, RoutedEventArgs e)
