@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
@@ -47,8 +48,28 @@ namespace OMS
 
         #region Main
         public MainWindow()
-        {
-            InitializeComponent();
+		{
+			//
+			// Include OMS-Library.dll
+			//
+			AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+			{
+				string resourceName = new AssemblyName(args.Name).Name + ".dll";
+				string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+
+				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+				{
+					Byte[] assemblyData = new Byte[stream.Length];
+					stream.Read(assemblyData, 0, assemblyData.Length);
+					return Assembly.Load(assemblyData);
+				}
+			};
+
+			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+			//
+			// Initialize
+			//
+			InitializeComponent();
 			
 			menu_load= new BackgroundWorker();
 			menu_load.DoWork += new DoWorkEventHandler(menu_load_DoWork);
@@ -56,6 +77,16 @@ namespace OMS
 			listener = new Thread(commandListener); ;
 			listener.IsBackground = true;
 			listener.Start();
+		}
+		/// <summary>
+		/// Links connected assemblies
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+		{
+			return EmbeddedAssembly.Get(args.Name);
 		}
 		/// <summary>
 		/// When application attempts to close verify no clients are connected.

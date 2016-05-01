@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OMS-Server")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("The server application for your order management system (OMS)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Eagle Software Solutions")]
 [assembly: AssemblyProduct("OMS-Server")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

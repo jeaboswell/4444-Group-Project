@@ -30,7 +30,7 @@ namespace OMS
 
         public EmployeeInterface()
         {
-            InitializeComponent();
+			InitializeComponent();
             //testTable();
             updateTables();
         }
@@ -52,6 +52,7 @@ namespace OMS
 
 		private void updateTables()
         {
+			Table_Grid.Children.Clear();
             foreach (ClientInfo iter in TableList)
             {
                 Button tmpButton = new Button();
