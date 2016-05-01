@@ -11,7 +11,7 @@ namespace OMS_Library
 		public string Name { get; set; }
 		public List<string> permissionList { get; set; } = new List<string>() { "None", "Manager", "Waiter", "Kitchen", "Table" };
 		public string selectedPermission { get; set; }
-        public string status { get; set; }
+		public string status { get; set; } = "Open";
         public string priorStatus { get; set; }
 	}
 }

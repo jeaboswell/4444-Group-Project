@@ -53,7 +53,7 @@ namespace OMS
 
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
 				{
-					Byte[] assemblyData = new Byte[stream.Length];
+					byte[] assemblyData = new byte[stream.Length];
 					stream.Read(assemblyData, 0, assemblyData.Length);
 					return Assembly.Load(assemblyData);
 				}
@@ -172,10 +172,10 @@ namespace OMS
 					{
 						case "setPermission":
 							command = server.Receive(ref serverEp);
-							this.Dispatcher.Invoke((Action)(() =>
+							Dispatcher.Invoke(() =>
 							{
 								setPermission(Encoding.ASCII.GetString(command));
-							}));
+							});
 							break;
 						case "receiveTables":
 							command = server.Receive(ref serverEp);

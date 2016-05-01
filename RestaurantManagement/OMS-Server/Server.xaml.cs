@@ -59,7 +59,7 @@ namespace OMS
 
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
 				{
-					Byte[] assemblyData = new Byte[stream.Length];
+					byte[] assemblyData = new byte[stream.Length];
 					stream.Read(assemblyData, 0, assemblyData.Length);
 					return Assembly.Load(assemblyData);
 				}
@@ -156,7 +156,7 @@ namespace OMS
 							break;
 						case "recieveClient":
 							clientRequest = client.Receive(ref ClientEp);
-							ByteToObject(clientRequest);
+							updateClientStatus((ClientInfo)ByteToObject(clientRequest));
 							break;
 						default:
 							break;
@@ -195,6 +195,7 @@ namespace OMS
 			if (clients == null || !clients.Exists(x => x.Equals(ip)))
 				clients.Add(ip);
 			syncClientAuto(new ClientInfo { IP = ip, Name = getClientName(ip), selectedPermission = getClientPermission(ip) });
+			updateClientList();
 			if (getClientPermission(ip) == "Table")
 			{
 				foreach (ClientInfo c in clientList.Items)
@@ -203,7 +204,6 @@ namespace OMS
 						sendTables(c.IP);
 				}
 			}
-			updateClientList();
 		}
 
 		private void clientClosed(IPAddress ip)
@@ -214,14 +214,14 @@ namespace OMS
 
 		private void updateClientList()
 		{
-			Dispatcher.Invoke((Action)(() =>
+			Dispatcher.Invoke(() =>
 			{
 				clientList.Items.Clear();
 				foreach (IPAddress client in clients)
 				{
 					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = getClientPermission(client) });
 				}
-			}));
+			});
 		}
 
 		private string getClientPermission(IPAddress client)
@@ -365,7 +365,7 @@ namespace OMS
 		{
 			foreach (ClientInfo iter in clientList.Items)
 			{
-				if (client.IP == iter.IP)
+				if (client.IP.ToString() == iter.IP.ToString())
 				{
 					iter.priorStatus = client.priorStatus;
 					iter.status = client.status;

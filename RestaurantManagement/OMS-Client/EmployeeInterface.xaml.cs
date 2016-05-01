@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OMS_Library;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using OMS_Library;
+using DColor = System.Drawing.Color;
+using MColor = System.Windows.Media.Color;
 
 namespace OMS
 {
@@ -44,10 +46,10 @@ namespace OMS
 		public void getTableList(List<ClientInfo> list)
 		{
 			TableList = list;
-			Dispatcher.Invoke((Action)(() =>
+			Dispatcher.Invoke(() =>
 			{
 				updateTables();
-			}));
+			});
 		}
 
 		private void updateTables()
@@ -60,11 +62,27 @@ namespace OMS
                 tmpButton.Click += (sender, e) => 
                 {
                     currentTableName.Content = ((Button)sender).Content;
-                    currentTableStatus.Content = "Open";
+                    currentTableStatus.Content = iter.status;
                     tableOptions.Visibility = Visibility.Visible;          
                 };
                 tmpButton.Height = 100;
                 tmpButton.Width = 100;
+				switch (iter.status)
+				{
+					case "Open":
+						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Lime));
+						break;
+					case "Help Requested":
+						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Red));
+						break;
+					case "Reading Menu":
+					case "Placed order and waiting on food":
+					case "Eating":
+						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Yellow));
+						break;
+					default:
+						break;
+				}
                 Table_Grid.Children.Add(tmpButton);
             }
 
@@ -97,14 +115,23 @@ namespace OMS
             }
         }
 
-        private void tableClick()
-        {
-
-        }
-
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
 			tableOptions.Visibility = Visibility.Hidden;
+
+			foreach (ClientInfo itr in TableList)
+			{
+				if (itr.Name == currentTableName.Content.ToString())
+				{
+					if (itr.status != currentTableStatus.Content.ToString())
+					{
+						itr.status = currentTableStatus.Content.ToString();
+
+						commHelper.functionSend("recieveClient");
+						commHelper.objectSend(itr);
+					}
+				}
+			}
         }
 
         private void createOrder_Click(object sender, RoutedEventArgs e)
@@ -134,7 +161,7 @@ namespace OMS
 
         private void openButton_Click(object sender, RoutedEventArgs e)
         {
-            currentTableStatus.Content = "Open table";
+            currentTableStatus.Content = "Open";
         }
 
         private void readingButton_Click(object sender, RoutedEventArgs e)
@@ -151,6 +178,11 @@ namespace OMS
         {
             currentTableStatus.Content = "Eating";
         }
-    }
+
+		public MColor ToMediaColor(DColor color)
+		{
+			return MColor.FromArgb(color.A, color.R, color.G, color.B);
+		}
+	}
 }
 
