@@ -105,7 +105,8 @@ namespace OMS
 							{
 								if (iter.selectedPermission == "Waiter")
 								{
-									sendCommand(ClientEp.Address, "requestHelp");
+									sendCommand(iter.IP, "requestHelp");
+									sendCommand(iter.IP, ClientEp.Address.ToString());
 								}
 							}
 							break;
@@ -114,7 +115,8 @@ namespace OMS
 							{
 								if (iter.selectedPermission == "Waiter")
 								{
-									sendCommand(ClientEp.Address, "cancelHelp");
+									sendCommand(iter.IP, "cancelHelp");
+									sendCommand(iter.IP, ClientEp.Address.ToString());
 								}
 							}
 							break;

@@ -151,14 +151,12 @@ namespace OMS
 							employeeUI.getTableList((List<ClientInfo>)ByteToObject(command));
 							break;
 						case "requestHelp":
-							//
-							// Add code here to call request help function from employeeInterface
-							//
+							command = server.Receive(ref serverEp);
+							employeeUI.requestHelp(IPAddress.Parse(Encoding.ASCII.GetString(command)));
 							break;
 						case "cancelHelp":
-							//
-							// Add code here to call cancel help function from employeeInterface
-							//
+							command = server.Receive(ref serverEp);
+							employeeUI.cancelHelp(IPAddress.Parse(Encoding.ASCII.GetString(command)));
 							break;
 						default:
 							break;
