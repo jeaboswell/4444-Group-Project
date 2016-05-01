@@ -162,6 +162,7 @@ namespace OMS
             orderList.Visibility = Visibility.Visible;
             menuButton.Visibility = Visibility.Visible;
             doneButton.Visibility = Visibility.Visible;
+            addButton.Visibility = Visibility.Hidden;
         }
 
         private void menuButton_Click(object sender, RoutedEventArgs e)
@@ -169,11 +170,33 @@ namespace OMS
             orderList.Visibility = Visibility.Hidden;
             menuButton.Visibility = Visibility.Hidden;
             doneButton.Visibility = Visibility.Hidden;
+            addButton.Visibility = Visibility.Visible;
         }
 
         private void doneButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+            {
+                string command = "update dbo.Menu set Available = @true where Id = @id";
+
+                using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
+                {
+                    querySave.Parameters.AddWithValue("@true", BitConverter.GetBytes(true));
+                    querySave.Parameters.AddWithValue("@id", getID(removeItem));
+
+                    openCon.Open();
+                    querySave.ExecuteScalar();
+                    openCon.Close();
+                }
+            }
+            myMenu.Clear();
+            createMenu();
+            refreshMenu();
         }
 
         private void removeButton_Click(object sender, RoutedEventArgs e)
@@ -212,12 +235,16 @@ namespace OMS
             try
             {
                 removeItem = menuList.SelectedValue.ToString();
+                if(removeItem.StartsWith("("))
+                {
+                    removeItem = removeItem.Substring(9);
+                }
             }
             catch { }
         }
 
         private void orderBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        {  
             removeOrder = orderList.SelectedValue.ToString();
         }
     }
