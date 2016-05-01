@@ -40,7 +40,7 @@
                 <Button x:Name="buttonO" Content="O" HorizontalAlignment="Left" Margin="800,0,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
                 <Button x:Name="buttonP" Content="P" HorizontalAlignment="Left" Margin="900,0,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
                 <Button x:Name="backspaceBtn" HorizontalAlignment="Left" Margin="1000,0,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" HorizontalContentAlignment="Left" CommandParameter="BACKSPACE" Click="button_Click" Focusable="False">
-                    <Image Source="Resources/leftArrow.png" Margin="10,10,0,10"/>
+                    <Image Margin="10,10,0,10" Source="/OMS-Client;component/Resources/leftArrow.png"/>
                 </Button>
                 <Button x:Name="buttonA" Content="A" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
                 <Button x:Name="buttonS" Content="S" HorizontalAlignment="Left" Margin="120,100,0,0" VerticalAlignment="Top" Width="80" Height="80" Background="White" BorderBrush="Black" FontSize="40" CommandParameter="LETTER" Click="button_Click" Focusable="False"/>
