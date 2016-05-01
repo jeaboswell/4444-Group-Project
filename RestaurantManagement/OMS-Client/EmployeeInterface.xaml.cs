@@ -68,8 +68,6 @@ namespace OMS
 
         }
 
-        string priorStatus;
-
         public void requestHelp(IPAddress table)
         {
             foreach (ClientInfo itr in TableList)
