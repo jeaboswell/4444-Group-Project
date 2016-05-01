@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -30,7 +31,7 @@ namespace OMS
 	/// Interaction logic for Kitchen.xaml
 	/// </summary>
 	public partial class Kitchen : UserControl
-	{
+    {
         List<menuItem> myMenu = new List<menuItem>();
         List<Cart> myOrders = new List<Cart>();
 
@@ -44,12 +45,36 @@ namespace OMS
             createOrder();
             foreach (menuItem item in myMenu)
             {
-                menuList.Items.Add(item.name);
+                if (item.visible == false)
+                {
+                    menuList.Items.Add("(REMOVED)" + item.name);
+                }
+                else
+                {
+                    menuList.Items.Add(item.name);
+                }
             }
 
-            foreach(Cart item in myOrders)
+            foreach (Cart item in myOrders)
             {
                 orderList.Items.Add(item.Order_num);
+            }
+        }
+
+        public void refreshMenu()
+        {
+            menuList.Items.Clear();
+            foreach(menuItem item in myMenu)
+            {
+                if(item.visible == false)
+                {
+                    menuList.Items.Add("(REMOVED)" + item.name);
+                }
+
+                else
+                {
+                    menuList.Items.Add(item.name);
+                }
             }
         }
 
@@ -67,7 +92,6 @@ namespace OMS
                 command.CommandType = D.CommandType.Text;
                 command.CommandText = @"
                     SELECT * FROM dbo.Menu
-                    WHERE Available=1
                     ";
                 // Open a connection to database.
                 connection.Open();
@@ -84,6 +108,7 @@ namespace OMS
                         name = (string)reader[1],
                         description = (string)reader[2],
                         imgSource = null,
+                        visible = (bool)reader[5],
                         price = (decimal)reader[3],
                         category = (string)reader[7]
                     });
@@ -167,6 +192,9 @@ namespace OMS
 					openCon.Close();
 				}
 			}
+            myMenu.Clear();
+            createMenu();
+            refreshMenu();
 		}
 
 		private int getID(string item)
@@ -181,7 +209,11 @@ namespace OMS
 
         private void menuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            removeItem = menuList.SelectedValue.ToString();
+            try
+            {
+                removeItem = menuList.SelectedValue.ToString();
+            }
+            catch { }
         }
 
         private void orderBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
