@@ -56,7 +56,11 @@ namespace OMS
             {
                 Button tmpButton = new Button();
                 tmpButton.Content = iter.Name;
-                tmpButton.Click += (s, e) => { /*Add code here to determine what happens when table button is clicked*/};
+                tmpButton.Click += (sender, e) => 
+                {
+                    currentTableName.Content = ((Button)sender).Content;
+                    currentTableStatus.Content = "Open";            
+                };
                 tmpButton.Height = 100;
                 tmpButton.Width = 100;
                 Table_Grid.Children.Add(tmpButton);
@@ -64,9 +68,29 @@ namespace OMS
 
         }
 
-        public void tableHelp()
-        {
+        string priorStatus;
 
+        public void requestHelp(IPAddress table)
+        {
+            foreach (ClientInfo itr in TableList)
+            {
+                if(itr.IP == table)
+                {
+                    itr.priorStatus = itr.status;
+                    itr.status = "Help Requested";
+                }
+            }    
+        }
+
+        public void cancelHelp(IPAddress table)
+        {
+            foreach (ClientInfo itr in TableList)
+            {
+                if (itr.IP == table)
+                {
+                    itr.status = itr.priorStatus;
+                }
+            }
         }
 
         private void tableClick()
@@ -82,11 +106,6 @@ namespace OMS
         private void createOrder_Click(object sender, RoutedEventArgs e)
         {
       
-        }
-
-        private void alerts_Click(object sender, RoutedEventArgs e)
-        {
-        
         }
 
         private void payWithCash_Click(object sender, RoutedEventArgs e)
@@ -107,6 +126,26 @@ namespace OMS
         private void tableFinished_Click(object sender, RoutedEventArgs e)
         {
       
+        }
+
+        private void openButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentTableStatus.Content = "Open table";
+        }
+
+        private void readingButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentTableStatus.Content = "Reading Menu";
+        }
+
+        private void waitingButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentTableStatus.Content = "Placed order and waiting on food";
+        }
+
+        private void eatingButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentTableStatus.Content = "Eating";
         }
     }
 }
