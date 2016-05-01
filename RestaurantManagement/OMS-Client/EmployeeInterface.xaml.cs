@@ -59,7 +59,8 @@ namespace OMS
                 tmpButton.Click += (sender, e) => 
                 {
                     currentTableName.Content = ((Button)sender).Content;
-                    currentTableStatus.Content = "Open";            
+                    currentTableStatus.Content = "Open";
+                    tableOptions.Visibility = Visibility.Visible;          
                 };
                 tmpButton.Height = 100;
                 tmpButton.Width = 100;
