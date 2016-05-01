@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OMS_Library;
+using System.Windows.Threading;
 
 namespace OMS
 {
@@ -266,29 +267,30 @@ namespace OMS
 						switch (item.category)
 						{
 							case "drink":
-								order.Items.Add(item);
-								order.Notes.Add("");
 								// Show addition alert
 								overlay.Visibility = Visibility.Visible;
-								addedAlert.Content = item.name + "added to cart.";
+								addedAlert.Content = item.name + " added to cart.";
 								addedAlert.Visibility = Visibility.Visible;
+								Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+								// Add item to cart
+								order.Items.Add(item);
+								order.Notes.Add("");
 								Thread.Sleep(1000);
+								// Remove addition alert
 								addedAlert.Visibility = Visibility.Hidden;
 								overlay.Visibility = Visibility.Hidden;
 								break;
 							case "appetizer":
-								//
-								// Show add to cart interface to allow notes to be added.
-								//
+								overlay.Visibility = Visibility.Visible;
+								appetizerAddition.Visibility = Visibility.Visible;
 								break;
 							case "entree":
 								overlay.Visibility = Visibility.Visible;
 								entreeAddition.Visibility = Visibility.Visible;
 								break;
 							case "dessert":
-								//
-								// Show add to cart interface to allow notes to be added.
-								//
+								overlay.Visibility = Visibility.Visible;
+								dessertAddition.Visibility = Visibility.Visible;
 								break;
 							default:
 								break;
@@ -343,15 +345,16 @@ namespace OMS
 					{
 						// Show addition alert
 						entreeAddition.Visibility = Visibility.Hidden;
-						addedAlert.Content = item.name + "added to cart.";
+						addedAlert.Content = item.name + " added to cart.";
 						addedAlert.Visibility = Visibility.Visible;
+						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
 						order.Items.Add(item);
 						// Add notes with sides to cart
-						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + "\n\nSide Choice: " + sideChoice.SelectedValue.ToString() + "\n\nNotes:\n" + entreeNotes.Text;
+						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + Environment.NewLine + "Side Choice: " + sideChoice.SelectedValue.ToString() + Environment.NewLine + "Notes: " + entreeNotes.Text;
 						order.Notes.Add(fullNotes);
 						// Reset form
-						//Thread.Sleep(1000);
+						Thread.Sleep(1000);
 						addedAlert.Visibility = Visibility.Hidden;
 						overlay.Visibility = Visibility.Hidden;
 						saladChoice.SelectedIndex = -1;
@@ -360,6 +363,98 @@ namespace OMS
 					}
 				}
 				catch (Exception) {	}
+			}
+		}
+		#endregion
+
+		#region |   Appetizer Addition   |
+		/// <summary>
+		/// Closes current appetizer addition overlay and resets fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelAppetizerAddition_Click(object sender, RoutedEventArgs e)
+		{
+			appetizerAddition.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
+			appetizerNotes.Text = "";
+		}
+		/// <summary>
+		/// Adds item and notes to the cart
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void submitAppetizer_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (menuItem item in myMenu)
+			{
+				try
+				{
+					if (item.name == menuList.SelectedValue.ToString())
+					{
+						// Show addition alert
+						appetizerAddition.Visibility = Visibility.Hidden;
+						addedAlert.Content = item.name + " added to cart.";
+						addedAlert.Visibility = Visibility.Visible;
+						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+						// Add item to cart
+						order.Items.Add(item);
+						// Add notes with sides to cart
+						order.Notes.Add(appetizerNotes.Text);
+						// Reset form
+						Thread.Sleep(1000);
+						addedAlert.Visibility = Visibility.Hidden;
+						overlay.Visibility = Visibility.Hidden;
+						appetizerNotes.Text = "";
+					}
+				}
+				catch (Exception) { }
+			}
+		}
+		#endregion
+
+		#region |   Dessert Addition   |
+		/// <summary>
+		/// Closes current dessert addition overlay and resets fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelDessertAddition_Click(object sender, RoutedEventArgs e)
+		{
+			dessertAddition.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
+			dessertNotes.Text = "";
+		}
+		/// <summary>
+		/// Addes item and notes to the cart
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void submitDessert_Click(object sender, RoutedEventArgs e)
+		{
+			foreach (menuItem item in myMenu)
+			{
+				try
+				{
+					if (item.name == menuList.SelectedValue.ToString())
+					{
+						// Show addition alert
+						dessertAddition.Visibility = Visibility.Hidden;
+						addedAlert.Content = item.name + " added to cart.";
+						addedAlert.Visibility = Visibility.Visible;
+						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+						// Add item to cart
+						order.Items.Add(item);
+						// Add notes with sides to cart
+						order.Notes.Add(dessertNotes.Text);
+						// Reset form
+						Thread.Sleep(1000);
+						addedAlert.Visibility = Visibility.Hidden;
+						overlay.Visibility = Visibility.Hidden;
+						dessertNotes.Text = "";
+					}
+				}
+				catch (Exception) { }
 			}
 		}
 		#endregion
@@ -772,6 +867,138 @@ namespace OMS
 
 		private void cartButton_Click(object sender, RoutedEventArgs e)
 		{
+			addCartItems();
+			overlay.Visibility = Visibility.Visible;
+			cartView.Visibility = Visibility.Visible;
+		}
+
+		private void addCartItems()
+		{
+			cartList.Items.Clear();
+			for (int i = 0; i < order.Items.Count; i++)
+			{
+				Grid item = new Grid()
+				{
+					Width = 730
+				};
+				// Item
+				item.Children.Add(new Label()
+				{
+					Margin = new Thickness() { Left = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Left,
+					VerticalAlignment = VerticalAlignment.Top,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					FontSize = 20,
+					Content = order.Items[i].name,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+				});
+
+				if (order.Items[i].category == "entree") // For entrees only
+				{
+					string[] lines = order.Notes[i].Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+					// Soup/Salad
+					item.Children.Add(new Label()
+					{
+						Margin = new Thickness() { Left = 50, Top = 33 },
+						HorizontalAlignment = HorizontalAlignment.Left,
+						VerticalAlignment = VerticalAlignment.Top,
+						FontFamily = new FontFamily("Baskerville Old Face"),
+						FontSize = 20,
+						Content = lines[0],
+						Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+					});
+					// Side
+					item.Children.Add(new Label()
+					{
+						Margin = new Thickness() { Left = 50, Top = 66 },
+						HorizontalAlignment = HorizontalAlignment.Left,
+						VerticalAlignment = VerticalAlignment.Top,
+						FontFamily = new FontFamily("Baskerville Old Face"),
+						FontSize = 20,
+						Content = lines[1],
+						Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+					});
+					// Notes
+					if (lines[2].Length > 7)
+					{
+						item.Children.Add(new TextBlock()
+						{
+							Margin = new Thickness() { Left = 50, Top = 99 },
+							Width = 520,
+							HorizontalAlignment = HorizontalAlignment.Left,
+							VerticalAlignment = VerticalAlignment.Top,
+							FontFamily = new FontFamily("Baskerville Old Face"),
+							FontSize = 20,
+							Text = lines[2],
+							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC")),
+							TextWrapping = TextWrapping.Wrap
+						});
+					}
+				}
+				else // For all other items
+				{
+					// Notes
+					if (order.Notes[i].Length > 7)
+					{
+						item.Children.Add(new TextBlock()
+						{
+							Margin = new Thickness() { Left = 50, Top = 33 },
+							Width = 520,
+							HorizontalAlignment = HorizontalAlignment.Left,
+							VerticalAlignment = VerticalAlignment.Top,
+							FontFamily = new FontFamily("Baskerville Old Face"),
+							FontSize = 20,
+							Text = "\t " + order.Notes[i],
+							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC")),
+							TextWrapping = TextWrapping.Wrap
+						});
+					}
+				}
+				// Remove button
+				Button tempRemove = (new Button()
+				{
+					Margin = new Thickness() { Right = 0 },
+					Padding = new Thickness() { Right = 5, Left = 5},
+					HorizontalAlignment = HorizontalAlignment.Right,
+					VerticalAlignment = VerticalAlignment.Center,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					FontSize = 20,
+					Content = "Remove",
+					Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
+					BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+				});
+				tempRemove.Click += (sender, e) =>
+				{
+					Grid parent = GetAncestorOfType<Grid>(sender as Button);
+					Label removeName  = parent.Children.OfType<Label>().FirstOrDefault();
+
+					for (int j = 0; j < order.Items.Count; j++)
+					{
+						if (removeName.Content.ToString() == order.Items[j].name)
+						{
+							order.Items.RemoveAt(j);
+							order.Notes.RemoveAt(j);
+							addCartItems();
+							return;
+						}
+					}
+
+				};
+				item.Children.Add(tempRemove);
+
+				cartList.Items.Add(item);
+			}
+		}
+
+		private void closeCart_Click(object sender, RoutedEventArgs e)
+		{
+			cartView.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
+		}
+
+		private void submitCart_Click(object sender, RoutedEventArgs e)
+		{
 
 		}
 		#endregion
@@ -798,6 +1025,22 @@ namespace OMS
 			}
 			image.Freeze();
 			return image;
+		}
+
+		private void entreeNotes_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			keyboard.Visibility = Visibility.Visible;
+			Thickness tempMargin = entreeAddition.Margin;
+			tempMargin.Bottom += 10;
+			entreeAddition.Margin = tempMargin;
+		}
+
+		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
+		{
+			var parent = VisualTreeHelper.GetParent(child);
+			if (parent != null && !(parent is T))
+				return (T)GetAncestorOfType<T>((FrameworkElement)parent);
+			return (T)parent;
 		}
 		#endregion
 	}

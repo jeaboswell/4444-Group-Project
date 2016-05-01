@@ -342,7 +342,7 @@
                     <Button x:Name="addToCart" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201" Click="addToCart_Click"/>
                 </Grid>
                 <Grid x:Name="overlay" Background="#BF2D2D30" Visibility="Hidden">
-                    <Label x:Name="addedAlert" Content="Added to cart" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="66" FontFamily="Baskerville Old Face" Foreground="#FFACACAC" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"/>
+                    <Label x:Name="addedAlert" Content="Added to cart" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="66" FontFamily="Baskerville Old Face" Foreground="#FFACACAC" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Background="{x:Null}"/>
                     <Grid x:Name="entreeAddition" Margin="200,125" Background="Black" Visibility="Hidden">
                         <Label x:Name="label13" Content="Choose Your Options:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
                         <Label x:Name="label14" Content="Choose a Soup/Salad:" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
@@ -365,11 +365,35 @@
                             </ComboBox.Background>
                         </ComboBox>
                         <Label x:Name="label16" Content="Special Instructions:" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
-                        <TextBox x:Name="entreeNotes" Text="" HorizontalAlignment="Left" Height="194" Margin="10,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="670" FontFamily="Baskerville Old Face" FontSize="20" Background="#FFE8E8E8"/>
-                        <Button x:Name="cancelEntreeAddition" Content="Cancel" HorizontalAlignment="Right" Margin="768,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" Click="cancelEntreeAddition_Click"/>
-                        <Button x:Name="submitEntree" Content="Add to Order" HorizontalAlignment="Left" Margin="685,391,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" Click="submitEntree_Click"/>
+                        <TextBox x:Name="entreeNotes" Text="" HorizontalAlignment="Left" Height="194" Margin="10,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="670" FontFamily="Baskerville Old Face" FontSize="20" Background="#FFE8E8E8" GotKeyboardFocus="entreeNotes_GotKeyboardFocus"/>
+                        <Button x:Name="cancelEntreeAddition" Content="Cancel" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" Click="cancelEntreeAddition_Click" MinWidth="177"/>
+                        <Button x:Name="submitEntree" Content="Add to Cart" HorizontalAlignment="Left" Margin="685,391,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" Click="submitEntree_Click" MinWidth="177"/>
+                    </Grid>
+                    <Grid x:Name="appetizerAddition" Margin="200,125" Background="Black" Visibility="Hidden">
+                        <Label x:Name="label17" Content="Choose Your Options:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
+                        <Separator Margin="0,54,0,0" VerticalAlignment="Top"/>
+                        <Label x:Name="label18" Content="Special Instructions:" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
+                        <TextBox x:Name="appetizerNotes" Text="" HorizontalAlignment="Left" Height="331" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="670" FontFamily="Baskerville Old Face" FontSize="20" Background="#FFE8E8E8"/>
+                        <Button x:Name="cancelAppetizerAddition" Content="Cancel" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" Click="cancelAppetizerAddition_Click" MinWidth="177"/>
+                        <Button x:Name="submitAppetizer" Content="Add to Cart" HorizontalAlignment="Left" Margin="685,391,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" Click="submitAppetizer_Click" MinWidth="177"/>
+                    </Grid>
+                    <Grid x:Name="dessertAddition" Margin="200,125" Background="Black" Visibility="Hidden">
+                        <Label x:Name="label19" Content="Choose Your Options:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
+                        <Separator Margin="0,54,0,0" VerticalAlignment="Top"/>
+                        <Label x:Name="label20" Content="Special Instructions:" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="20"/>
+                        <TextBox x:Name="dessertNotes" Text="" HorizontalAlignment="Left" Height="331" Margin="10,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="670" FontFamily="Baskerville Old Face" FontSize="20" Background="#FFE8E8E8"/>
+                        <Button x:Name="cancelDessertAddition" Content="Cancel" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" Click="cancelDessertAddition_Click" MinWidth="177"/>
+                        <Button x:Name="submitDessert" Content="Add to Cart" HorizontalAlignment="Left" Margin="685,391,0,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" Click="submitDessert_Click" MinWidth="177"/>
+                    </Grid>
+                    <Grid x:Name="cartView" Margin="200,125" Background="Black" Visibility="Hidden">
+                        <Label x:Name="label21" Content="Your cart:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
+                        <Separator Margin="0,54,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="closeCart" Content="Close" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" MinWidth="97" Click="closeCart_Click"/>
+                        <Button x:Name="submitCart" Content="Submit" HorizontalAlignment="Right" Margin="685,391,10,10" VerticalAlignment="Bottom" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" MinWidth="97" Click="submitCart_Click"/>
+                        <ListBox x:Name="cartList" HorizontalAlignment="Left" Height="369" Margin="10,60,0,0" VerticalAlignment="Top" Width="750" Background="#FF2D2D30" Foreground="#FFACACAC"/>
                     </Grid>
                 </Grid>
+                <local:myKeyboard x:Name="defaultKeyboard" Margin="0,289,0,0" VerticalAlignment="Top" Width="Auto" Visibility="Hidden"/>
             </Grid>
         </Viewbox>
         <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
