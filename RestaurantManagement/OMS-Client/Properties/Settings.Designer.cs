@@ -58,5 +58,17 @@ namespace OMS.Properties {
                 this["serverIP"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string localIP {
+            get {
+                return ((string)(this["localIP"]));
+            }
+            set {
+                this["localIP"] = value;
+            }
+        }
     }
 }

@@ -273,7 +273,15 @@ namespace OMS
 								addedAlert.Visibility = Visibility.Visible;
 								Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 								// Add item to cart
-								order.Items.Add(item);
+								order.Items.Add(new cartItem()
+								{
+									name = item.name,
+									itemNumber = item.itemNumber,
+									category = item.category,
+									description = item.description,
+									price = item.price,
+									visible = item.visible
+								});
 								order.Notes.Add("");
 								Thread.Sleep(1000);
 								// Remove addition alert
@@ -349,7 +357,15 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(item);
+						order.Items.Add(new cartItem()
+						{
+							name = item.name,
+							itemNumber = item.itemNumber,
+							category = item.category,
+							description = item.description,
+							price = item.price,
+							visible = item.visible
+						});
 						// Add notes with sides to cart
 						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + Environment.NewLine + "Side Choice: " + sideChoice.SelectedValue.ToString() + Environment.NewLine + "Notes: " + entreeNotes.Text;
 						order.Notes.Add(fullNotes);
@@ -415,7 +431,15 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(item);
+						order.Items.Add(new cartItem()
+						{
+							name = item.name,
+							itemNumber = item.itemNumber,
+							category = item.category,
+							description = item.description,
+							price = item.price,
+							visible = item.visible
+						});
 						// Add notes with sides to cart
 						order.Notes.Add(appetizerNotes.Text);
 						// Reset form
@@ -478,7 +502,15 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(item);
+						order.Items.Add(new cartItem()
+						{
+							name = item.name,
+							itemNumber = item.itemNumber,
+							category = item.category,
+							description = item.description,
+							price = item.price,
+							visible = item.visible
+						});
 						// Add notes with sides to cart
 						order.Notes.Add(dessertNotes.Text);
 						// Reset form
@@ -926,7 +958,7 @@ namespace OMS
 			refillList.Items.Clear();
 			if (order.Order_num != -1)
 			{
-				foreach (menuItem item in order.Items)
+				foreach (cartItem item in order.Items)
 				{
 					if (item.category == "drink")
 					{
@@ -1136,7 +1168,20 @@ namespace OMS
 
 		private void submitCart_Click(object sender, RoutedEventArgs e)
 		{
+			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			{
+				using (SqlCommand querySave = new SqlCommand("insert into dbo.Orders ([Order], Client) values (@order, @client) set @Id = SCOPE_IDENTITY()", openCon))
+				{
+					querySave.Parameters.AddWithValue("@order", ObjectToByteArray(order));
+					querySave.Parameters.AddWithValue("@client", Properties.Settings.Default.localIP);
+					querySave.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
+					openCon.Open();
+					querySave.ExecuteScalar();
+					order.Order_num = (int)querySave.Parameters["@Id"].Value;
+					openCon.Close();
+				}
+			}
 		}
 		#endregion
 		#endregion
@@ -1163,6 +1208,19 @@ namespace OMS
 			}
 			image.Freeze();
 			return image;
+		}
+
+		private byte[] ObjectToByteArray(object obj)
+		{
+			if (obj == null)
+				return null;
+			BinaryFormatter bf = new BinaryFormatter();
+			using (MemoryStream ms = new MemoryStream())
+			{
+				bf.Serialize(ms, obj);
+				ms.Position = 0;
+				return ms.ToArray();
+			}
 		}
 
 		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement

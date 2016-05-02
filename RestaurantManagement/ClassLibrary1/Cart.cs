@@ -6,7 +6,7 @@ namespace OMS_Library
 	[Serializable]
 	public class Cart
 	{
-		public List<menuItem> Items { get; set; }
+		public List<cartItem> Items { get; set; }
 
 		public int Order_num { get; set; }
 
@@ -14,8 +14,19 @@ namespace OMS_Library
 
 		public Cart()
 		{
-			Items = new List<menuItem>();
+			Items = new List<cartItem>();
 			Notes = new List<string>();
 		}
+	}
+
+	[Serializable]
+	public class cartItem
+	{
+		public int itemNumber { get; set; }
+		public string name { get; set; }
+		public string description { get; set; }
+		public decimal price { get; set; }          // It's very important that any number you store here must have an 'm' after it like so price = 69.69m  <------
+		public string category { get; set; }
+		public bool visible { get; set; }
 	}
 }

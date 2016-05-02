@@ -64,6 +64,7 @@ namespace OMS
 			// Initialize
 			//
 			InitializeComponent();
+			Properties.Settings.Default.localIP = GetLocalIPAddress();
 		}
 		/// <summary>
 		/// Links all embedded assemblies
@@ -263,6 +264,19 @@ namespace OMS
 			catch (Exception) { }
 
 			return null;
+		}
+
+		public static string GetLocalIPAddress()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+			foreach (var ip in host.AddressList)
+			{
+				if (ip.AddressFamily == AddressFamily.InterNetwork)
+				{
+					return ip.ToString();
+				}
+			}
+			return "0";
 		}
 	}
 }
