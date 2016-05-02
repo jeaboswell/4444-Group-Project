@@ -58,7 +58,7 @@ namespace OMS
 
             foreach (Cart item in myOrders)
             {
-                foreach(menuItem food in item.Items)
+                foreach(cartItem food in item.Items)
                 {
                     order += food.name;
                 }
