@@ -37,6 +37,7 @@ namespace OMS
 		List<menuItem> myMenu = new List<menuItem>();
 		int funGames = 0, couponGames = 0;
 		Cart order = new Cart();
+		List<Cart> sentOrders = new List<Cart>();
 		#endregion
 		/// <summary>
 		/// Interface initilization
@@ -273,7 +274,15 @@ namespace OMS
 								addedAlert.Visibility = Visibility.Visible;
 								Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 								// Add item to cart
-								order.Items.Add(item);
+								order.Items.Add(new cartItem()
+								{
+									name = item.name,
+									itemNumber = item.itemNumber,
+									category = item.category,
+									description = item.description,
+									price = item.price,
+									visible = item.visible
+								});
 								order.Notes.Add("");
 								Thread.Sleep(1000);
 								// Remove addition alert
@@ -349,7 +358,15 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(item);
+						order.Items.Add(new cartItem()
+						{
+							name = item.name,
+							itemNumber = item.itemNumber,
+							category = item.category,
+							description = item.description,
+							price = item.price,
+							visible = item.visible
+						});
 						// Add notes with sides to cart
 						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + Environment.NewLine + "Side Choice: " + sideChoice.SelectedValue.ToString() + Environment.NewLine + "Notes: " + entreeNotes.Text;
 						order.Notes.Add(fullNotes);
@@ -415,7 +432,15 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(item);
+						order.Items.Add(new cartItem()
+						{
+							name = item.name,
+							itemNumber = item.itemNumber,
+							category = item.category,
+							description = item.description,
+							price = item.price,
+							visible = item.visible
+						});
 						// Add notes with sides to cart
 						order.Notes.Add(appetizerNotes.Text);
 						// Reset form
@@ -478,7 +503,15 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(item);
+						order.Items.Add(new cartItem()
+						{
+							name = item.name,
+							itemNumber = item.itemNumber,
+							category = item.category,
+							description = item.description,
+							price = item.price,
+							visible = item.visible
+						});
 						// Add notes with sides to cart
 						order.Notes.Add(dessertNotes.Text);
 						// Reset form
@@ -926,46 +959,69 @@ namespace OMS
 			refillList.Items.Clear();
 			if (order.Order_num != -1)
 			{
-				foreach (menuItem item in order.Items)
+				foreach (Cart oItem in sentOrders)
 				{
-					if (item.category == "drink")
+					foreach (cartItem item in oItem.Items)
 					{
-						Grid grid = new Grid()
+						if (item.category == "drink")
 						{
-							Width = 832
-						};
-						// Drink Name
-						grid.Children.Add(new Label()
-						{
-							Margin = new Thickness() { Left = 0, Top = 0 },
-							HorizontalAlignment = HorizontalAlignment.Left,
-							VerticalAlignment = VerticalAlignment.Top,
-							FontFamily = new FontFamily("Baskerville Old Face"),
-							FontSize = 20,
-							Content = item.name,
-							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
-						});
-						// Request Button
-						Button tempRequest = (new Button()
-						{
-							Margin = new Thickness() { Right = 0 },
-							Padding = new Thickness() { Right = 5, Left = 5 },
-							HorizontalAlignment = HorizontalAlignment.Right,
-							VerticalAlignment = VerticalAlignment.Center,
-							FontFamily = new FontFamily("Baskerville Old Face"),
-							FontSize = 20,
-							Content = "Request Refill",
-							Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
-							BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
-							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
-						});
-						tempRequest.Click += (sender, e) =>
-						{
-							Grid parent = GetAncestorOfType<Grid>(sender as Button);
-							Label drinkName = parent.Children.OfType<Label>().FirstOrDefault();
-							
-							
-						};
+							Grid grid = new Grid()
+							{
+								Width = 832
+							};
+							// Drink Name
+							grid.Children.Add(new Label()
+							{
+								Margin = new Thickness() { Left = 0, Top = 0 },
+								HorizontalAlignment = HorizontalAlignment.Left,
+								VerticalAlignment = VerticalAlignment.Top,
+								FontFamily = new FontFamily("Baskerville Old Face"),
+								FontSize = 20,
+								Content = item.name,
+								Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+							});
+							// Request Button
+							Button tempRequest = (new Button()
+							{
+								Margin = new Thickness() { Right = 0 },
+								Padding = new Thickness() { Right = 5, Left = 5 },
+								HorizontalAlignment = HorizontalAlignment.Right,
+								VerticalAlignment = VerticalAlignment.Center,
+								FontFamily = new FontFamily("Baskerville Old Face"),
+								FontSize = 20,
+								Content = "Request Refill",
+								Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
+								BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
+								Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+							});
+							tempRequest.Click += (sender, e) =>
+							{
+								Grid parent = GetAncestorOfType<Grid>(sender as Button);
+								Label drinkName = parent.Children.OfType<Label>().FirstOrDefault();
+
+								foreach (cartItem cItem in oItem.Items)
+								{
+									if (cItem.name == drinkName.Content.ToString())
+									{
+										if (((Button)sender).Content.ToString() == "Request Refill")
+										{
+											commHelper.functionSend("refillRequest");
+											commHelper.functionSend(cItem.name);
+											((Button)sender).Content = "Cancel Request";
+										}
+										else
+										{
+											commHelper.functionSend("cancelRefill");
+											commHelper.functionSend(cItem.name);
+											((Button)sender).Content = "Request Refill";
+										}
+									}
+								}
+							};
+							grid.Children.Add(tempRequest);
+
+							refillList.Items.Add(grid);
+						}
 					}
 				}
 			}
@@ -1136,7 +1192,31 @@ namespace OMS
 
 		private void submitCart_Click(object sender, RoutedEventArgs e)
 		{
+			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			{
+				using (SqlCommand querySave = new SqlCommand("insert into dbo.Orders ([Order], Client) values (@order, @client) set @Id = SCOPE_IDENTITY()", openCon))
+				{
+					querySave.Parameters.AddWithValue("@order", ObjectToByteArray(order));
+					querySave.Parameters.AddWithValue("@client", Properties.Settings.Default.localIP);
+					querySave.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
+					openCon.Open();
+					querySave.ExecuteScalar();
+					order.Order_num = (int)querySave.Parameters["@Id"].Value;
+					openCon.Close();
+					sentOrders.Add(order);
+					order = new Cart();
+					addCartItems();
+
+					addedAlert.Content = "Order submitted to kitchen!";
+					cartView.Visibility = Visibility.Hidden;
+					addedAlert.Visibility = Visibility.Visible;
+					Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+					Thread.Sleep(1000);
+					addedAlert.Visibility = Visibility.Hidden;
+					overlay.Visibility = Visibility.Hidden;
+				}
+			}
 		}
 		#endregion
 		#endregion
@@ -1163,6 +1243,19 @@ namespace OMS
 			}
 			image.Freeze();
 			return image;
+		}
+
+		private byte[] ObjectToByteArray(object obj)
+		{
+			if (obj == null)
+				return null;
+			BinaryFormatter bf = new BinaryFormatter();
+			using (MemoryStream ms = new MemoryStream())
+			{
+				bf.Serialize(ms, obj);
+				ms.Position = 0;
+				return ms.ToArray();
+			}
 		}
 
 		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement

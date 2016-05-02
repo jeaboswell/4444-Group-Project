@@ -3,6 +3,7 @@ using System.Windows.Media;
 
 namespace OMS_Library
 {
+	[Serializable]
 	public class menuItem
 	{
 		public int itemNumber { get; set; }
