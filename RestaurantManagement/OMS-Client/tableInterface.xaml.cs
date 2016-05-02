@@ -34,10 +34,10 @@ namespace OMS
 	{
 		#region Variables
 		rewardMember currentMember = new rewardMember();
-		List<menuItem> myMenu = new List<menuItem>();
+		List<object> myMenu = new List<object>();
 		int funGames = 0, couponGames = 0;
-		Cart order = new Cart();
-		List<Cart> sentOrders = new List<Cart>();
+		object order = new object();
+		List<object> sentOrders = new List<object>();
 		#endregion
 		/// <summary>
 		/// Interface initilization
@@ -45,6 +45,15 @@ namespace OMS
 		public tableInterface()
 		{
 			InitializeComponent();
+		}
+		/// <summary>
+		/// Initializes data for class to correct type
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			order = new Cart();
 		}
 
 		#region Menu Functions
@@ -55,11 +64,11 @@ namespace OMS
 		{
 			// Clear all affected lists
 			myMenu.Clear();
-			Dispatcher.Invoke((Action)(() =>
+			Dispatcher.Invoke(() =>
 			{
 				saladChoice.Items.Clear();
 				sideChoice.Items.Clear();
-			}));
+			});
 
 			string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
 			// Create an SqlConnection from the provided connection string.
@@ -114,13 +123,13 @@ namespace OMS
 
 			foreach (menuItem item in myMenu)
 			{
-				Dispatcher.Invoke((Action)(() =>
+				Dispatcher.Invoke(() =>
 				{
 					if (item.category == "salad" || item.category == "soup")
 						saladChoice.Items.Add(item.name);
 					else if (item.category == "side")
 						sideChoice.Items.Add(item.name);
-				}));
+				});
 			}
 		}
 		/// <summary>
@@ -274,7 +283,7 @@ namespace OMS
 								addedAlert.Visibility = Visibility.Visible;
 								Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 								// Add item to cart
-								order.Items.Add(new cartItem()
+								((Cart)order).Items.Add(new cartItem()
 								{
 									name = item.name,
 									itemNumber = item.itemNumber,
@@ -283,7 +292,7 @@ namespace OMS
 									price = item.price,
 									visible = item.visible
 								});
-								order.Notes.Add("");
+								((Cart)order).Notes.Add("");
 								Thread.Sleep(1000);
 								// Remove addition alert
 								addedAlert.Visibility = Visibility.Hidden;
@@ -358,7 +367,7 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(new cartItem()
+						((Cart)order).Items.Add(new cartItem()
 						{
 							name = item.name,
 							itemNumber = item.itemNumber,
@@ -369,7 +378,7 @@ namespace OMS
 						});
 						// Add notes with sides to cart
 						string fullNotes = "Soup/Salad: " + saladChoice.SelectedValue.ToString() + Environment.NewLine + "Side Choice: " + sideChoice.SelectedValue.ToString() + Environment.NewLine + "Notes: " + entreeNotes.Text;
-						order.Notes.Add(fullNotes);
+						((Cart)order).Notes.Add(fullNotes);
 						// Reset form
 						Thread.Sleep(1000);
 						addedAlert.Visibility = Visibility.Hidden;
@@ -432,7 +441,7 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(new cartItem()
+						((Cart)order).Items.Add(new cartItem()
 						{
 							name = item.name,
 							itemNumber = item.itemNumber,
@@ -442,7 +451,7 @@ namespace OMS
 							visible = item.visible
 						});
 						// Add notes with sides to cart
-						order.Notes.Add(appetizerNotes.Text);
+						((Cart)order).Notes.Add(appetizerNotes.Text);
 						// Reset form
 						Thread.Sleep(1000);
 						addedAlert.Visibility = Visibility.Hidden;
@@ -503,7 +512,7 @@ namespace OMS
 						addedAlert.Visibility = Visibility.Visible;
 						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 						// Add item to cart
-						order.Items.Add(new cartItem()
+						((Cart)order).Items.Add(new cartItem()
 						{
 							name = item.name,
 							itemNumber = item.itemNumber,
@@ -513,7 +522,7 @@ namespace OMS
 							visible = item.visible
 						});
 						// Add notes with sides to cart
-						order.Notes.Add(dessertNotes.Text);
+						((Cart)order).Notes.Add(dessertNotes.Text);
 						// Reset form
 						Thread.Sleep(1000);
 						addedAlert.Visibility = Visibility.Hidden;
@@ -929,6 +938,26 @@ namespace OMS
 		#endregion
 		#endregion
 
+		#region Payment Functions
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void payTab_Click(object sender, MouseButtonEventArgs e)
+		{
+
+		}
+
+		private void updateBill()
+		{
+			foreach (Cart cItem in sentOrders)
+			{
+
+			}
+		}
+		#endregion
+
 		#region Service Dock
 		#region |   Help Button  |
 		private void helpButton_Click(object sender, RoutedEventArgs e)
@@ -957,7 +986,7 @@ namespace OMS
 		private void addRefillItems()
 		{
 			refillList.Items.Clear();
-			if (order.Order_num != -1)
+			if (((Cart)order).Order_num != -1)
 			{
 				foreach (Cart oItem in sentOrders)
 				{
@@ -1045,7 +1074,7 @@ namespace OMS
 		private void addCartItems()
 		{
 			cartList.Items.Clear();
-			for (int i = 0; i < order.Items.Count; i++)
+			for (int i = 0; i < ((Cart)order).Items.Count; i++)
 			{
 				Grid item = new Grid()
 				{
@@ -1059,13 +1088,13 @@ namespace OMS
 					VerticalAlignment = VerticalAlignment.Top,
 					FontFamily = new FontFamily("Baskerville Old Face"),
 					FontSize = 20,
-					Content = order.Items[i].name,
+					Content = ((Cart)order).Items[i].name,
 					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
 				});
 
-				if (order.Items[i].category == "entree") // For entrees only
+				if (((Cart)order).Items[i].category == "entree") // For entrees only
 				{
-					string[] lines = order.Notes[i].Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+					string[] lines = ((Cart)order).Notes[i].Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 					// Soup/Salad
 					item.Children.Add(new Label()
 					{
@@ -1108,7 +1137,7 @@ namespace OMS
 				else // For all other items
 				{
 					// Notes
-					if (order.Notes[i].Length > 7)
+					if (((Cart)order).Notes[i].Length > 7)
 					{
 						item.Children.Add(new TextBlock()
 						{
@@ -1118,7 +1147,7 @@ namespace OMS
 							VerticalAlignment = VerticalAlignment.Top,
 							FontFamily = new FontFamily("Baskerville Old Face"),
 							FontSize = 20,
-							Text = "\t " + order.Notes[i],
+							Text = ((Cart)order).Notes[i],
 							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC")),
 							TextWrapping = TextWrapping.Wrap
 						});
@@ -1166,12 +1195,12 @@ namespace OMS
 							
 					}
 
-					for (int j = 0; j < order.Items.Count; j++)
+					for (int j = 0; j < ((Cart)order).Items.Count; j++)
 					{
-						if (removeName.Content.ToString() == order.Items[j].name && buildNotes == order.Notes[j])
+						if (removeName.Content.ToString() == ((Cart)order).Items[j].name && buildNotes == ((Cart)order).Notes[j])
 						{
-							order.Items.RemoveAt(j);
-							order.Notes.RemoveAt(j);
+							((Cart)order).Items.RemoveAt(j);
+							((Cart)order).Notes.RemoveAt(j);
 							addCartItems();
 							return;
 						}
@@ -1202,7 +1231,7 @@ namespace OMS
 
 					openCon.Open();
 					querySave.ExecuteScalar();
-					order.Order_num = (int)querySave.Parameters["@Id"].Value;
+					((Cart)order).Order_num = (int)querySave.Parameters["@Id"].Value;
 					openCon.Close();
 					sentOrders.Add(order);
 					order = new Cart();
@@ -1244,7 +1273,11 @@ namespace OMS
 			image.Freeze();
 			return image;
 		}
-
+		/// <summary>
+		/// Converts an object to a byte array
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
 		private byte[] ObjectToByteArray(object obj)
 		{
 			if (obj == null)
@@ -1258,6 +1291,12 @@ namespace OMS
 			}
 		}
 
+		/// <summary>
+		/// Gets the a parent of specified type
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="child"></param>
+		/// <returns></returns>
 		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
 		{
 			var parent = VisualTreeHelper.GetParent(child);
