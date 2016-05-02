@@ -35,7 +35,7 @@ namespace OMS
 		#region Variables
 		private volatile bool stop;
 		private List<IPAddress> clients = new List<IPAddress>();
-        private List<menuItem> myList = new List<menuItem>();
+		private List<object> myList = new List<object>();
 		public Thread listener;
 		BackgroundWorker menu_load;
         #endregion
@@ -55,7 +55,7 @@ namespace OMS
 			AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
 			{
 				string resourceName = new AssemblyName(args.Name).Name + ".dll";
-				string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+				string resource = Array.Find(GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
 
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
 				{
@@ -87,6 +87,12 @@ namespace OMS
 		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			return EmbeddedAssembly.Get(args.Name);
+		}
+
+		public static object ConvertList(List<object> value, Type type)
+		{
+			var containedType = type.GenericTypeArguments.First();
+			return value.Select(item => Convert.ChangeType(item, containedType));
 		}
 		/// <summary>
 		/// When application attempts to close verify no clients are connected.
@@ -501,65 +507,65 @@ namespace OMS
 
         private void menuLoader()
         {
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                if(myList.Count != 0)
-                {
-                    myList.Clear();
-                }
-                if(menuList.Items.Count != 0)
-                {
-                    menuList.Items.Clear();
-                }
-                using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-                {
-                    // Formulate the command.
-                    SqlCommand command = new SqlCommand();
-                    command.Connection = connection;
+			Dispatcher.Invoke(() =>
+			{
+				if (myList.Count != 0)
+				{
+					myList.Clear();
+				}
+				if (menuList.Items.Count != 0)
+				{
+					menuList.Items.Clear();
+				}
+				using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					// Formulate the command.
+					SqlCommand command = new SqlCommand();
+					command.Connection = connection;
 
-                    // Specify the query to be executed.
-                    command.CommandType = CommandType.Text;
-                    command.CommandText = @"
+					// Specify the query to be executed.
+					command.CommandType = CommandType.Text;
+					command.CommandText = @"
                                             SELECT * FROM dbo.Menu
                                             ";
-                    // Open a connection to database.
-                    connection.Open();
-                    // Read data returned for the query.
-                    SqlDataReader reader = command.ExecuteReader();
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					SqlDataReader reader = command.ExecuteReader();
 
-                    // while not done reading the stuff returned from the query
-                    while (reader.Read())
-                    {
-                        //Console.WriteLine((byte)reader[5] + " ayy");
-                        menuItem temp = new menuItem
-                        {
-                            itemNumber = (int)reader[0],
-                            name = (string)reader[1],
-                            description = (string)reader[2],
-                            price = (decimal)reader[3],
-                            visible = (bool)reader[5], // if visible is 1 visible evaluates to true else visible is false
-                            category = (string)reader[7]
-                        };
-                        myList.Add(temp);
-                        menuList.Items.Add(temp.name);
-                    }
-                }
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						//Console.WriteLine((byte)reader[5] + " ayy");
+						menuItem temp = new menuItem
+						{
+							itemNumber = (int)reader[0],
+							name = (string)reader[1],
+							description = (string)reader[2],
+							price = (decimal)reader[3],
+							visible = (bool)reader[5], // if visible is 1 visible evaluates to true else visible is false
+							category = (string)reader[7]
+						};
+						myList.Add(temp);
+						menuList.Items.Add(temp.name);
+					}
+				}
 
-            }));
+			});
         }
         private void more_info_Click(object sender, RoutedEventArgs e)
         {
             if(menuList.SelectedIndex != -1)
             {
-                int position = menuList.SelectedIndex;
-                menuItem temp = myList[position];
-                string available = "Unavailable";
-                if (temp.visible == true)
-                {
-                    available = "Available";
-                }
-                MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description + "\nAvailability: " + available);
-            }
+				int position = menuList.SelectedIndex;
+				menuItem temp = (menuItem)myList[position];
+				string available = "Unavailable";
+				if (temp.visible == true)
+				{
+					available = "Available";
+				}
+				MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description + "\nAvailability: " + available);
+			}
         }
         private void updateMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -568,6 +574,6 @@ namespace OMS
             menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
             menu_REload.RunWorkerAsync();
         }
-        #endregion
-    }
+		#endregion
+	}
 }
