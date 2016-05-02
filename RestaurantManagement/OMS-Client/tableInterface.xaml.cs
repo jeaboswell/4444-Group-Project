@@ -365,6 +365,23 @@ namespace OMS
 				catch (Exception) {	}
 			}
 		}
+
+		private void entreeNotes_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			Thickness tempMargin = entreeAddition.Margin;
+			tempMargin.Bottom += 300;
+			tempMargin.Top -= 300;
+			entreeAddition.Margin = tempMargin;
+		}
+
+		private void entreeNotes_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			Thickness tempMargin = new Thickness() { Top = 125, Bottom = 125, Left = 200, Right = 200 };
+			entreeAddition.Margin = tempMargin;
+			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+		}
 		#endregion
 
 		#region |   Appetizer Addition   |
@@ -411,6 +428,23 @@ namespace OMS
 				catch (Exception) { }
 			}
 		}
+
+		private void appetizerNotes_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			Thickness tempMargin = appetizerAddition.Margin;
+			tempMargin.Bottom += 295;
+			tempMargin.Top -= 185;
+			appetizerAddition.Margin = tempMargin;
+		}
+
+		private void appetizerNotes_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			Thickness tempMargin = new Thickness() { Top = 125, Bottom = 125, Left = 200, Right = 200 };
+			appetizerAddition.Margin = tempMargin;
+			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+		}
 		#endregion
 
 		#region |   Dessert Addition   |
@@ -456,6 +490,23 @@ namespace OMS
 				}
 				catch (Exception) { }
 			}
+		}
+
+		private void dessertNotes_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			Thickness tempMargin = dessertAddition.Margin;
+			tempMargin.Bottom += 295;
+			tempMargin.Top -= 185;
+			dessertAddition.Margin = tempMargin;
+		}
+
+		private void dessertNotes_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			Thickness tempMargin = new Thickness() { Top = 125, Bottom = 125, Left = 200, Right = 200 };
+			dessertAddition.Margin = tempMargin;
+			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 		}
 		#endregion
 		#endregion
@@ -846,6 +897,7 @@ namespace OMS
 		#endregion
 
 		#region Service Dock
+		#region |   Help Button  |
 		private void helpButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (helpButton.Background.ToString() == "#FF2D2D30")
@@ -859,12 +911,74 @@ namespace OMS
 				commHelper.functionSend("cancelHelp");
 			}
 		}
+		#endregion
 
+		#region |   Refill Button   |
 		private void refillButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			addRefillItems();
+			overlay.Visibility = Visibility.Visible;
+			refillView.Visibility = Visibility.Visible;
 		}
 
+		private void addRefillItems()
+		{
+			refillList.Items.Clear();
+			if (order.Order_num != -1)
+			{
+				foreach (menuItem item in order.Items)
+				{
+					if (item.category == "drink")
+					{
+						Grid grid = new Grid()
+						{
+							Width = 832
+						};
+						// Drink Name
+						grid.Children.Add(new Label()
+						{
+							Margin = new Thickness() { Left = 0, Top = 0 },
+							HorizontalAlignment = HorizontalAlignment.Left,
+							VerticalAlignment = VerticalAlignment.Top,
+							FontFamily = new FontFamily("Baskerville Old Face"),
+							FontSize = 20,
+							Content = item.name,
+							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+						});
+						// Request Button
+						Button tempRequest = (new Button()
+						{
+							Margin = new Thickness() { Right = 0 },
+							Padding = new Thickness() { Right = 5, Left = 5 },
+							HorizontalAlignment = HorizontalAlignment.Right,
+							VerticalAlignment = VerticalAlignment.Center,
+							FontFamily = new FontFamily("Baskerville Old Face"),
+							FontSize = 20,
+							Content = "Request Refill",
+							Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
+							BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
+							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+						});
+						tempRequest.Click += (sender, e) =>
+						{
+							Grid parent = GetAncestorOfType<Grid>(sender as Button);
+							Label drinkName = parent.Children.OfType<Label>().FirstOrDefault();
+							
+							
+						};
+					}
+				}
+			}
+		}
+
+		private void closeRefill_Click(object sender, RoutedEventArgs e)
+		{
+			refillView.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
+		}
+		#endregion
+
+		#region |   Cart Button   |
 		private void cartButton_Click(object sender, RoutedEventArgs e)
 		{
 			addCartItems();
@@ -972,10 +1086,33 @@ namespace OMS
 				{
 					Grid parent = GetAncestorOfType<Grid>(sender as Button);
 					Label removeName  = parent.Children.OfType<Label>().FirstOrDefault();
+					Label removeSalad = new Label(), removeSide = new Label(), removeNotes = new Label();
+					string buildNotes = "";
+
+					foreach (menuItem iter in myMenu)
+					{
+						if (iter.name == removeName.Content.ToString() && iter.category == "entree")
+						{
+							try
+							{
+								removeSalad = parent.Children.OfType<Label>().ElementAt(1);
+								removeSide = parent.Children.OfType<Label>().ElementAt(2);
+								removeNotes = parent.Children.OfType<Label>().ElementAt(3);
+							}
+							catch (Exception)
+							{
+								removeNotes.Content = "Notes: ";
+							}
+
+							buildNotes = removeSalad.Content.ToString() + Environment.NewLine + removeSide.Content.ToString() + Environment.NewLine + removeNotes.Content.ToString();
+							break;
+						}
+							
+					}
 
 					for (int j = 0; j < order.Items.Count; j++)
 					{
-						if (removeName.Content.ToString() == order.Items[j].name)
+						if (removeName.Content.ToString() == order.Items[j].name && buildNotes == order.Notes[j])
 						{
 							order.Items.RemoveAt(j);
 							order.Notes.RemoveAt(j);
@@ -1002,6 +1139,7 @@ namespace OMS
 
 		}
 		#endregion
+		#endregion
 
 		#region Helper Functions
 		/// <summary>
@@ -1025,14 +1163,6 @@ namespace OMS
 			}
 			image.Freeze();
 			return image;
-		}
-
-		private void entreeNotes_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-		{
-			keyboard.Visibility = Visibility.Visible;
-			Thickness tempMargin = entreeAddition.Margin;
-			tempMargin.Bottom += 10;
-			entreeAddition.Margin = tempMargin;
 		}
 
 		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
