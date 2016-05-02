@@ -154,6 +154,30 @@ namespace OMS
 						case "getTables":
 							sendTables(ClientEp.Address);
 							break;
+						case "refillRequest":
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								clientRequest = client.Receive(ref ClientEp);
+								if (iter.selectedPermission == "Waiter")
+								{
+									sendCommand(iter.IP, "refillRequest");
+									sendCommand(iter.IP, ClientEp.Address.ToString());
+									sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
+								}
+							}
+							break;
+						case "cancelRefill":
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								clientRequest = client.Receive(ref ClientEp);
+								if (iter.selectedPermission == "Waiter")
+								{
+									sendCommand(iter.IP, "cancelRefill");
+									sendCommand(iter.IP, ClientEp.Address.ToString());
+									sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
+								}
+							}
+							break;
 						case "recieveClient":
 							clientRequest = client.Receive(ref ClientEp);
 							updateClientStatus((ClientInfo)ByteToObject(clientRequest));

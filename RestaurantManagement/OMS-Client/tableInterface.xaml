@@ -341,7 +341,7 @@
                     <Label x:Name="menuPrice" Content="$##" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,0" Grid.Column="1" Height="46"/>
                     <Button x:Name="addToCart" Content="Add to Cart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,12" VerticalAlignment="Bottom" Height="50" FontFamily="Baskerville Old Face" FontSize="40" Padding="5,1" Background="#FF701C1C" Foreground="#FFACACAC" BorderBrush="#FF686868" Width="201" Click="addToCart_Click"/>
                 </Grid>
-                <Grid x:Name="overlay" Background="#BF2D2D30">
+                <Grid x:Name="overlay" Background="#BF2D2D30" Visibility="Hidden">
                     <Label x:Name="addedAlert" Content="Added to cart" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="66" FontFamily="Baskerville Old Face" Foreground="#FFACACAC" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Background="{x:Null}"/>
                     <Grid x:Name="entreeAddition" Margin="200,125" Background="Black" Visibility="Hidden" Focusable="True">
                         <Label x:Name="label13" Content="Choose Your Options:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
@@ -392,7 +392,7 @@
                         <Button x:Name="submitCart" Content="Submit" HorizontalAlignment="Right" Margin="685,391,10,10" VerticalAlignment="Bottom" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" MinWidth="97" Click="submitCart_Click"/>
                         <ListBox x:Name="cartList" HorizontalAlignment="Left" Height="369" Margin="10,60,0,0" VerticalAlignment="Top" Width="750" Background="#FF2D2D30" Foreground="#FFACACAC"/>
                     </Grid>
-                    <Grid x:Name="refillView" Margin="200,125" Background="Black">
+                    <Grid x:Name="refillView" Margin="200,125" Background="Black" Visibility="Hidden">
                         <Label x:Name="label22" Content="Your drinks:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" FontWeight="Bold" Foreground="#FFACACAC"/>
                         <Separator Margin="0,54,0,0" VerticalAlignment="Top"/>
                         <Button x:Name="closeRefill" Content="Close" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" MinWidth="97" Click="closeRefill_Click"/>

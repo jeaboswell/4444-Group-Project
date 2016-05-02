@@ -37,6 +37,7 @@ namespace OMS
 		List<menuItem> myMenu = new List<menuItem>();
 		int funGames = 0, couponGames = 0;
 		Cart order = new Cart();
+		List<Cart> sentOrders = new List<Cart>();
 		#endregion
 		/// <summary>
 		/// Interface initilization
@@ -958,46 +959,69 @@ namespace OMS
 			refillList.Items.Clear();
 			if (order.Order_num != -1)
 			{
-				foreach (cartItem item in order.Items)
+				foreach (Cart oItem in sentOrders)
 				{
-					if (item.category == "drink")
+					foreach (cartItem item in oItem.Items)
 					{
-						Grid grid = new Grid()
+						if (item.category == "drink")
 						{
-							Width = 832
-						};
-						// Drink Name
-						grid.Children.Add(new Label()
-						{
-							Margin = new Thickness() { Left = 0, Top = 0 },
-							HorizontalAlignment = HorizontalAlignment.Left,
-							VerticalAlignment = VerticalAlignment.Top,
-							FontFamily = new FontFamily("Baskerville Old Face"),
-							FontSize = 20,
-							Content = item.name,
-							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
-						});
-						// Request Button
-						Button tempRequest = (new Button()
-						{
-							Margin = new Thickness() { Right = 0 },
-							Padding = new Thickness() { Right = 5, Left = 5 },
-							HorizontalAlignment = HorizontalAlignment.Right,
-							VerticalAlignment = VerticalAlignment.Center,
-							FontFamily = new FontFamily("Baskerville Old Face"),
-							FontSize = 20,
-							Content = "Request Refill",
-							Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
-							BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
-							Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
-						});
-						tempRequest.Click += (sender, e) =>
-						{
-							Grid parent = GetAncestorOfType<Grid>(sender as Button);
-							Label drinkName = parent.Children.OfType<Label>().FirstOrDefault();
-							
-							
-						};
+							Grid grid = new Grid()
+							{
+								Width = 832
+							};
+							// Drink Name
+							grid.Children.Add(new Label()
+							{
+								Margin = new Thickness() { Left = 0, Top = 0 },
+								HorizontalAlignment = HorizontalAlignment.Left,
+								VerticalAlignment = VerticalAlignment.Top,
+								FontFamily = new FontFamily("Baskerville Old Face"),
+								FontSize = 20,
+								Content = item.name,
+								Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+							});
+							// Request Button
+							Button tempRequest = (new Button()
+							{
+								Margin = new Thickness() { Right = 0 },
+								Padding = new Thickness() { Right = 5, Left = 5 },
+								HorizontalAlignment = HorizontalAlignment.Right,
+								VerticalAlignment = VerticalAlignment.Center,
+								FontFamily = new FontFamily("Baskerville Old Face"),
+								FontSize = 20,
+								Content = "Request Refill",
+								Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
+								BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
+								Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+							});
+							tempRequest.Click += (sender, e) =>
+							{
+								Grid parent = GetAncestorOfType<Grid>(sender as Button);
+								Label drinkName = parent.Children.OfType<Label>().FirstOrDefault();
+
+								foreach (cartItem cItem in oItem.Items)
+								{
+									if (cItem.name == drinkName.Content.ToString())
+									{
+										if (((Button)sender).Content.ToString() == "Request Refill")
+										{
+											commHelper.functionSend("refillRequest");
+											commHelper.functionSend(cItem.name);
+											((Button)sender).Content = "Cancel Request";
+										}
+										else
+										{
+											commHelper.functionSend("cancelRefill");
+											commHelper.functionSend(cItem.name);
+											((Button)sender).Content = "Request Refill";
+										}
+									}
+								}
+							};
+							grid.Children.Add(tempRequest);
+
+							refillList.Items.Add(grid);
+						}
 					}
 				}
 			}
@@ -1180,6 +1204,17 @@ namespace OMS
 					querySave.ExecuteScalar();
 					order.Order_num = (int)querySave.Parameters["@Id"].Value;
 					openCon.Close();
+					sentOrders.Add(order);
+					order = new Cart();
+					addCartItems();
+
+					addedAlert.Content = "Order submitted to kitchen!";
+					cartView.Visibility = Visibility.Hidden;
+					addedAlert.Visibility = Visibility.Visible;
+					Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+					Thread.Sleep(1000);
+					addedAlert.Visibility = Visibility.Hidden;
+					overlay.Visibility = Visibility.Hidden;
 				}
 			}
 		}
