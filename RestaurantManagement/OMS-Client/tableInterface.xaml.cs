@@ -114,22 +114,29 @@ namespace OMS
 					});
 				}
 			}
-
-			Dispatcher.Invoke((Action)(() =>
-			{
-				saladChoice.Items.Add("None");
-				sideChoice.Items.Add("None");
-			}));
-
-			foreach (menuItem item in myMenu)
+			try
 			{
 				Dispatcher.Invoke(() =>
 				{
-					if (item.category == "salad" || item.category == "soup")
-						saladChoice.Items.Add(item.name);
-					else if (item.category == "side")
-						sideChoice.Items.Add(item.name);
+					saladChoice.Items.Add("None");
+					sideChoice.Items.Add("None");
 				});
+			}
+			catch (Exception) { }
+
+			foreach (menuItem item in myMenu)
+			{
+				try
+				{
+					Dispatcher.Invoke(() =>
+					{
+						if (item.category == "salad" || item.category == "soup")
+							saladChoice.Items.Add(item.name);
+						else if (item.category == "side")
+							sideChoice.Items.Add(item.name);
+					});
+				}
+				catch (Exception) { }
 			}
 		}
 		/// <summary>

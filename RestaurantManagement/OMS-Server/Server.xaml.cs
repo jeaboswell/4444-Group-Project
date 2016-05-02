@@ -35,7 +35,7 @@ namespace OMS
 		#region Variables
 		private volatile bool stop;
 		private List<IPAddress> clients = new List<IPAddress>();
-        private List<menuItem> myList = new List<menuItem>();
+		private List<object> myList = new List<object>();
 		public Thread listener;
 		BackgroundWorker menu_load;
         #endregion
@@ -55,7 +55,7 @@ namespace OMS
 			AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
 			{
 				string resourceName = new AssemblyName(args.Name).Name + ".dll";
-				string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+				string resource = Array.Find(GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
 
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
 				{
@@ -87,6 +87,12 @@ namespace OMS
 		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			return EmbeddedAssembly.Get(args.Name);
+		}
+
+		public static object ConvertList(List<object> value, Type type)
+		{
+			var containedType = type.GenericTypeArguments.First();
+			return value.Select(item => Convert.ChangeType(item, containedType));
 		}
 		/// <summary>
 		/// When application attempts to close verify no clients are connected.
@@ -556,15 +562,15 @@ namespace OMS
         {
             if(menuList.SelectedIndex != -1)
             {
-                int position = menuList.SelectedIndex;
-                menuItem temp = myList[position];
-                string available = "Unavailable";
-                if (temp.visible == true)
-                {
-                    available = "Available";
-                }
-                MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description + "\nAvailability: " + available);
-            }
+				int position = menuList.SelectedIndex;
+				menuItem temp = (menuItem)myList[position];
+				string available = "Unavailable";
+				if (temp.visible == true)
+				{
+					available = "Available";
+				}
+				MessageBox.Show("Price: " + temp.price + "\nCategory: " + temp.category + "\nDescription: " + temp.description + "\nAvailability: " + available);
+			}
         }
         private void updateMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -573,6 +579,6 @@ namespace OMS
             menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
             menu_REload.RunWorkerAsync();
         }
-        #endregion
-    }
+		#endregion
+	}
 }

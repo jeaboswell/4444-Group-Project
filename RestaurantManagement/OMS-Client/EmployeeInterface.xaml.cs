@@ -141,12 +141,12 @@ namespace OMS
 
         private void payWithCash_Click(object sender, RoutedEventArgs e)
         {
-      
+            currentTableStatus.Content = "Paid with Cash";
         }
 
         private void payWithCheck_Click(object sender, RoutedEventArgs e)
         {
-         
+            currentTableStatus.Content = "Paid with Check";
         }
     
         private void ticketAdjustment_Click(object sender, RoutedEventArgs e)

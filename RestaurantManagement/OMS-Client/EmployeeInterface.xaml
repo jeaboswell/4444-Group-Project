@@ -39,7 +39,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="openButton" Content="Open" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontSize="35" MinWidth="137.5" Padding="5,0,5,5" Background="#FFADEE89" Click="openButton_Click"/>
-                    <Button x:Name="readingButton" Content="Reading" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" RenderTransformOrigin="0.68,0.55" Grid.Column="1" FontSize="35" Padding="5,0,5,5" MinWidth="137.5" Background="#FFADEE89" Click="readingButton_Click"/>
+                    <Button x:Name="readingButton" Content="Reading" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" RenderTransformOrigin="0.68,0.55" Grid.Column="1" FontSize="35" Padding="5,0,5,5" MinWidth="137.5" Background="#FFADEE89" Click="readingButton_Click" Visibility="Hidden"/>
                     <Button x:Name="waitingButton" Content="Waiting" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Grid.Column="2" FontSize="35" Width="121" MinWidth="137.5" Padding="5,0,5,5" Background="#FFADEE89" Click="waitingButton_Click"/>
                     <Button x:Name="eatingButton" Content="Eating" Margin="0" VerticalAlignment="Center" RenderTransformOrigin="0.68,0.55" Grid.Column="3" FontSize="35" HorizontalAlignment="Center" Padding="5,0,5,5" MinWidth="137.5" Background="#FFADEE89" Click="eatingButton_Click"/>
                 </Grid>

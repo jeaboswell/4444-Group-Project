@@ -37,6 +37,7 @@ namespace OMS
 
         string removeItem = "";
         string removeOrder = "";
+        string order = "";
 
         public Kitchen()
 		{
@@ -57,7 +58,11 @@ namespace OMS
 
             foreach (Cart item in myOrders)
             {
-                orderList.Items.Add(item.Order_num);
+                foreach(menuItem food in item.Items)
+                {
+                    order += food.name;
+                }
+                orderList.Items.Add(item.Order_num + " " + order);
             }
         }
 
