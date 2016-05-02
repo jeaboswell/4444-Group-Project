@@ -13,6 +13,6 @@
         <ListBox x:Name="orderList" HorizontalAlignment="Left" Height="689" Margin="315,0,0,0" VerticalAlignment="Top" Width="957" SelectionChanged="orderBox_SelectionChanged" Visibility="Hidden"/>
         <Button x:Name="removeButton" Content="Remove" HorizontalAlignment="Left" Margin="0,588,0,0" VerticalAlignment="Top" Width="315" Height="100" Background="#FFA61313" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="removeButton_Click"/>
         <Button x:Name="doneButton" Content="Done" HorizontalAlignment="Left" Margin="0,588,0,0" VerticalAlignment="Top" Width="315" Height="100" Background="#FFA61313" Foreground="#FFACACAC" FontSize="40" FontFamily="Baskerville Old Face" BorderBrush="#FF686868" Click="doneButton_Click" Visibility="Hidden"/>
-        <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="0,493,0,0" VerticalAlignment="Top" Width="315" Height="95" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Background="#FF20A91C" Click="addButton_Click"/>
+        <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="0,488,0,0" VerticalAlignment="Top" Width="315" Height="100" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" Background="#FF20A91C" Click="addButton_Click"/>
     </Grid>
 </UserControl>
