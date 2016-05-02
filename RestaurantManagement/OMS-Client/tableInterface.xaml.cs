@@ -154,7 +154,7 @@ namespace OMS
 					{
 						menuImage.Source = item.imgSource;
 						menuDescription.Text = item.description;
-                        menuPrice.Content = "$" + Decimal.ToInt32(item.price).ToString(); //item.price.ToString("0.##");
+                        menuPrice.Content = "$" + decimal.ToInt32(item.price).ToString(); //item.price.ToString("0.##");
                                                                    // the above commented code technically rounds the decimal number, but our values only ever hold two decimals so this is a non issue
                     }
 				}
@@ -953,14 +953,41 @@ namespace OMS
 		/// <param name="e"></param>
 		private void payTab_Click(object sender, MouseButtonEventArgs e)
 		{
-
+			updateBill();
 		}
 
 		private void updateBill()
 		{
-			foreach (Cart cItem in sentOrders)
+			foreach (Cart oItem in sentOrders)
 			{
-
+				foreach (cartItem cItem in oItem.Items)
+				{
+					Grid billItem = new Grid()
+					{
+						Margin = new Thickness() { Left = 0, Right = 0 },
+						HorizontalAlignment = HorizontalAlignment.Stretch,
+						Width = 593
+					};
+					billItem.Children.Add(new Label()
+					{
+						Content = cItem.name,
+						FontSize = 20,
+						FontFamily = new FontFamily("Baskerville Old Face"),
+						Margin = new Thickness() { Left = 0, Top = 0 },
+						HorizontalAlignment = HorizontalAlignment.Left,
+						Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+					});
+					billItem.Children.Add(new Label()
+					{
+						Content = "$" + decimal.ToInt32(cItem.price).ToString(),
+						FontSize = 20,
+						FontFamily = new FontFamily("Baskerville Old Face"),
+						Margin = new Thickness() { Right = 0, Top = 0 },
+						HorizontalAlignment = HorizontalAlignment.Right,
+						Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+					});
+					paymentList.Items.Add(billItem);
+				}
 			}
 		}
 		#endregion
