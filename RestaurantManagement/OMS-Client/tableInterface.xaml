@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OMS"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
+             d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="Template">
@@ -319,8 +319,15 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
-                        <Grid Background="#FFE5E5E5"/>
+                    <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" MouseLeftButtonDown="payTab_Click">
+                        <Grid Background="#FFE5E5E5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="label23" Content="Your Bill:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <ListBox x:Name="paymentList" Margin="10,81,10,10" Background="White"/>
+                        </Grid>
                     </TabItem>
                 </TabControl>
                 <Grid x:Name="menuGrid" Visibility="Hidden">

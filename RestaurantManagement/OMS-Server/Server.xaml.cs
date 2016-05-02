@@ -376,11 +376,16 @@ namespace OMS
 
 			byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
 			client.Send(prepData, prepData.Length, ClientEp);
-			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
-			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
-			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
-			//tableList.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
-
+			Dispatcher.Invoke(() =>
+			{
+				if (clientList.Items.Count < 4)
+				{
+					clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
+					clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
+					clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
+					clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
+				}
+			});
 			foreach (ClientInfo iter in clientList.Items)
 			{
 				if (iter.selectedPermission == "Table")
