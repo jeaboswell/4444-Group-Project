@@ -171,10 +171,9 @@ namespace OMS
 					// while not done reading the stuff returned from the query
 					while (reader.Read())
 					{
-						myOrders.Add(new Cart
-						{
-							Order_num = (int)reader[0]
-						});
+						Cart tempCart = (Cart)ByteToObject((byte[])reader[1]);
+						tempCart.Order_num = (int)reader[0];
+						myOrders.Add(tempCart);
 					}
 
 					connection.Close();
@@ -292,6 +291,21 @@ namespace OMS
                 removeOrder = orderList.SelectedValue.ToString();
             }
             catch { }
-        }
-    }
+		}
+
+		private object ByteToObject(byte[] byteArray)
+		{
+			try
+			{
+				MemoryStream ms = new MemoryStream(byteArray);
+				BinaryFormatter bf = new BinaryFormatter();
+				ms.Position = 0;
+
+				return bf.Deserialize(ms);
+			}
+			catch (Exception) { }
+
+			return null;
+		}
+	}
 }
