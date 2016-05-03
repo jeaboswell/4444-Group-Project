@@ -965,6 +965,7 @@ namespace OMS
 
 		private void updateBill()
 		{
+			paymentList.Items.Clear();
 			foreach (Cart oItem in sentOrders)
 			{
 				foreach (cartItem cItem in oItem.Items)
@@ -973,7 +974,7 @@ namespace OMS
 					{
 						Margin = new Thickness() { Left = 0, Right = 0 },
 						HorizontalAlignment = HorizontalAlignment.Stretch,
-						Width = 593
+						Width = 573
 					};
 					billItem.Children.Add(new Label()
 					{
@@ -995,6 +996,19 @@ namespace OMS
 					});
 					paymentList.Items.Add(billItem);
 				}
+			}
+		}
+
+		#region |   Credit Card Fields   |
+
+		private void ccYear_Loaded(object sender, RoutedEventArgs e)
+		{
+			int year = DateTime.Now.Year;
+
+			for (int i = 0; i < 4; i++)
+			{
+				ccYear.Items.Add(year);
+				year++;
 			}
 		}
 
@@ -1080,6 +1094,32 @@ namespace OMS
 			{
 				closeKeyboard.Visibility = Visibility.Hidden;
 			}
+		}
+		#endregion
+
+		private void addTip_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void addCoupon_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void submitPayment_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void cashPayment_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void checkPayment_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 		#endregion
 

@@ -326,7 +326,30 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label x:Name="label23" Content="Your Bill:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                            <ListBox x:Name="paymentList" Margin="10,81,10,10" Background="White"/>
+                            <ListBox x:Name="paymentList" Margin="10,81,10,10" Background="White" Focusable="False" IsHitTestVisible="False">
+                                <ListBox.Resources>
+                                    <Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Border Name="Border" Padding="2" SnapsToDevicePixels="true">                       
+                                                        <ContentPresenter HorizontalAlignment="Left" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="true">
+                                                            <Setter TargetName="Border" Property="Background" Value="#DDDDDD"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter Property="Foreground" Value="#888888"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+
+                                </ListBox.Resources>
+                            </ListBox>
                             <Label x:Name="label24" Content="Credit Card Number:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" FontSize="30"/>
                             <TextBox x:Name="ccNumber" Grid.Column="1" HorizontalAlignment="Left" Margin="277,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontSize="30" PreviewTextInput="ccNumber_PreviewTextInput" GotFocus="ccNumber_GotFocus" VerticalContentAlignment="Center" Height="44" GotKeyboardFocus="ccNumber_GotKeyboardFocus" LostKeyboardFocus="ccNumber_LostKeyboardFocus"/>
                             <Label x:Name="label25" Content="Exp:" Grid.Column="1" HorizontalAlignment="Left" Margin="166,180,0,0" VerticalAlignment="Top" FontSize="30"/>
@@ -345,7 +368,7 @@
                                 <ComboBoxItem Content="12"/>
                             </ComboBox>
                             <Label x:Name="label26" Content="/" Grid.Column="1" HorizontalAlignment="Left" Margin="291,180,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold"/>
-                            <ComboBox x:Name="ccYear" Grid.Column="1" HorizontalAlignment="Left" Margin="310,180,0,0" VerticalAlignment="Top" Width="110" FontSize="30" Height="44"/>
+                            <ComboBox x:Name="ccYear" Grid.Column="1" HorizontalAlignment="Left" Margin="310,180,0,0" VerticalAlignment="Top" Width="110" FontSize="30" Height="44" Loaded="ccYear_Loaded"/>
                             <Label x:Name="label27" Content="CVV:" Grid.Column="1" HorizontalAlignment="Left" Margin="425,180,0,0" VerticalAlignment="Top" FontSize="30"/>
                             <TextBox x:Name="ccCVV" Grid.Column="1" HorizontalAlignment="Left" Height="44" Margin="503,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="30" VerticalContentAlignment="Center" GotKeyboardFocus="ccCVV_GotKeyboardFocus" LostKeyboardFocus="ccCVV_LostKeyboardFocus" PreviewTextInput="ccCVV_PreviewTextInput"/>
                             <Label x:Name="label28" Content="Name on Card:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,229,0,0" VerticalAlignment="Top" FontSize="30"/>
@@ -353,13 +376,14 @@
                             <Image x:Name="ccLogo" Grid.Column="1" HorizontalAlignment="Left" Height="44" Margin="45,180,0,0" VerticalAlignment="Top" Width="116" ClipToBounds="True"/>
                             <Label x:Name="label29" Content="Pay with credit card:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" FontSize="30"/>
                             <Separator Grid.Column="1" Margin="10,125,10,0" VerticalAlignment="Top"/>
-                            <Button x:Name="submitPayment" Content="Submit Payment" Grid.Column="1" HorizontalAlignment="Right" Margin="0,278,10,0" VerticalAlignment="Top" FontSize="30" Padding="5,1"/>
+                            <Button x:Name="submitPayment" Content="Submit Payment" Grid.Column="1" HorizontalAlignment="Right" Margin="0,278,10,0" VerticalAlignment="Top" FontSize="30" Padding="5,1" Click="submitPayment_Click"/>
                             <Separator Grid.Column="1" Margin="10,321,10,0" VerticalAlignment="Top"/>
-                            <Button x:Name="cashPayment" Content="Pay with cash" Grid.Column="1" HorizontalAlignment="Left" Margin="10,370,453,0" VerticalAlignment="Top" Padding="5,1" FontSize="30"/>
+                            <Button x:Name="cashPayment" Content="Pay with cash" Grid.Column="1" HorizontalAlignment="Left" Margin="10,370,453,0" VerticalAlignment="Top" Padding="5,1" FontSize="30" Click="cashPayment_Click"/>
                             <Label x:Name="label29_Copy" Content="Other payment options:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,321,0,0" VerticalAlignment="Top" FontSize="30"/>
                             <Separator Grid.Column="1" Margin="10,364,10,0" VerticalAlignment="Top"/>
-                            <Button x:Name="checkPayment" Content="Pay with check" Grid.Column="1" HorizontalAlignment="Left" Margin="10,413,435,0" VerticalAlignment="Top" Padding="5,1" FontSize="30"/>
-                            <Button x:Name="addTip" Content="Add Tip" HorizontalAlignment="Right" Margin="0,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.307,-0.031" Padding="5,1" FontSize="30"/>
+                            <Button x:Name="checkPayment" Content="Pay with check" Grid.Column="1" HorizontalAlignment="Left" Margin="10,413,435,0" VerticalAlignment="Top" Padding="5,1" FontSize="30" Click="checkPayment_Click"/>
+                            <Button x:Name="addTip" Content="Add Tip" HorizontalAlignment="Right" Margin="0,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.307,-0.031" Padding="5,1" FontSize="30" Click="addTip_Click"/>
+                            <Button x:Name="addCoupon" Content="Add Coupon" HorizontalAlignment="Right" Margin="0,38,130,0" VerticalAlignment="Top" RenderTransformOrigin="0.307,-0.031" Padding="5,1" FontSize="30" Click="addCoupon_Click"/>
                         </Grid>
                     </TabItem>
                 </TabControl>
