@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -19,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 using D = System.Data;            // System.Data.dll
 using C = System.Data.SqlClient;  // System.Data.dll
 using System.Runtime.Serialization.Formatters.Binary;
@@ -27,23 +29,24 @@ using OMS_Library;
 
 namespace OMS
 {
-	/// <summary>
-	/// Interaction logic for Kitchen.xaml
-	/// </summary>
-	public partial class Kitchen : UserControl
+    /// <summary>
+    /// Interaction logic for Kitchen.xaml
+    /// </summary>
+    public partial class Kitchen : UserControl
     {
         List<menuItem> myMenu = new List<menuItem>();
         List<Cart> myOrders = new List<Cart>();
+        List<cartItem> items = new List<cartItem>();
 
         string removeItem = "";
         string removeOrder = "";
         string order = "";
 
         public Kitchen()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             createMenu();
-            createOrder();
+            createOrders();
             foreach (menuItem item in myMenu)
             {
                 if (item.visible == false)
@@ -58,9 +61,9 @@ namespace OMS
 
             foreach (Cart item in myOrders)
             {
-                foreach(cartItem food in item.Items)
+                foreach (cartItem food in item.Items)
                 {
-                    order += food.name;
+                    order += (food.name + ", ");
                 }
                 orderList.Items.Add(item.Order_num + " " + order);
             }
@@ -69,9 +72,9 @@ namespace OMS
         public void refreshMenu()
         {
             menuList.Items.Clear();
-            foreach(menuItem item in myMenu)
+            foreach (menuItem item in myMenu)
             {
-                if(item.visible == false)
+                if (item.visible == false)
                 {
                     menuList.Items.Add("(REMOVED)" + item.name);
                 }
@@ -80,6 +83,19 @@ namespace OMS
                 {
                     menuList.Items.Add(item.name);
                 }
+            }
+        }
+
+        public void refreshOrders()
+        {
+            orderList.Items.Clear();
+            foreach (Cart item in myOrders)
+            {
+                foreach (cartItem food in item.Items)
+                {
+                    order += (food.name + ", ");
+                }
+                orderList.Items.Add(item.Order_num + " " + order);
             }
         }
 
@@ -125,7 +141,7 @@ namespace OMS
         /// <summary>
         /// Update the database to make it work nicer, and change the 
         /// </summary>
-        public void createOrder()
+        public void createOrders()
         {
             string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
             // Create an SqlConnection from the provided connection string.
@@ -149,12 +165,9 @@ namespace OMS
                 // while not done reading the stuff returned from the query
                 while (reader.Read())
                 {
-                    // create menu items from the database               
                     myOrders.Add(new Cart
                     {
-                        //Items = (List<menuItem>)reader[0],
-                        //Order_num = (int)reader[1],
-                        //Notes = (List<string>)reader[2]
+                        Order_num = (int)reader[0]
                     });
                 }
 
@@ -180,7 +193,23 @@ namespace OMS
 
         private void doneButton_Click(object sender, RoutedEventArgs e)
         {
+            using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+            {
+                string command = "update dbo.Orders set Finished = @true where Id = @id";
 
+                using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
+                {
+                    querySave.Parameters.AddWithValue("@true", BitConverter.GetBytes(true));
+                    querySave.Parameters.AddWithValue("@id", Int32.Parse(removeOrder));
+
+                    openCon.Open();
+                    querySave.ExecuteScalar();
+                    openCon.Close();
+                }
+            }
+            myOrders.Clear();
+            createOrders();
+            refreshOrders();
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -206,41 +235,41 @@ namespace OMS
 
         private void removeButton_Click(object sender, RoutedEventArgs e)
         {
-			using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-			{
-				string command = "update dbo.Menu set Available = @false where Id = @id";
+            using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+            {
+                string command = "update dbo.Menu set Available = @false where Id = @id";
 
-				using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
-				{
-					querySave.Parameters.AddWithValue("@false", BitConverter.GetBytes(0));
-					querySave.Parameters.AddWithValue("@id", getID(removeItem));
+                using (C.SqlCommand querySave = new C.SqlCommand(command, openCon))
+                {
+                    querySave.Parameters.AddWithValue("@false", BitConverter.GetBytes(0));
+                    querySave.Parameters.AddWithValue("@id", getID(removeItem));
 
-					openCon.Open();
-					querySave.ExecuteScalar();
-					openCon.Close();
-				}
-			}
+                    openCon.Open();
+                    querySave.ExecuteScalar();
+                    openCon.Close();
+                }
+            }
             myMenu.Clear();
             createMenu();
             refreshMenu();
-		}
+        }
 
-		private int getID(string item)
-		{
-			foreach (menuItem iter in myMenu)
-			{
-				if (iter.name == item)
-					return iter.itemNumber;
-			}
-			return -1;
-		}
+        private int getID(string item)
+        {
+            foreach (menuItem iter in myMenu)
+            {
+                if (iter.name == item)
+                    return iter.itemNumber;
+            }
+            return -1;
+        }
 
         private void menuBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
                 removeItem = menuList.SelectedValue.ToString();
-                if(removeItem.StartsWith("("))
+                if (removeItem.StartsWith("("))
                 {
                     removeItem = removeItem.Substring(9);
                 }
@@ -249,8 +278,12 @@ namespace OMS
         }
 
         private void orderBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {  
-            removeOrder = orderList.SelectedValue.ToString();
+        {
+            try
+            {
+                removeOrder = orderList.SelectedValue.ToString();
+            }
+            catch { }
         }
     }
 }
