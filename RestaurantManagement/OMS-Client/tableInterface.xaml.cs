@@ -70,51 +70,55 @@ namespace OMS
 				saladChoice.Items.Clear();
 				sideChoice.Items.Clear();
 			});
-
-			string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
-			// Create an SqlConnection from the provided connection string.
-			using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+			try
 			{
-				// Formulate the command.
-				SqlCommand command = new SqlCommand();
-				command.Connection = connection;
+				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+				// Create an SqlConnection from the provided connection string.
+				using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+				{
+					// Formulate the command.
+					SqlCommand command = new SqlCommand();
+					command.Connection = connection;
 
-				// Specify the query to be executed.
-				command.CommandType = CommandType.Text;
-				command.CommandText = @"
+					// Specify the query to be executed.
+					command.CommandType = CommandType.Text;
+					command.CommandText = @"
                     SELECT * FROM dbo.Menu
                     WHERE Available=1
                     ";
-				// Open a connection to database.
-				connection.Open();
-				// Read data returned for the query.
-				SqlDataReader reader = command.ExecuteReader();
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					SqlDataReader reader = command.ExecuteReader();
 
-				// while not done reading the stuff returned from the query
-				while (reader.Read())
-				{
-					ImageSource tempSrc;
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						ImageSource tempSrc;
 
-					try
-					{
-						tempSrc = LoadImage((byte[])reader[4]);
+						try
+						{
+							tempSrc = LoadImage((byte[])reader[4]);
+						}
+						catch (Exception)
+						{
+							tempSrc = new BitmapImage(new Uri("Resources/noImage.jpg", UriKind.Relative));
+						}
+						// create menu items from the database               
+						myMenu.Add(new menuItem
+						{
+							itemNumber = (int)reader[0],
+							name = (string)reader[1],
+							description = (string)reader[2],
+							imgSource = tempSrc,
+							price = (decimal)reader[3],
+							category = (string)reader[7]
+						});
 					}
-					catch (Exception)
-					{
-						tempSrc = new BitmapImage(new Uri("Resources/noImage.jpg", UriKind.Relative));
-					}
-					// create menu items from the database               
-					myMenu.Add(new menuItem
-					{
-						itemNumber = (int)reader[0],
-						name = (string)reader[1],
-						description = (string)reader[2],
-						imgSource = tempSrc,
-						price = (decimal)reader[3],
-						category = (string)reader[7]
-					});
 				}
 			}
+			catch (Exception) { }
+
 			try
 			{
 				Dispatcher.Invoke(() =>

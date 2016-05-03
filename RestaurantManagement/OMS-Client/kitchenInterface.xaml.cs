@@ -101,41 +101,45 @@ namespace OMS
 
         public void createMenu()
         {
-            string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
-            // Create an SqlConnection from the provided connection string.
-            using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
-            {
-                // Formulate the command.
-                C.SqlCommand command = new C.SqlCommand();
-                command.Connection = connection;
+			try
+			{
+				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+				// Create an SqlConnection from the provided connection string.
+				using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
+				{
+					// Formulate the command.
+					C.SqlCommand command = new C.SqlCommand();
+					command.Connection = connection;
 
-                // Specify the query to be executed.
-                command.CommandType = D.CommandType.Text;
-                command.CommandText = @"
+					// Specify the query to be executed.
+					command.CommandType = D.CommandType.Text;
+					command.CommandText = @"
                     SELECT * FROM dbo.Menu
                     ";
-                // Open a connection to database.
-                connection.Open();
-                // Read data returned for the query.
-                C.SqlDataReader reader = command.ExecuteReader();
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					C.SqlDataReader reader = command.ExecuteReader();
 
-                // while not done reading the stuff returned from the query
-                while (reader.Read())
-                {
-                    // create menu items from the database               
-                    myMenu.Add(new menuItem
-                    {
-                        itemNumber = (int)reader[0],
-                        name = (string)reader[1],
-                        description = (string)reader[2],
-                        imgSource = null,
-                        visible = (bool)reader[5],
-                        price = (decimal)reader[3],
-                        category = (string)reader[7]
-                    });
-                }
-                connection.Close();
-            }
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						// create menu items from the database               
+						myMenu.Add(new menuItem
+						{
+							itemNumber = (int)reader[0],
+							name = (string)reader[1],
+							description = (string)reader[2],
+							imgSource = null,
+							visible = (bool)reader[5],
+							price = (decimal)reader[3],
+							category = (string)reader[7]
+						});
+					}
+					connection.Close();
+				}
+			}
+			catch (Exception) { }
         }
 
         /// <summary>
@@ -143,36 +147,40 @@ namespace OMS
         /// </summary>
         public void createOrders()
         {
-            string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
-            // Create an SqlConnection from the provided connection string.
-            using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
-            {
-                // Formulate the command.
-                C.SqlCommand command = new C.SqlCommand();
-                command.Connection = connection;
+			try
+			{
+				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+				// Create an SqlConnection from the provided connection string.
+				using (C.SqlConnection connection = new C.SqlConnection(SQLConnectionString))
+				{
+					// Formulate the command.
+					C.SqlCommand command = new C.SqlCommand();
+					command.Connection = connection;
 
-                // Specify the query to be executed.
-                command.CommandType = D.CommandType.Text;
-                command.CommandText = @"
+					// Specify the query to be executed.
+					command.CommandType = D.CommandType.Text;
+					command.CommandText = @"
                     SELECT * FROM dbo.Orders
                     WHERE Finished=0
                     ";
-                // Open a connection to database.
-                connection.Open();
-                // Read data returned for the query.
-                C.SqlDataReader reader = command.ExecuteReader();
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					C.SqlDataReader reader = command.ExecuteReader();
 
-                // while not done reading the stuff returned from the query
-                while (reader.Read())
-                {
-                    myOrders.Add(new Cart
-                    {
-                        Order_num = (int)reader[0]
-                    });
-                }
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						myOrders.Add(new Cart
+						{
+							Order_num = (int)reader[0]
+						});
+					}
 
-                connection.Close();
-            }
+					connection.Close();
+				}
+			}
+			catch (Exception) { }
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
