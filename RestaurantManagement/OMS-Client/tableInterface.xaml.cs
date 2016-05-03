@@ -962,7 +962,9 @@ namespace OMS
 				closeKeyboard.Visibility = Visibility.Hidden;
 			}
 		}
-
+		/// <summary>
+		/// Add all items from submitted orders to the payment list
+		/// </summary>
 		private void updateBill()
 		{
 			paymentList.Items.Clear();
@@ -1000,7 +1002,11 @@ namespace OMS
 		}
 
 		#region |   Credit Card Fields   |
-
+		/// <summary>
+		/// Add expiration years to the credit card year comboBox
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ccYear_Loaded(object sender, RoutedEventArgs e)
 		{
 			int year = DateTime.Now.Year;
@@ -1011,7 +1017,11 @@ namespace OMS
 				year++;
 			}
 		}
-
+		/// <summary>
+		/// Verify input for the credit card number
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ccNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
 			if (ccNumber.Text.Length != 19)
@@ -1020,13 +1030,21 @@ namespace OMS
 			if (ccNumber.Text.Length == 19 || !IsDigit(e.Text))
 				e.Handled = true;
 		}
-
+		/// <summary>
+		/// Verify input for the credit card cvv number
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ccCVV_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
 			if (ccCVV.Text.Length == 3 || !IsDigit(e.Text))
 				e.Handled = true;
 		}
-
+		/// <summary>
+		/// Fixes keyboard being open on first visit to the payment tab
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ccNumber_GotFocus(object sender, RoutedEventArgs e)
 		{
 			if (payFirst)
@@ -1037,49 +1055,41 @@ namespace OMS
 				closeKeyboard.Visibility = Visibility.Hidden;
 			}
 		}
-
+		/// <summary>
+		/// Closes the keyboard
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void closeKeyboard_Click(object sender, RoutedEventArgs e)
 		{
 			defaultKeyboard.Visibility = Visibility.Hidden;
 			closeKeyboard.Visibility = Visibility.Hidden;
 		}
-
-		private void ccNumber_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		/// <summary>
+		/// Opens the keyboard
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ccField_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			defaultKeyboard.Visibility = Visibility.Visible;
 			closeKeyboard.Visibility = Visibility.Visible;
 		}
-
-		private void ccCVV_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-		{
-			defaultKeyboard.Visibility = Visibility.Visible;
-			closeKeyboard.Visibility = Visibility.Visible;
-		}
-
-		private void ccName_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-		{
-			defaultKeyboard.Visibility = Visibility.Visible;
-			closeKeyboard.Visibility = Visibility.Visible;
-		}
-
-		private void ccNumber_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		/// <summary>
+		/// Closes the keyboard
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ccField_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			defaultKeyboard.Visibility = Visibility.Hidden;
 			closeKeyboard.Visibility = Visibility.Hidden;
 		}
-
-		private void ccCVV_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-		{
-			defaultKeyboard.Visibility = Visibility.Hidden;
-			closeKeyboard.Visibility = Visibility.Hidden;
-		}
-
-		private void ccName_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-		{
-			defaultKeyboard.Visibility = Visibility.Hidden;
-			closeKeyboard.Visibility = Visibility.Hidden;
-		}
-
+		/// <summary>
+		/// Fixes keyboard being open on first visit to the payment tab
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void defaultKeyboard_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (!ccNumber.IsKeyboardFocused && ccNumber.IsFocused)
@@ -1087,7 +1097,11 @@ namespace OMS
 				defaultKeyboard.Visibility = Visibility.Hidden;
 			}
 		}
-
+		/// <summary>
+		/// Fixes keyboard being open on first visit to the payment tab
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void closeKeyboard_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			if (!ccNumber.IsKeyboardFocused && ccNumber.IsFocused)
@@ -1096,27 +1110,51 @@ namespace OMS
 			}
 		}
 		#endregion
-
+		/// <summary>
+		/// Open add tip overlay and submit given tip
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void addTip_Click(object sender, RoutedEventArgs e)
 		{
 
 		}
-
+		/// <summary>
+		/// Open add coupon overlay and adjust bill accordingly
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void addCoupon_Click(object sender, RoutedEventArgs e)
 		{
 
 		}
-
+		/// <summary>
+		/// Verify credit card and submit payment
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void submitPayment_Click(object sender, RoutedEventArgs e)
 		{
+			// Verify the credit card number is valid
+			if (validCC(ccNumber.Text))
+			{
 
+			}
 		}
-
+		/// <summary>
+		/// Notify wait staff that customer wishes to pay with cash
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cashPayment_Click(object sender, RoutedEventArgs e)
 		{
 
 		}
-
+		/// <summary>
+		/// Notify wait stagg that customer wishes to pay with a check
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void checkPayment_Click(object sender, RoutedEventArgs e)
 		{
 
@@ -1125,6 +1163,11 @@ namespace OMS
 
 		#region Service Dock
 		#region |   Help Button  |
+		/// <summary>
+		/// Notify wait staff that the table has requested help
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void helpButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (helpButton.Background.ToString() == "#FF2D2D30")
@@ -1141,13 +1184,20 @@ namespace OMS
 		#endregion
 
 		#region |   Refill Button   |
+		/// <summary>
+		/// Display the refill overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void refillButton_Click(object sender, RoutedEventArgs e)
 		{
 			addRefillItems();
 			overlay.Visibility = Visibility.Visible;
 			refillView.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Add all drinks in submitted orders to the refill list
+		/// </summary>
 		private void addRefillItems()
 		{
 			refillList.Items.Clear();
@@ -1220,7 +1270,11 @@ namespace OMS
 				}
 			}
 		}
-
+		/// <summary>
+		/// Close the refill overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void closeRefill_Click(object sender, RoutedEventArgs e)
 		{
 			refillView.Visibility = Visibility.Hidden;
@@ -1229,13 +1283,20 @@ namespace OMS
 		#endregion
 
 		#region |   Cart Button   |
+		/// <summary>
+		/// Display the cart overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cartButton_Click(object sender, RoutedEventArgs e)
 		{
 			addCartItems();
 			overlay.Visibility = Visibility.Visible;
 			cartView.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Adds all order items to cart list
+		/// </summary>
 		private void addCartItems()
 		{
 			cartList.Items.Clear();
@@ -1376,15 +1437,34 @@ namespace OMS
 
 				cartList.Items.Add(item);
 			}
+			if (cartList.Items.Count != 0)
+				submitCart.IsEnabled = true;
 		}
-
+		/// <summary>
+		/// Close cart overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void closeCart_Click(object sender, RoutedEventArgs e)
 		{
 			cartView.Visibility = Visibility.Hidden;
 			overlay.Visibility = Visibility.Hidden;
 		}
-
+		/// <summary>
+		/// Open overlay to verify customer wishes to submit the cart
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void submitCart_Click(object sender, RoutedEventArgs e)
+		{
+			verifyOrderSubmission.Visibility = Visibility.Visible;
+		}
+		/// <summary>
+		/// Submit the cart to the database
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void yesSubmit_Click(object sender, RoutedEventArgs e)
 		{
 			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 			{
@@ -1403,7 +1483,9 @@ namespace OMS
 					addCartItems();
 
 					addedAlert.Content = "Order submitted to kitchen!";
+					verifyOrderSubmission.Visibility = Visibility.Hidden;
 					cartView.Visibility = Visibility.Hidden;
+					submitCart.IsEnabled = false;
 					addedAlert.Visibility = Visibility.Visible;
 					Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 					Thread.Sleep(1000);
@@ -1411,6 +1493,15 @@ namespace OMS
 					overlay.Visibility = Visibility.Hidden;
 				}
 			}
+		}
+		/// <summary>
+		/// Return to the cart overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void noSubmit_Click(object sender, RoutedEventArgs e)
+		{
+			verifyOrderSubmission.Visibility = Visibility.Hidden;
 		}
 		#endregion
 		#endregion
@@ -1468,7 +1559,11 @@ namespace OMS
 				return GetAncestorOfType<T>((FrameworkElement)parent);
 			return (T)parent;
 		}
-
+		/// <summary>
+		/// Verify the provided string is a valid credit card number
+		/// </summary>
+		/// <param name="number"></param>
+		/// <returns></returns>
 		private bool validCC(string number)
 		{
 			number.Replace(" ", string.Empty);
@@ -1516,7 +1611,7 @@ namespace OMS
 
 			return false;
 		}
-
+		// Represents a range of numbers
 		class Range
 		{
 			public Range(int left, int right)
@@ -1528,12 +1623,22 @@ namespace OMS
 			public int Left { get; set; }
 			public int Right { get; set; }
 		}
-
+		/// <summary>
+		/// Returns a range with the provided bounds
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
 		Range R(int left, int right)
 		{
 			return new Range(left, right);
 		}
-
+		/// <summary>
+		/// Checks if a given value is in the given range
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="range"></param>
+		/// <returns></returns>
 		private bool Between(int value, Range range)
 		{
 			if (value >= range.Left && value <= range.Right)
