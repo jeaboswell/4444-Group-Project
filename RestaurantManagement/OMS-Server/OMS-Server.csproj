@@ -76,6 +76,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -103,6 +105,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Add_menu_item.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_menu_item.Designer.cs">
+      <DependentUpon>Add_menu_item.cs</DependentUpon>
+    </Compile>
     <Compile Include="Server.xaml.cs">
       <DependentUpon>Server.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -122,6 +130,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Add_menu_item.resx">
+      <DependentUpon>Add_menu_item.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

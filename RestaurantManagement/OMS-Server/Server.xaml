@@ -88,6 +88,7 @@
                             <Button x:Name="more_info" Content="More info" Margin="0,0,121,0" Click="more_info_Click" HorizontalAlignment="Left" Width="82" VerticalAlignment="Bottom" Height="42"/>
                             <Button x:Name="updateMenu" Content="Update Menu" HorizontalAlignment="Right" Width="82" Margin="0" Click="updateMenu_Click" VerticalAlignment="Bottom" Height="42"/>
                         </Grid>
+                        <Button x:Name="add_menu_item" Content="Add Item" HorizontalAlignment="Left" Margin="40,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="add_menu_item_Click"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Customers">
