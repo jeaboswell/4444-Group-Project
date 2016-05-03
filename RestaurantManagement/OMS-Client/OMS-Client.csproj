@@ -222,6 +222,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\References\OMS-Library.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreditCards\amex.jpg" />
+    <Resource Include="Resources\CreditCards\diners.jpg" />
+    <Resource Include="Resources\CreditCards\discover.jpg" />
+    <Resource Include="Resources\CreditCards\enroute.jpg" />
+    <Resource Include="Resources\CreditCards\jcb.jpg" />
+    <Resource Include="Resources\CreditCards\mc.jpg" />
+    <Resource Include="Resources\CreditCards\visa.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

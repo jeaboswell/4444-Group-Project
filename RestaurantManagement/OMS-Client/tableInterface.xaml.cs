@@ -34,10 +34,11 @@ namespace OMS
 	{
 		#region Variables
 		rewardMember currentMember = new rewardMember();
+		List<object> sentOrders = new List<object>();
 		List<object> myMenu = new List<object>();
 		int funGames = 0, couponGames = 0;
 		object order = new object();
-		List<object> sentOrders = new List<object>();
+		bool payFirst = true;
 		#endregion
 		/// <summary>
 		/// Interface initilization
@@ -947,13 +948,19 @@ namespace OMS
 
 		#region Payment Functions
 		/// <summary>
-		/// 
+		/// Updates payment tab
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void payTab_Click(object sender, MouseButtonEventArgs e)
+		private void homePage_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			updateBill();
+			TabItem temp = (TabItem)(((TabControl)sender).SelectedValue);
+			if (temp.Header.ToString() == "Pay")
+			{
+				updateBill();
+				defaultKeyboard.Visibility = Visibility.Hidden;
+				closeKeyboard.Visibility = Visibility.Hidden;
+			}
 		}
 
 		private void updateBill()
@@ -988,6 +995,90 @@ namespace OMS
 					});
 					paymentList.Items.Add(billItem);
 				}
+			}
+		}
+
+		private void ccNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			if (ccNumber.Text.Length != 19)
+				validCC(ccNumber.Text + e.Text);
+
+			if (ccNumber.Text.Length == 19 || !IsDigit(e.Text))
+				e.Handled = true;
+		}
+
+		private void ccCVV_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			if (ccCVV.Text.Length == 3 || !IsDigit(e.Text))
+				e.Handled = true;
+		}
+
+		private void ccNumber_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (payFirst)
+			{
+				Keyboard.ClearFocus();
+				payFirst = false;
+				defaultKeyboard.Visibility = Visibility.Hidden;
+				closeKeyboard.Visibility = Visibility.Hidden;
+			}
+		}
+
+		private void closeKeyboard_Click(object sender, RoutedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			closeKeyboard.Visibility = Visibility.Hidden;
+		}
+
+		private void ccNumber_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			closeKeyboard.Visibility = Visibility.Visible;
+		}
+
+		private void ccCVV_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			closeKeyboard.Visibility = Visibility.Visible;
+		}
+
+		private void ccName_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			closeKeyboard.Visibility = Visibility.Visible;
+		}
+
+		private void ccNumber_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			closeKeyboard.Visibility = Visibility.Hidden;
+		}
+
+		private void ccCVV_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			closeKeyboard.Visibility = Visibility.Hidden;
+		}
+
+		private void ccName_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			closeKeyboard.Visibility = Visibility.Hidden;
+		}
+
+		private void defaultKeyboard_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (!ccNumber.IsKeyboardFocused && ccNumber.IsFocused)
+			{
+				defaultKeyboard.Visibility = Visibility.Hidden;
+			}
+		}
+
+		private void closeKeyboard_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (!ccNumber.IsKeyboardFocused && ccNumber.IsFocused)
+			{
+				closeKeyboard.Visibility = Visibility.Hidden;
 			}
 		}
 		#endregion
@@ -1324,7 +1415,6 @@ namespace OMS
 				return ms.ToArray();
 			}
 		}
-
 		/// <summary>
 		/// Gets the a parent of specified type
 		/// </summary>
@@ -1335,8 +1425,81 @@ namespace OMS
 		{
 			var parent = VisualTreeHelper.GetParent(child);
 			if (parent != null && !(parent is T))
-				return (T)GetAncestorOfType<T>((FrameworkElement)parent);
+				return GetAncestorOfType<T>((FrameworkElement)parent);
 			return (T)parent;
+		}
+
+		private bool validCC(string number)
+		{
+			number.Replace(" ", string.Empty);
+			try
+			{
+				ccLogo.Source = null;
+				switch (number[0])
+				{
+					case '2': // enRoute
+						if ((number.Substring(0, 4) == "2014" || number.Substring(0, 4) == "2149") && number.Length == 15)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/enroute.jpg", UriKind.Relative));
+						break;
+					case '3': // American Express, Diners Club, JCB
+						if ((number[1] == '4' || number[1] == '7') && number.Length == 15)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/amex.jpg", UriKind.Relative));
+						else if ((number.Substring(0, 4) == "3088" || number.Substring(0, 4) == "3096" || number.Substring(0, 4) == "3112" ||
+								number.Substring(0, 4) == "3158" || number.Substring(0, 4) == "3337") && number.Length == 16)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/jcb.jpg", UriKind.Relative));
+						else if ((number[1] == '0' || number[1] == '6' || number[1] == '8') && number.Length == 14)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/diners.jpg", UriKind.Relative));
+						break;
+					case '4': // Visa
+						if (number.Length == 13 || number.Length == 16)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/visa.jpg", UriKind.Relative));
+						break;
+					case '5': // MasterCard
+						if (Between(Convert.ToInt32(number.Substring(1, 1)), R(1, 5)) && number.Length == 16)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/mc.jpg", UriKind.Relative));
+						break;
+					case '6': // Discover
+						if ((Between(Convert.ToInt32(number.Substring(0, 8)), R(60110000, 60119999)) ||
+							Between(Convert.ToInt32(number.Substring(0, 8)), R(65000000, 65009999)) ||
+							Between(Convert.ToInt32(number.Substring(0, 8)), R(62212600, 62292599))) &&
+							number.Length == 16)
+							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/discover.jpg", UriKind.Relative));
+						break;
+					default:
+						break;
+				}
+
+				if (ccLogo.Source != null)
+					return true;
+			}
+			catch (Exception) { return false; }
+
+			return false;
+		}
+
+		class Range
+		{
+			public Range(int left, int right)
+			{
+				Left = left;
+				Right = right;
+			}
+
+			public int Left { get; set; }
+			public int Right { get; set; }
+		}
+
+		Range R(int left, int right)
+		{
+			return new Range(left, right);
+		}
+
+		private bool Between(int value, Range range)
+		{
+			if (value >= range.Left && value <= range.Right)
+				return true;
+
+			return false;
 		}
 		#endregion
 	}

@@ -249,7 +249,6 @@ namespace OMS
 
 		private void main_ContentRendered(object sender, EventArgs e)
 		{
-
 		}
 
 		private object ByteToObject(byte[] byteArray)

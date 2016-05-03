@@ -34,7 +34,7 @@
     <Grid Background="Black">
         <Viewbox Stretch="Fill">
             <Grid x:Name="menuSystem" Height="689" Width="1272">
-                <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868">
+                <TabControl x:Name="homePage" TabStripPlacement="Bottom" Background="#FF686868" BorderBrush="#FF686868" SelectionChanged="homePage_SelectionChanged">
                     <TabControl.Resources>
                         <Style TargetType="{x:Type TabPanel}">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -319,7 +319,7 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" MouseLeftButtonDown="payTab_Click">
+                    <TabItem Header="Pay" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                         <Grid Background="#FFE5E5E5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -327,6 +327,39 @@
                             </Grid.ColumnDefinitions>
                             <Label x:Name="label23" Content="Your Bill:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                             <ListBox x:Name="paymentList" Margin="10,81,10,10" Background="White"/>
+                            <Label x:Name="label24" Content="Credit Card Number:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" FontSize="30"/>
+                            <TextBox x:Name="ccNumber" Grid.Column="1" HorizontalAlignment="Left" Margin="277,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontSize="30" PreviewTextInput="ccNumber_PreviewTextInput" GotFocus="ccNumber_GotFocus" VerticalContentAlignment="Center" Height="44" GotKeyboardFocus="ccNumber_GotKeyboardFocus" LostKeyboardFocus="ccNumber_LostKeyboardFocus"/>
+                            <Label x:Name="label25" Content="Exp:" Grid.Column="1" HorizontalAlignment="Left" Margin="166,180,0,0" VerticalAlignment="Top" FontSize="30"/>
+                            <ComboBox x:Name="ccMonth" Grid.Column="1" HorizontalAlignment="Left" Margin="231,180,0,0" VerticalAlignment="Top" Width="60" Height="44" FontSize="30">
+                                <ComboBoxItem Content="01"/>
+                                <ComboBoxItem Content="02"/>
+                                <ComboBoxItem Content="03"/>
+                                <ComboBoxItem Content="04"/>
+                                <ComboBoxItem Content="05"/>
+                                <ComboBoxItem Content="06"/>
+                                <ComboBoxItem Content="07"/>
+                                <ComboBoxItem Content="08"/>
+                                <ComboBoxItem Content="09"/>
+                                <ComboBoxItem Content="10"/>
+                                <ComboBoxItem Content="11"/>
+                                <ComboBoxItem Content="12"/>
+                            </ComboBox>
+                            <Label x:Name="label26" Content="/" Grid.Column="1" HorizontalAlignment="Left" Margin="291,180,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold"/>
+                            <ComboBox x:Name="ccYear" Grid.Column="1" HorizontalAlignment="Left" Margin="310,180,0,0" VerticalAlignment="Top" Width="110" FontSize="30" Height="44"/>
+                            <Label x:Name="label27" Content="CVV:" Grid.Column="1" HorizontalAlignment="Left" Margin="425,180,0,0" VerticalAlignment="Top" FontSize="30"/>
+                            <TextBox x:Name="ccCVV" Grid.Column="1" HorizontalAlignment="Left" Height="44" Margin="503,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="30" VerticalContentAlignment="Center" GotKeyboardFocus="ccCVV_GotKeyboardFocus" LostKeyboardFocus="ccCVV_LostKeyboardFocus" PreviewTextInput="ccCVV_PreviewTextInput"/>
+                            <Label x:Name="label28" Content="Name on Card:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,229,0,0" VerticalAlignment="Top" FontSize="30"/>
+                            <TextBox x:Name="ccName" Grid.Column="1" HorizontalAlignment="Left" Height="44" Margin="205,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="418" FontSize="30" VerticalContentAlignment="Center" GotKeyboardFocus="ccName_GotKeyboardFocus" LostKeyboardFocus="ccName_LostKeyboardFocus"/>
+                            <Image x:Name="ccLogo" Grid.Column="1" HorizontalAlignment="Left" Height="44" Margin="45,180,0,0" VerticalAlignment="Top" Width="116" ClipToBounds="True"/>
+                            <Label x:Name="label29" Content="Pay with credit card:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" FontSize="30"/>
+                            <Separator Grid.Column="1" Margin="10,125,10,0" VerticalAlignment="Top"/>
+                            <Button x:Name="submitPayment" Content="Submit Payment" Grid.Column="1" HorizontalAlignment="Right" Margin="0,278,10,0" VerticalAlignment="Top" FontSize="30" Padding="5,1"/>
+                            <Separator Grid.Column="1" Margin="10,321,10,0" VerticalAlignment="Top"/>
+                            <Button x:Name="cashPayment" Content="Pay with cash" Grid.Column="1" HorizontalAlignment="Left" Margin="10,370,453,0" VerticalAlignment="Top" Padding="5,1" FontSize="30"/>
+                            <Label x:Name="label29_Copy" Content="Other payment options:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,321,0,0" VerticalAlignment="Top" FontSize="30"/>
+                            <Separator Grid.Column="1" Margin="10,364,10,0" VerticalAlignment="Top"/>
+                            <Button x:Name="checkPayment" Content="Pay with check" Grid.Column="1" HorizontalAlignment="Left" Margin="10,413,435,0" VerticalAlignment="Top" Padding="5,1" FontSize="30"/>
+                            <Button x:Name="addTip" Content="Add Tip" HorizontalAlignment="Right" Margin="0,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.307,-0.031" Padding="5,1" FontSize="30"/>
                         </Grid>
                     </TabItem>
                 </TabControl>
@@ -406,7 +439,8 @@
                         <ListBox x:Name="refillList" Height="369" Margin="10,60,10,10" Width="852" Background="#FF2D2D30" Foreground="#FFACACAC"/>
                     </Grid>
                 </Grid>
-                <local:myKeyboard x:Name="defaultKeyboard" Margin="0,289,0,0" VerticalAlignment="Top" Width="Auto" Visibility="Hidden"/>
+                <local:myKeyboard x:Name="defaultKeyboard" Margin="0,289,0,0" VerticalAlignment="Top" Width="Auto" Visibility="Hidden" IsVisibleChanged="defaultKeyboard_IsVisibleChanged"/>
+                <Button x:Name="closeKeyboard" Content="Close" HorizontalAlignment="Right" Margin="0,0,96,10" VerticalAlignment="Bottom" Height="80" Background="White" BorderBrush="Black" FontSize="40" Padding="5,1" Width="160" Click="closeKeyboard_Click" Visibility="Hidden" IsVisibleChanged="closeKeyboard_IsVisibleChanged"/>
             </Grid>
         </Viewbox>
         <Grid x:Name="newAccountGrid" Background="#FFE5E5E5" Visibility="Hidden">
