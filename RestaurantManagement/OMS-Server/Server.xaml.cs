@@ -558,6 +558,18 @@ namespace OMS
 
 			});
         }
+        private void menu_item_form_DoWork(object sender, DoWorkEventArgs e)
+        {
+            show_menu_item_add_form();
+        }
+        private void show_menu_item_add_form()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                add_item menu_item_form = new add_item();
+                menu_item_form.Show();
+            });
+        }
         private void more_info_Click(object sender, RoutedEventArgs e)
         {
             if(menuList.SelectedIndex != -1)
@@ -579,6 +591,14 @@ namespace OMS
             menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
             menu_REload.RunWorkerAsync();
         }
-		#endregion
-	}
+        #endregion
+
+        private void add_menu_item_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundWorker add_menu_item_form;
+            add_menu_item_form = new BackgroundWorker();
+            add_menu_item_form.DoWork += new DoWorkEventHandler(menu_item_form_DoWork);
+            add_menu_item_form.RunWorkerAsync();
+        }
+    }
 }
