@@ -36,7 +36,6 @@ namespace OMS
     {
         List<menuItem> myMenu = new List<menuItem>();
         List<Cart> myOrders = new List<Cart>();
-        List<cartItem> items = new List<cartItem>();
 
         string removeItem = "";
         string removeOrder = "";
@@ -169,8 +168,9 @@ namespace OMS
 					while (reader.Read())
 					{
                         Cart tempCart = new Cart();
-						tempCart.Order_num = (int)reader[0];
-						myOrders.Add(tempCart);
+                        tempCart = (Cart)ByteToObject((byte[])reader[1]);
+                        tempCart.Order_num = (int)reader[0];
+                        myOrders.Add(tempCart);
 					}
 
 					connection.Close();
