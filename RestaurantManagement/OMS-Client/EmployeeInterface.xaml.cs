@@ -154,7 +154,7 @@ namespace OMS
         
         }
 
-        private void tableFinished_Click(object sender, RoutedEventArgs e)
+        private void cleanTable_Click(object sender, RoutedEventArgs e)
         {
       
         }
