@@ -57,7 +57,7 @@
                 <Button x:Name="ticketAdjustment" Content="Ticket Adjustment" FontSize="35" Margin="0" Grid.Row="2" Click="ticketAdjustment_Click"/>
                 <Button x:Name="payWithCash" Content="Pay With Cash" FontSize="35" Margin="0" Grid.Row="3" Click="payWithCash_Click"/>
                 <Button x:Name="payWithCheck" Content="Pay With Check" FontSize="35" Margin="0" Grid.Row="4" Click="payWithCheck_Click"/>
-                <Button x:Name="cleanTable" Content="Clean Table" FontSize="35" Margin="0" Grid.Row="5" Click="tableFinished_Click"/>
+                <Button x:Name="cleanTable" Content="Clean Table" FontSize="35" Margin="0" Grid.Row="5" Click="cleanTable_Click"/>
             </Grid>
 
         </Grid>
