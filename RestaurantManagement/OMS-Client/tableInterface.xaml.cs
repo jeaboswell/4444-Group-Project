@@ -252,7 +252,7 @@ namespace OMS
 			using (MemoryStream ms = new MemoryStream())
 			{
 				BinaryFormatter formatter = new BinaryFormatter();
-				formatter.Serialize(ms, order);
+				formatter.Serialize(ms, (Cart)order);
 
 				ms.Position = 0;
 				byte[] orderData = ms.ToArray();

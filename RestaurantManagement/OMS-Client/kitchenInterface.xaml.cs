@@ -45,28 +45,6 @@ namespace OMS
         public Kitchen()
         {
             InitializeComponent();
-            createMenu();
-            createOrders();
-            foreach (menuItem item in myMenu)
-            {
-                if (item.visible == false)
-                {
-                    menuList.Items.Add("(REMOVED)" + item.name);
-                }
-                else
-                {
-                    menuList.Items.Add(item.name);
-                }
-            }
-
-            foreach (Cart item in myOrders)
-            {
-                foreach (cartItem food in item.Items)
-                {
-                    order += (food.name + ", ");
-                }
-                orderList.Items.Add(item.Order_num + " " + order);
-            }
         }
 
         public void refreshMenu()
@@ -136,7 +114,26 @@ namespace OMS
 							category = (string)reader[7]
 						});
 					}
+
 					connection.Close();
+
+					foreach (menuItem item in myMenu)
+					{
+						if (item.visible == false)
+						{
+							Dispatcher.Invoke(() =>
+							{
+								menuList.Items.Add("(REMOVED)" + item.name);
+							});
+						}
+						else
+						{
+							Dispatcher.Invoke(() =>
+							{
+								menuList.Items.Add(item.name);
+							});
+						}
+					}
 				}
 			}
 			catch (Exception) { }
@@ -171,12 +168,24 @@ namespace OMS
 					// while not done reading the stuff returned from the query
 					while (reader.Read())
 					{
-						Cart tempCart = (Cart)ByteToObject((byte[])reader[1]);
+                        Cart tempCart = new Cart();
 						tempCart.Order_num = (int)reader[0];
 						myOrders.Add(tempCart);
 					}
 
 					connection.Close();
+
+					foreach (Cart item in myOrders)
+					{
+						foreach (cartItem food in item.Items)
+						{
+							order += (food.name + ", ");
+						}
+						Dispatcher.Invoke(() =>
+						{
+							orderList.Items.Add(item.Order_num + " " + order);
+						});
+					}
 				}
 			}
 			catch (Exception) { }
