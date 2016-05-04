@@ -134,19 +134,34 @@ namespace OMS
 			}
         }
 
-        private void createOrder_Click(object sender, RoutedEventArgs e)
-        {
-      
-        }
-
         private void payWithCash_Click(object sender, RoutedEventArgs e)
         {
-            currentTableStatus.Content = "Paid with Cash";
+            foreach (ClientInfo itr in TableList)
+            {
+                if (itr.IP == sender)
+                {
+                    itr.priorStatus = itr.status;
+                    itr.status = "Paid WIth Cash";
+                    commHelper.functionSend("recieveClient");
+                    commHelper.objectSend(itr);
+                }
+            }
+            //currentTableStatus.Content = "Paid with Cash";
         }
 
         private void payWithCheck_Click(object sender, RoutedEventArgs e)
         {
-            currentTableStatus.Content = "Paid with Check";
+            foreach (ClientInfo itr in TableList)
+            {
+                if (itr.IP == sender)
+                {
+                    itr.priorStatus = itr.status;
+                    itr.status = "Paid With Check";
+                    commHelper.functionSend("recieveClient");
+                    commHelper.objectSend(itr);
+                }
+            }
+            //currentTableStatus.Content = "Paid with Check";
         }
     
         private void ticketAdjustment_Click(object sender, RoutedEventArgs e)
@@ -156,7 +171,17 @@ namespace OMS
 
         private void cleanTable_Click(object sender, RoutedEventArgs e)
         {
-      
+            foreach (ClientInfo itr in TableList)
+            {
+                if (itr.IP == sender)
+                {
+                    itr.priorStatus = itr.status;
+                    itr.status = "Table Needs Cleaning";
+                    commHelper.functionSend("recieveClient");
+                    commHelper.objectSend(itr);
+                }
+            }
+            //currentTableStatus.Content = "Table Needs Cleaning";
         }
 
         private void openButton_Click(object sender, RoutedEventArgs e)
