@@ -121,11 +121,17 @@ namespace OMS
 					{
 						if (item.visible == false)
 						{
-							menuList.Items.Add("(REMOVED)" + item.name);
+							Dispatcher.Invoke(() =>
+							{
+								menuList.Items.Add("(REMOVED)" + item.name);
+							});
 						}
 						else
 						{
-							menuList.Items.Add(item.name);
+							Dispatcher.Invoke(() =>
+							{
+								menuList.Items.Add(item.name);
+							});
 						}
 					}
 				}
@@ -175,7 +181,10 @@ namespace OMS
 						{
 							order += (food.name + ", ");
 						}
-						orderList.Items.Add(item.Order_num + " " + order);
+						Dispatcher.Invoke(() =>
+						{
+							orderList.Items.Add(item.Order_num + " " + order);
+						});
 					}
 				}
 			}
