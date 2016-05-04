@@ -298,6 +298,9 @@ namespace OMS
             try
             {
                 removeOrder = orderList.SelectedValue.ToString();
+                string[] temp = removeOrder.Split(' ', '\t');
+                removeOrder = String.Join("", temp[0]);
+                Console.WriteLine(removeOrder);
             }
             catch { }
 		}
