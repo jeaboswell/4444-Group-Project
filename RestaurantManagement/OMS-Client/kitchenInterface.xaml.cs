@@ -45,28 +45,6 @@ namespace OMS
         public Kitchen()
         {
             InitializeComponent();
-            createMenu();
-            createOrders();
-            foreach (menuItem item in myMenu)
-            {
-                if (item.visible == false)
-                {
-                    menuList.Items.Add("(REMOVED)" + item.name);
-                }
-                else
-                {
-                    menuList.Items.Add(item.name);
-                }
-            }
-
-            foreach (Cart item in myOrders)
-            {
-                foreach (cartItem food in item.Items)
-                {
-                    order += (food.name + ", ");
-                }
-                orderList.Items.Add(item.Order_num + " " + order);
-            }
         }
 
         public void refreshMenu()
@@ -136,7 +114,20 @@ namespace OMS
 							category = (string)reader[7]
 						});
 					}
+
 					connection.Close();
+
+					foreach (menuItem item in myMenu)
+					{
+						if (item.visible == false)
+						{
+							menuList.Items.Add("(REMOVED)" + item.name);
+						}
+						else
+						{
+							menuList.Items.Add(item.name);
+						}
+					}
 				}
 			}
 			catch (Exception) { }
@@ -177,6 +168,15 @@ namespace OMS
 					}
 
 					connection.Close();
+
+					foreach (Cart item in myOrders)
+					{
+						foreach (cartItem food in item.Items)
+						{
+							order += (food.name + ", ");
+						}
+						orderList.Items.Add(item.Order_num + " " + order);
+					}
 				}
 			}
 			catch (Exception) { }

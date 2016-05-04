@@ -99,6 +99,8 @@ namespace OMS
 		private void menuLoader_DoWork(object sender, DoWorkEventArgs e)
 		{
 			tableUI.createMenu();
+			kitchenUI.createMenu();
+			kitchenUI.createOrders();
 			Connect();
 		}
 
