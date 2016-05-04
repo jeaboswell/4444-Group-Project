@@ -1,6 +1,8 @@
 ﻿using OMS_Library;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -63,7 +65,12 @@ namespace OMS
                 {
                     currentTableName.Content = ((Button)sender).Content;
                     currentTableStatus.Content = iter.status;
-                    tableOptions.Visibility = Visibility.Visible;          
+                    tableOptions.Visibility = Visibility.Visible;
+                    foreach (ClientInfo c in TableList)
+                    {
+                        if (c.Name == currentTableName.Content.ToString())
+                            getDrinks(c.IP.ToString());
+                    }
                 };
                 tmpButton.Height = 100;
                 tmpButton.Width = 100;
@@ -78,6 +85,7 @@ namespace OMS
 					case "Reading Menu":
 					case "Placed order and waiting on food":
 					case "Eating":
+                    case "Table Needs Cleaning":
 						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Yellow));
 						break;
 					default:
@@ -141,12 +149,12 @@ namespace OMS
                 if (itr.IP == sender)
                 {
                     itr.priorStatus = itr.status;
-                    itr.status = "Paid WIth Cash";
-                    commHelper.functionSend("recieveClient");
-                    commHelper.objectSend(itr);
+                    itr.status = "Paid";
+                    commHelper.functionSend("clientPaid");
+                    commHelper.objectSend(itr.IP.ToString());
                 }
             }
-            //currentTableStatus.Content = "Paid with Cash";
+            currentTableStatus.Content = "Paid";
         }
 
         private void payWithCheck_Click(object sender, RoutedEventArgs e)
@@ -156,12 +164,12 @@ namespace OMS
                 if (itr.IP == sender)
                 {
                     itr.priorStatus = itr.status;
-                    itr.status = "Paid With Check";
-                    commHelper.functionSend("recieveClient");
-                    commHelper.objectSend(itr);
+                    itr.status = "Paid";
+                    commHelper.functionSend("clientPaid");
+                    commHelper.objectSend(itr.IP.ToString());
                 }
             }
-            //currentTableStatus.Content = "Paid with Check";
+            currentTableStatus.Content = "Paid";
         }
     
         private void ticketAdjustment_Click(object sender, RoutedEventArgs e)
@@ -177,11 +185,11 @@ namespace OMS
                 {
                     itr.priorStatus = itr.status;
                     itr.status = "Table Needs Cleaning";
-                    commHelper.functionSend("recieveClient");
-                    commHelper.objectSend(itr);
+                    commHelper.functionSend("cleanRequest");
+                    commHelper.objectSend(itr.IP.ToString());
                 }
             }
-            //currentTableStatus.Content = "Table Needs Cleaning";
+            currentTableStatus.Content = "Table Needs Cleaning";
         }
 
         private void openButton_Click(object sender, RoutedEventArgs e)
@@ -208,6 +216,83 @@ namespace OMS
 		{
 			return MColor.FromArgb(color.A, color.R, color.G, color.B);
 		}
-	}
+
+
+        /// <summary>
+        /// Update the database to make it work nicer, and change the 
+        /// </summary>
+        public void getDrinks(string clientIP)
+        {
+            drinkList.Children.Clear();
+            try
+            {
+                string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+                // Create an SqlConnection from the provided connection string.
+                using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+                {
+                    List<Cart> TableOrders = new List<Cart>();
+                    // Formulate the command.
+                    SqlCommand command = new SqlCommand();
+                    command.Connection = connection;
+
+                    // Specify the query to be executed.
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"
+                    SELECT * FROM dbo.Orders
+                    WHERE Client = @client
+                    ";
+                    command.Parameters.AddWithValue("@client", clientIP);
+                    // Open a connection to database.
+                    connection.Open();
+                    // Read data returned for the query.
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // while not done reading the stuff returned from the query
+                    while (reader.Read())
+                    {
+                        Cart tempCart = new Cart();
+                        tempCart = (Cart)ByteToObject((byte[])reader[1]);
+                        tempCart.Order_num = (int)reader[0];
+                        TableOrders.Add(tempCart);
+                    }
+
+                    connection.Close();
+
+                    foreach (Cart cart in TableOrders)
+                    {
+                        foreach (cartItem food in cart.Items)
+                        {
+                            if (food.category == "drink")
+                            {
+                                Grid tempGrid = new Grid() { Width = 471, Height = 79.6667 };
+                                tempGrid.Children.Add(new Label()
+                                {
+                                    Content = food.name,
+                                    FontSize = 35,
+                                    HorizontalAlignment = HorizontalAlignment.Left
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+
+        private object ByteToObject(byte[] byteArray)
+        {
+            try
+            {
+                MemoryStream ms = new MemoryStream(byteArray);
+                BinaryFormatter bf = new BinaryFormatter();
+                ms.Position = 0;
+
+                return bf.Deserialize(ms);
+            }
+            catch (Exception) { }
+
+            return null;
+        }
+    }
 }
 
