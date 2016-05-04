@@ -24,7 +24,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Separator Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.RowSpan="2"/>
+                <Separator Margin="0,0,0,85" VerticalAlignment="Center" Grid.Row="4"/>
                 <Label x:Name="Label" Content="Table Information" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="35"/>
                 <Label x:Name="Label_Copy" Content="Name:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="35" Grid.Row="1"/>
                 <Label x:Name="Label_Copy1" Content="Status:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="35" Grid.Row="2"/>
