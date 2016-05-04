@@ -167,7 +167,7 @@
                     </TabItem>
                     <TabItem Header="Games" FontSize="53.333" Width="220" Foreground="#FFACACAC" FontFamily="Baskerville Old Face">
                         <Grid x:Name="gamesGrid" Background="#FFE5E5E5">
-                            <WebBrowser x:Name="sudokuBrowser" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="1266" Margin="0,68,0,0" Visibility="Hidden"/>
+                            <WebBrowser x:Name="sudokuBrowser" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="1266" Margin="0,68,0,0" Visibility="Hidden" Navigating="sudokuBrowser_Navigating"/>
                             <WebBrowser x:Name="solitareBrowser" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="1266" Margin="0,68,0,0" Visibility="Hidden"/>
                             <WebBrowser x:Name="mahjongBrowser" Margin="0,68,0,0" Width="1266" Visibility="Hidden"/>
                             <WebBrowser x:Name="flappyBrowser" Height="505" Margin="0,68,0,0" VerticalAlignment="Top" Visibility="Hidden"/>

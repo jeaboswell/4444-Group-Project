@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Usings
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -24,6 +25,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OMS_Library;
 using System.Windows.Threading;
+#endregion
 
 namespace OMS
 {
@@ -40,6 +42,8 @@ namespace OMS
 		object order = new object();
 		bool payFirst = true;
 		#endregion
+
+		#region Initialization
 		/// <summary>
 		/// Interface initilization
 		/// </summary>
@@ -56,6 +60,7 @@ namespace OMS
 		{
 			order = new Cart();
 		}
+		#endregion
 
 		#region Menu Functions
 		/// <summary>
@@ -575,11 +580,17 @@ namespace OMS
 		{
 			backFromGame.Visibility = Visibility.Hidden;
 			sudokuBrowser.Visibility = Visibility.Hidden;
+			sudokuBrowser.Navigate("http://blank.org/");
 			solitareBrowser.Visibility = Visibility.Hidden;
+			solitareBrowser.Navigate("http://blank.org/");
 			mahjongBrowser.Visibility = Visibility.Hidden;
+			mahjongBrowser.Navigate("http://blank.org/");
 			flappyBrowser.Visibility = Visibility.Hidden;
+			flappyBrowser.Navigate("http://blank.org/");
 			spadesBrowser.Visibility = Visibility.Hidden;
+			spadesBrowser.Navigate("http://blank.org/");
 			blackjackBrowser.Visibility = Visibility.Hidden;
+			blackjackBrowser.Navigate("http://blank.org/");
 			couponGame.Visibility = Visibility.Hidden;
 			gamesHome.Visibility = Visibility.Visible;
 		}
@@ -838,17 +849,6 @@ namespace OMS
 			}
 		}
 		/// <summary>
-		/// Check if string is a number
-		/// </summary>
-		/// <param name="s"></param>
-		/// <returns></returns>
-		private bool IsDigit(string s)
-		{
-			Regex r = new Regex(@"^[0-9]+$");
-
-			return r.IsMatch(s);
-		}
-		/// <summary>
 		/// Validate phone number
 		/// </summary>
 		/// <param name="sender"></param>
@@ -866,6 +866,7 @@ namespace OMS
 		/// <param name="e"></param>
 		private void DoneBtn_Click(object sender, RoutedEventArgs e) // WIP
 		{
+			#region Validate Fields
 			string message = "";
 			bool pass = true;
 			if (firstName.Text.Length == 0)
@@ -916,6 +917,32 @@ namespace OMS
 					pass = false;
 				}
 			}
+			#endregion
+
+			#region Check if duplicate
+			if (pass)
+			{
+				try
+				{
+					using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+					{
+						SqlCommand myCommand = new SqlCommand("SELECT IPAddress FROM dbo.Customers WHERE Phone = @phone", openCon);
+						SqlDataAdapter sqlDa = new SqlDataAdapter(myCommand);
+
+						myCommand.Parameters.AddWithValue("@phone", formatPhoneNumber(phoneNumber.Text));
+						openCon.Open();
+						SqlDataReader reader = myCommand.ExecuteReader();
+						if(!reader.HasRows)
+						{
+							pass = false;
+							message = "Phone number already has account.";
+						}
+						openCon.Close();
+					}
+				}
+				catch (Exception) { }
+			}
+			#endregion
 
 			if (!pass)
 			{
@@ -931,9 +958,26 @@ namespace OMS
 				currentMember.setPhoneNumber(phoneNumber.Text);
 				currentMember.email = email.Text;
 				currentMember.points += 1;
-				//
-				// Add code here to store account info in server
-				//
+				// Send member to database
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					string command = "INSERT into dbo.Customers (Phone, FName, LName, Birthday, Points, Discounts, Email) VALUES (@phone, @fname, @lname, @bday, @points, @discounts, @email)";
+
+					using (SqlCommand querySave = new SqlCommand(command, openCon))
+					{
+						querySave.Parameters.AddWithValue("@phone", currentMember.phoneNumber);
+						querySave.Parameters.AddWithValue("@fname", currentMember.firstName);
+						querySave.Parameters.AddWithValue("@lname", currentMember.lastName);
+						querySave.Parameters.AddWithValue("@bday", currentMember.birthDate);
+						querySave.Parameters.AddWithValue("@points", currentMember.points);
+						querySave.Parameters.AddWithValue("@discounts", 0);
+						querySave.Parameters.AddWithValue("@email", currentMember.email);
+
+						openCon.Open();
+						querySave.ExecuteScalar();
+						openCon.Close();
+					}
+				}
 				// Reset form
 				firstName.Clear();
 				lastName.Clear();
@@ -1512,6 +1556,17 @@ namespace OMS
 
 		#region Helper Functions
 		/// <summary>
+		/// Check if string is a number
+		/// </summary>
+		/// <param name="s"></param>
+		/// <returns></returns>
+		private bool IsDigit(string s)
+		{
+			Regex r = new Regex(@"^[0-9]+$");
+
+			return r.IsMatch(s);
+		}
+		/// <summary>
 		/// Convert byte array to imageSource
 		/// </summary>
 		/// <param name="imageData"></param>
@@ -1649,6 +1704,21 @@ namespace OMS
 				return true;
 
 			return false;
+		}
+
+		private void sudokuBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+		{
+			if (e.NavigationMode == NavigationMode.New)
+				e.Cancel = false;
+		}
+
+		/// <summary>
+		/// Formats provided phone number
+		/// </summary>
+		/// <param name="pass"></param>
+		public string formatPhoneNumber(string pass)
+		{
+			return"(" + pass[0] + pass[1] + pass[2] + ") " + pass[3] + pass[4] + pass[5] + "-" + pass[6] + pass[7] + pass[8] + pass[9];
 		}
 		#endregion
 	}
