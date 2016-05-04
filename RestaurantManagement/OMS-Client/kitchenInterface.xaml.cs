@@ -171,7 +171,7 @@ namespace OMS
 					// while not done reading the stuff returned from the query
 					while (reader.Read())
 					{
-						Cart tempCart = (Cart)ByteToObject((byte[])reader[1]);
+                        Cart tempCart = new Cart();
 						tempCart.Order_num = (int)reader[0];
 						myOrders.Add(tempCart);
 					}
