@@ -420,57 +420,65 @@ namespace OMS
 		#region Database Functions
 		private void sendClient(ClientInfo client)
 		{
-			if (clientInDB(client))
-			{
-				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-				{
-					using (SqlCommand querySave = new SqlCommand("update dbo.Clients set Permission = @permission where IPAddress = @ip and Name = @name", openCon))
-					{
-						querySave.Parameters.AddWithValue("@ip", client.IP.ToString());
-						querySave.Parameters.AddWithValue("@name", client.Name);
-						querySave.Parameters.AddWithValue("@permission", client.selectedPermission);
+            try
+            {
+                if (clientInDB(client))
+                {
+                    using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+                    {
+                        using (SqlCommand querySave = new SqlCommand("update dbo.Clients set Permission = @permission where IPAddress = @ip and Name = @name", openCon))
+                        {
+                            querySave.Parameters.AddWithValue("@ip", client.IP.ToString());
+                            querySave.Parameters.AddWithValue("@name", client.Name);
+                            querySave.Parameters.AddWithValue("@permission", client.selectedPermission);
 
-						openCon.Open();
-						querySave.ExecuteScalar();
-						openCon.Close();
-					}
-				}
-			}
-			else
-			{
-				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-				{
-					string command = "INSERT into dbo.Clients (IPAddress, Name, Permission) VALUES (@ip, @name, @permission)";
+                            openCon.Open();
+                            querySave.ExecuteScalar();
+                            openCon.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+                    {
+                        string command = "INSERT into dbo.Clients (IPAddress, Name, Permission) VALUES (@ip, @name, @permission)";
 
-					using (SqlCommand querySave = new SqlCommand(command, openCon))
-					{
-						querySave.Parameters.Add("@ip", SqlDbType.NVarChar).Value = client.IP.ToString();
-						querySave.Parameters.Add("@name", SqlDbType.NVarChar).Value = client.Name;
-						querySave.Parameters.Add("@permission", SqlDbType.NVarChar).Value = client.selectedPermission;
+                        using (SqlCommand querySave = new SqlCommand(command, openCon))
+                        {
+                            querySave.Parameters.Add("@ip", SqlDbType.NVarChar).Value = client.IP.ToString();
+                            querySave.Parameters.Add("@name", SqlDbType.NVarChar).Value = client.Name;
+                            querySave.Parameters.Add("@permission", SqlDbType.NVarChar).Value = client.selectedPermission;
 
-						openCon.Open();
-						querySave.ExecuteScalar();
-						openCon.Close();
-					}
-				}
-			}
+                            openCon.Open();
+                            querySave.ExecuteScalar();
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception) { }
 		}
 
 		private bool clientInDB(ClientInfo client)
 		{
-			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-			{
-				SqlCommand myCommand = new SqlCommand("SELECT IPAddress FROM dbo.Clients WHERE IPAddress = @ip and Name = @name", openCon);
-				SqlDataAdapter sqlDa = new SqlDataAdapter(myCommand);
+            try
+            {
+                using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+                {
+                    SqlCommand myCommand = new SqlCommand("SELECT IPAddress FROM dbo.Clients WHERE IPAddress = @ip and Name = @name", openCon);
+                    SqlDataAdapter sqlDa = new SqlDataAdapter(myCommand);
 
-				myCommand.Parameters.AddWithValue("@ip", client.IP.ToString());
-				myCommand.Parameters.AddWithValue("@name", client.Name);
-				openCon.Open();
-				SqlDataReader reader = myCommand.ExecuteReader();
-				bool hasRows = reader.HasRows;
-				openCon.Close();
-				return hasRows;
-			}
+                    myCommand.Parameters.AddWithValue("@ip", client.IP.ToString());
+                    myCommand.Parameters.AddWithValue("@name", client.Name);
+                    openCon.Open();
+                    SqlDataReader reader = myCommand.ExecuteReader();
+                    bool hasRows = reader.HasRows;
+                    openCon.Close();
+                    return hasRows;
+                }
+            }
+            catch (Exception) { return false; } // all function paths must return something
 		}
         #endregion
 
@@ -522,40 +530,43 @@ namespace OMS
 				{
 					menuList.Items.Clear();
 				}
-				using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-				{
-					// Formulate the command.
-					SqlCommand command = new SqlCommand();
-					command.Connection = connection;
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+                    {
+                        // Formulate the command.
+                        SqlCommand command = new SqlCommand();
+                        command.Connection = connection;
 
-					// Specify the query to be executed.
-					command.CommandType = CommandType.Text;
-					command.CommandText = @"
-                                            SELECT * FROM dbo.Menu
-                                            ";
-					// Open a connection to database.
-					connection.Open();
-					// Read data returned for the query.
-					SqlDataReader reader = command.ExecuteReader();
+                        // Specify the query to be executed.
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = @"
+                                                SELECT * FROM dbo.Menu
+                                                ";
+                        // Open a connection to database.
+                        connection.Open();
+                        // Read data returned for the query.
+                        SqlDataReader reader = command.ExecuteReader();
 
-					// while not done reading the stuff returned from the query
-					while (reader.Read())
-					{
-						//Console.WriteLine((byte)reader[5] + " ayy");
-						menuItem temp = new menuItem
-						{
-							itemNumber = (int)reader[0],
-							name = (string)reader[1],
-							description = (string)reader[2],
-							price = (decimal)reader[3],
-							visible = (bool)reader[5], // if visible is 1 visible evaluates to true else visible is false
-							category = (string)reader[7]
-						};
-						myList.Add(temp);
-						menuList.Items.Add(temp.name);
-					}
-				}
-
+                        // while not done reading the stuff returned from the query
+                        while (reader.Read())
+                        {
+                            //Console.WriteLine((byte)reader[5] + " ayy");
+                            menuItem temp = new menuItem
+                            {
+                                itemNumber = (int)reader[0],
+                                name = (string)reader[1],
+                                description = (string)reader[2],
+                                price = (decimal)reader[3],
+                                visible = (bool)reader[5], // if visible is 1 visible evaluates to true else visible is false
+                                category = (string)reader[7]
+                            };
+                            myList.Add(temp);
+                            menuList.Items.Add(temp.name);
+                        }
+                    }
+                }
+                catch(Exception EX) { }
 			});
         }
         private void menu_item_form_DoWork(object sender, DoWorkEventArgs e)
@@ -591,8 +602,6 @@ namespace OMS
             menu_REload.DoWork += new DoWorkEventHandler(menu_load_DoWork);
             menu_REload.RunWorkerAsync();
         }
-        #endregion
-
         private void add_menu_item_Click(object sender, RoutedEventArgs e)
         {
             BackgroundWorker add_menu_item_form;
@@ -600,5 +609,6 @@ namespace OMS
             add_menu_item_form.DoWork += new DoWorkEventHandler(menu_item_form_DoWork);
             add_menu_item_form.RunWorkerAsync();
         }
+        #endregion
     }
 }

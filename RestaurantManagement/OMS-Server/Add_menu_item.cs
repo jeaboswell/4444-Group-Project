@@ -27,10 +27,10 @@ namespace OMS
 					command += "VALUES (@ItemName, @Description, @Price, @category, @Photo)";
 
 					using (SqlCommand myCommand = new SqlCommand(command, openCon))
-					{
+					{// input server admin input to database
 						myCommand.Parameters.AddWithValue("@ItemName", textBox1.Text);
 						myCommand.Parameters.AddWithValue("@Price", textBox2.Text);
-						myCommand.Parameters.AddWithValue("@Photo", File.ReadAllBytes(textBox4.Text)); // can't set Null like this, will have to add photo after the query i guess
+						myCommand.Parameters.AddWithValue("@Photo", File.ReadAllBytes(textBox4.Text));
 						myCommand.Parameters.AddWithValue("@category", textBox5.Text);
 						myCommand.Parameters.AddWithValue("@Description", textBox3.Text);
 						openCon.Open();
@@ -42,7 +42,6 @@ namespace OMS
 				MessageBox.Show("Item added!");
 			}
 			catch (Exception) { }
-			//MessageBox.Show(textBox1.Text);
 			Close();
         }
 	}
