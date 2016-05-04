@@ -864,7 +864,7 @@ namespace OMS
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void DoneBtn_Click(object sender, RoutedEventArgs e) // WIP
+		private void DoneBtn_Click(object sender, RoutedEventArgs e)
 		{
 			#region Validate Fields
 			string message = "";
@@ -926,13 +926,13 @@ namespace OMS
 				{
 					using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 					{
-						SqlCommand myCommand = new SqlCommand("SELECT IPAddress FROM dbo.Customers WHERE Phone = @phone", openCon);
+						SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.Customers WHERE Phone = @phone", openCon);
 						SqlDataAdapter sqlDa = new SqlDataAdapter(myCommand);
 
 						myCommand.Parameters.AddWithValue("@phone", formatPhoneNumber(phoneNumber.Text));
 						openCon.Open();
 						SqlDataReader reader = myCommand.ExecuteReader();
-						if(!reader.HasRows)
+						if(reader.HasRows)
 						{
 							pass = false;
 							message = "Phone number already has account.";
@@ -950,34 +950,39 @@ namespace OMS
 			}
 			else
 			{
-
+				rewardMember tempMember = new rewardMember();
 				// Set data for current member
-				currentMember.firstName = firstName.Text;
-				currentMember.lastName = lastName.Text;
-				currentMember.setBirthDate((int)monthBox.SelectedValue, (int)dayBox.SelectedValue, (int)yearBox.SelectedValue);
-				currentMember.setPhoneNumber(phoneNumber.Text);
-				currentMember.email = email.Text;
-				currentMember.points += 1;
+				tempMember.firstName = firstName.Text;
+				tempMember.lastName = lastName.Text;
+				tempMember.setBirthDate((int)monthBox.SelectedValue, (int)dayBox.SelectedValue, (int)yearBox.SelectedValue);
+				tempMember.setPhoneNumber(phoneNumber.Text);
+				tempMember.email = email.Text;
+				tempMember.points += 1;
 				// Send member to database
-				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				try
 				{
-					string command = "INSERT into dbo.Customers (Phone, FName, LName, Birthday, Points, Discounts, Email) VALUES (@phone, @fname, @lname, @bday, @points, @discounts, @email)";
-
-					using (SqlCommand querySave = new SqlCommand(command, openCon))
+					using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 					{
-						querySave.Parameters.AddWithValue("@phone", currentMember.phoneNumber);
-						querySave.Parameters.AddWithValue("@fname", currentMember.firstName);
-						querySave.Parameters.AddWithValue("@lname", currentMember.lastName);
-						querySave.Parameters.AddWithValue("@bday", currentMember.birthDate);
-						querySave.Parameters.AddWithValue("@points", currentMember.points);
-						querySave.Parameters.AddWithValue("@discounts", 0);
-						querySave.Parameters.AddWithValue("@email", currentMember.email);
+						string command = "INSERT into dbo.Customers (Phone, FName, LName, Birthday, Points, Discounts, Email) VALUES (@phone, @fname, @lname, @bday, @points, @discounts, @email)";
 
-						openCon.Open();
-						querySave.ExecuteScalar();
-						openCon.Close();
+						using (SqlCommand querySave = new SqlCommand(command, openCon))
+						{
+							querySave.Parameters.AddWithValue("@phone", currentMember.phoneNumber);
+							querySave.Parameters.AddWithValue("@fname", currentMember.firstName);
+							querySave.Parameters.AddWithValue("@lname", currentMember.lastName);
+							querySave.Parameters.AddWithValue("@bday", currentMember.birthDate);
+							querySave.Parameters.AddWithValue("@points", currentMember.points);
+							querySave.Parameters.AddWithValue("@discounts", 0);
+							querySave.Parameters.AddWithValue("@email", currentMember.email);
+
+							openCon.Open();
+							querySave.ExecuteScalar();
+							openCon.Close();
+						}
 					}
 				}
+				catch (Exception) { }
+				setCurrentMember(tempMember);
 				// Reset form
 				firstName.Clear();
 				lastName.Clear();
@@ -1705,13 +1710,6 @@ namespace OMS
 
 			return false;
 		}
-
-		private void sudokuBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
-		{
-			if (e.NavigationMode == NavigationMode.New)
-				e.Cancel = false;
-		}
-
 		/// <summary>
 		/// Formats provided phone number
 		/// </summary>
@@ -1719,6 +1717,16 @@ namespace OMS
 		public string formatPhoneNumber(string pass)
 		{
 			return"(" + pass[0] + pass[1] + pass[2] + ") " + pass[3] + pass[4] + pass[5] + "-" + pass[6] + pass[7] + pass[8] + pass[9];
+		}
+		/// <summary>
+		/// Sets current member and updates information on screen
+		/// </summary>
+		/// <param name="mem"></param>
+		public void setCurrentMember(rewardMember mem)
+		{
+			currentMember = mem;
+			welcomeName.Content = "Welcome, " + currentMember.firstName + "!";
+			visitCount.Content = currentMember.points.ToString();
 		}
 		#endregion
 	}

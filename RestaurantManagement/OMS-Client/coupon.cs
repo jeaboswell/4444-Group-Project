@@ -45,7 +45,7 @@ namespace OMS
 				// while not done reading the stuff returned from the query
 				while (reader.Read())
 				{
-					string temp = (string)reader[1];
+					string temp = (string)reader[0];
 
 					if (temp == code)
 						return false;

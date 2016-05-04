@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -87,13 +88,48 @@ namespace OMS
 		private void submitBtn_Click(object sender, RoutedEventArgs e)
 		{
 			tableInterface parent = GetAncestorOfType<tableInterface>(this);
-			// Ask server if Phone has account
 			bool valid = true;
+			string message = "";
+			rewardMember member = new rewardMember();
+			// Check databse for phone number
+			try
+			{
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					SqlCommand myCommand = new SqlCommand("SELECT * FROM dbo.Customers WHERE Phone = @phone", openCon);
+					SqlDataAdapter sqlDa = new SqlDataAdapter(myCommand);
+
+					myCommand.Parameters.AddWithValue("@phone", phoneNumber.Content.ToString());
+					openCon.Open();
+					SqlDataReader reader = myCommand.ExecuteReader();
+					if (!reader.HasRows)
+					{
+						valid = false;
+						message = "Phone number not found.";
+					}
+					else
+					{
+						member.phoneNumber = (string)reader[0];
+						member.firstName = (string)reader[1];
+						member.lastName = (string)reader[2];
+						member.birthDate = (DateTime)reader[3];
+						member.points = (int)reader[5];
+						member.email = (string)reader[7];
+					}
+					openCon.Close();
+				}
+			}
+			catch (Exception) { }
 
 			if (valid)
 			{
+				parent.setCurrentMember(member);
 				parent.checkInGrid.Visibility = Visibility.Hidden;
 				parent.welcomeGrid.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				MessageBox.Show(message);
 			}
 
 

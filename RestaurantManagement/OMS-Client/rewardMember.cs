@@ -7,8 +7,8 @@ namespace OMS
 	{
 		public string firstName { get; set; }
 		public string lastName { get; set; }
-		public DateTime birthDate { get; private set; } // setBirthDate()
-		public string phoneNumber { get; private set; } // setPhoneNumber()
+		public DateTime birthDate { get; set; } // setBirthDate()
+		public string phoneNumber { get; set; } // setPhoneNumber()
 		public string email { get; set; }
 		public int points { get; set; }
 
