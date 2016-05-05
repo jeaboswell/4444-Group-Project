@@ -232,7 +232,7 @@
                                     <Image Source="Resources/closeX.png" Margin="10,0"/>
                                 </Button>
                             </Grid>
-                            <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2">
+                            <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2" Visibility="Hidden">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -292,12 +292,7 @@
                                 </Button>
 
                             </Grid>
-                            <Grid x:Name="memberInfo" Margin="10" Visibility="Hidden">
-                                <Label x:Name="label10" Content="Account Info:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <Label x:Name="label11" Content="Current Points" HorizontalAlignment="Left" Margin="197,242,0,0" VerticalAlignment="Top"/>
-                                <Button x:Name="button" Content="Redeem" HorizontalAlignment="Left" Margin="800,242,0,0" VerticalAlignment="Top" Height="63"/>
-                            </Grid>
-                            <Grid x:Name="welcomeGrid" Margin="0" Visibility="Hidden">
+                            <Grid x:Name="welcomeGrid" Margin="0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -314,8 +309,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Label x:Name="welcomeName" Content="Welcome, Ryan!" HorizontalAlignment="Left" Margin="10,10,0,10" VerticalContentAlignment="Center" Grid.ColumnSpan="4" Width="824" Padding="5,0"/>
-                                <Label x:Name="label" Content="Visits:" Margin="10,10,60,10" Grid.Row="1" VerticalContentAlignment="Center" Padding="5,0"/>
-                                <Label x:Name="visitCount" Content="12" Margin="151,10,10,10" Grid.Row="1" Grid.ColumnSpan="2" Height="94" Width="261" VerticalContentAlignment="Center" Padding="5,0"/>
+                                <Label x:Name="label" Content="Current Points:" Margin="10,10,78,10" Grid.Row="1" VerticalContentAlignment="Center" Padding="5,0" Grid.ColumnSpan="2" HorizontalAlignment="Left"/>
+                                <Label x:Name="visitCount" Content="12" Margin="133,10,28,10" Grid.Row="1" Grid.ColumnSpan="2" Height="94" Width="261" VerticalContentAlignment="Center" Padding="5,0" Grid.Column="1"/>
+                                <ComboBox x:Name="memberCoupons" Grid.Column="1" HorizontalAlignment="Left" Margin="15,10,0,10" Grid.Row="2" Grid.ColumnSpan="2" MinWidth="221" VerticalContentAlignment="Center"/>
+                                <Label x:Name="label10" Content="Coupons:" HorizontalAlignment="Left" Margin="10,10,0,10" Grid.Row="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
+                                <Grid x:Name="redeemGrid" Grid.ColumnSpan="6" Margin="44,10" Grid.Row="3" Grid.RowSpan="2" Visibility="Hidden">
+                                    <Label x:Name="label11" Content="Congratulations! You have enough points for a coupon." HorizontalAlignment="Center" Margin="0,0,-1,115" VerticalContentAlignment="Center"/>
+                                    <Button x:Name="redeemPoints" Content="Redeem Points" HorizontalAlignment="Left" Margin="388,114,0,0" VerticalAlignment="Top" Width="402" Height="95" Foreground="#FFACACAC" BorderBrush="#FF2D2D30" Background="#FF2D2D30" Click="redeemPoints_Click"/>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </TabItem>
@@ -332,7 +333,7 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                    <Border Name="Border" Padding="2" SnapsToDevicePixels="true">                       
+                                                    <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
                                                         <ContentPresenter HorizontalAlignment="Left" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>

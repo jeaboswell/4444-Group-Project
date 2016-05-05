@@ -11,12 +11,13 @@ namespace OMS
 		public string phoneNumber { get; set; } // setPhoneNumber()
 		public string email { get; set; }
 		public int points { get; set; }
+		public string discountCodes { get; set; }
 
 		public void setBirthDate(int month, int day, int year)
 		{
-			birthDate = birthDate.AddMonths(month);
-			birthDate = birthDate.AddDays(day);
-			birthDate = birthDate.AddYears(year);
+			birthDate = birthDate.AddMonths(month - 1);
+			birthDate = birthDate.AddDays(day - 1);
+			birthDate = birthDate.AddYears(year - 1);
 		}
 
 		public void setPhoneNumber(string pass)
