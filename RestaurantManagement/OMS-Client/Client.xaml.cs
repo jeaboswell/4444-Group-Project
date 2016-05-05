@@ -195,7 +195,7 @@ namespace OMS
                         case "updateOrders":
                             Dispatcher.Invoke(() =>
                             {
-                                kitchenUI.createOrders();
+                                kitchenUI.refreshOrders();
                             });
                             
                             break;
