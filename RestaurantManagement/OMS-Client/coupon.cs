@@ -10,7 +10,7 @@ namespace OMS
 		public string code;
 		public DateTime expiration;
 
-		public void generateCoupon()
+		public void generateCoupon(rewardMember mem)
 		{
 			do
 			{
@@ -19,6 +19,8 @@ namespace OMS
 				code = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
 				expiration = DateTime.Now.AddMonths(3);
 			} while (!valid());
+			if (mem != null)
+				addToMember(mem);
 			sendToDB();
 		}
 
@@ -71,6 +73,43 @@ namespace OMS
 					openCon.Close();
 				}
 			}
+		}
+
+		private void addToMember(rewardMember mem)
+		{
+			try
+			{
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					string couponList;
+					using (SqlCommand querySave = new SqlCommand("select * from dbo.Customers where Phone = @phone", openCon))
+					{
+						querySave.Parameters.AddWithValue("@phone", mem.phoneNumber);
+
+						openCon.Open();
+						SqlDataReader reader = querySave.ExecuteReader();
+						reader.Read();
+						couponList = (string)reader[7];
+						openCon.Close();
+					}
+
+					if (couponList.Length <= 1)
+						couponList = code;
+					else
+						couponList += "," + code;
+
+					using (SqlCommand querySave = new SqlCommand("update dbo.Customers set DiscountCodes = @codes where Phone = @phone", openCon))
+					{
+						querySave.Parameters.AddWithValue("@codes", couponList);
+						querySave.Parameters.AddWithValue("@phone", mem.phoneNumber);
+
+						openCon.Open();
+						querySave.ExecuteScalar();
+						openCon.Close();
+					}
+				}
+			}
+			catch (Exception) { }
 		}
 	}
 }

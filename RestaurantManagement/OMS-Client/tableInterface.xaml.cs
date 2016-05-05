@@ -736,7 +736,10 @@ namespace OMS
 			if (selection == winningNumber)
 			{
 				coupon newCoupon = new coupon();
-				newCoupon.generateCoupon();
+				if (currentMember.phoneNumber != null)
+					newCoupon.generateCoupon(currentMember);
+				else
+					newCoupon.generateCoupon(null);
 				MessageBox.Show("Congratulations! Your coupon code is " + newCoupon.code);
 			}
 			else
@@ -987,6 +990,7 @@ namespace OMS
 				}
 				catch (Exception) { }
 				setCurrentMember(tempMember);
+				welcomeGrid.Visibility = Visibility.Visible;
 				// Reset form
 				firstName.Clear();
 				lastName.Clear();
@@ -997,10 +1001,39 @@ namespace OMS
 				email.Clear();
 
 				newAccountGrid.Visibility = Visibility.Hidden;
-				memberInfo.Visibility = Visibility.Visible;
+				welcomeGrid.Visibility = Visibility.Visible;
 			}
 		}
 		#endregion
+		/// <summary>
+		/// Generate coupon if customer has 5 or more visits
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void redeemPoints_Click(object sender, RoutedEventArgs e)
+		{
+			coupon c = new coupon();
+			c.generateCoupon(currentMember);
+			currentMember.points -= 5;
+
+			if (currentMember.points == 0)
+				redeemGrid.Visibility = Visibility.Hidden;
+
+			try
+			{
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					SqlCommand myCommand = new SqlCommand("update dbo.Customers set Points = @points where Phone = @phone", openCon);
+
+					myCommand.Parameters.AddWithValue("@phone", currentMember.phoneNumber);
+					myCommand.Parameters.AddWithValue("@points", currentMember.points);
+					openCon.Open();
+					myCommand.ExecuteScalar();
+					openCon.Close();
+				}
+			}
+			catch (Exception) { }
+		}
 		#endregion
 
 		#region Payment Functions
@@ -1731,6 +1764,16 @@ namespace OMS
 			currentMember = mem;
 			welcomeName.Content = "Welcome, " + currentMember.firstName + "!";
 			visitCount.Content = currentMember.points.ToString();
+			try
+			{
+				string[] codes = currentMember.discountCodes.Split(',');
+				memberCoupons.Items.Clear();
+				foreach (string i in codes)
+				{
+					memberCoupons.Items.Add(i);
+				}
+			}
+			catch (Exception) { }
 		}
 		#endregion
 	}

@@ -109,12 +109,20 @@ namespace OMS
 					}
 					else
 					{
+						reader.Read();
 						member.phoneNumber = (string)reader[0];
 						member.firstName = (string)reader[1];
 						member.lastName = (string)reader[2];
 						member.birthDate = (DateTime)reader[3];
-						member.points = (int)reader[5];
-						member.email = (string)reader[7];
+						member.points = (int)reader[4] + 1;
+						member.email = (string)reader[6];
+						member.discountCodes = (string)reader[7];
+
+						myCommand = new SqlCommand("update dbo.Customers set Points = @points where Phone = @phone", openCon);
+						myCommand.Parameters.AddWithValue("@phone", phoneNumber.Content.ToString());
+						myCommand.Parameters.AddWithValue("@points", member.points);
+						myCommand.ExecuteScalar();
+						
 					}
 					openCon.Close();
 				}
@@ -124,6 +132,8 @@ namespace OMS
 			if (valid)
 			{
 				parent.setCurrentMember(member);
+				if (member.points >= 5)
+					parent.redeemGrid.Visibility = Visibility.Hidden;
 				parent.checkInGrid.Visibility = Visibility.Hidden;
 				parent.welcomeGrid.Visibility = Visibility.Visible;
 			}
