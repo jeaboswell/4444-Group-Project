@@ -575,7 +575,7 @@ namespace OMS
                         }
                     }
                 }
-                catch(Exception EX) { }
+                catch(Exception ) { }
 			});
         }
         private void menu_item_form_DoWork(object sender, DoWorkEventArgs e)
