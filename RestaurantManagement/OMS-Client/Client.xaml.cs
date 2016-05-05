@@ -192,7 +192,14 @@ namespace OMS
 							command = server.Receive(ref serverEp);
 							employeeUI.cancelHelp(IPAddress.Parse(Encoding.ASCII.GetString(command)));
 							break;
-						default:
+                        case "updateOrders":
+                            Dispatcher.Invoke(() =>
+                            {
+                                kitchenUI.createOrders();
+                            });
+                            
+                            break;
+                        default:
 							break;
 					}
 				}

@@ -31,13 +31,13 @@ namespace OMS
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-	{
-		#region Variables
-		private volatile bool stop;
-		private List<IPAddress> clients = new List<IPAddress>();
-		private List<object> myList = new List<object>();
-		public Thread listener;
-		BackgroundWorker menu_load;
+    {
+        #region Variables
+        private volatile bool stop;
+        private List<IPAddress> clients = new List<IPAddress>();
+        private List<object> myList = new List<object>();
+        public Thread listener;
+        BackgroundWorker menu_load;
         #endregion
 
         /// <summary>
@@ -48,67 +48,67 @@ namespace OMS
 
         #region Main
         public MainWindow()
-		{
-			//
-			// Include OMS-Library.dll
-			//
-			AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-			{
-				string resourceName = new AssemblyName(args.Name).Name + ".dll";
-				string resource = Array.Find(GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+        {
+            //
+            // Include OMS-Library.dll
+            //
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
 
-				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
-				{
-					byte[] assemblyData = new byte[stream.Length];
-					stream.Read(assemblyData, 0, assemblyData.Length);
-					return Assembly.Load(assemblyData);
-				}
-			};
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    byte[] assemblyData = new byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
 
-			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-			//
-			// Initialize
-			//
-			InitializeComponent();
-			
-			menu_load= new BackgroundWorker();
-			menu_load.DoWork += new DoWorkEventHandler(menu_load_DoWork);
-			menu_load.RunWorkerAsync();
-			listener = new Thread(commandListener); ;
-			listener.IsBackground = true;
-			listener.Start();
-		}
-		/// <summary>
-		/// Links connected assemblies
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-		{
-			return EmbeddedAssembly.Get(args.Name);
-		}
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+            //
+            // Initialize
+            //
+            InitializeComponent();
 
-		public static object ConvertList(List<object> value, Type type)
-		{
-			var containedType = type.GenericTypeArguments.First();
-			return value.Select(item => Convert.ChangeType(item, containedType));
-		}
-		/// <summary>
-		/// When application attempts to close verify no clients are connected.
-		/// Request all threads stop when closing
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void main_Closing(object sender, CancelEventArgs e)
-		{
-			if (clientList.HasItems)
-			{
-				e.Cancel = true;
-				MessageBox.Show("Unable to close server while clients are connected.");
-			}
-			requestStop();
-		}
+            menu_load = new BackgroundWorker();
+            menu_load.DoWork += new DoWorkEventHandler(menu_load_DoWork);
+            menu_load.RunWorkerAsync();
+            listener = new Thread(commandListener); ;
+            listener.IsBackground = true;
+            listener.Start();
+        }
+        /// <summary>
+        /// Links connected assemblies
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return EmbeddedAssembly.Get(args.Name);
+        }
+
+        public static object ConvertList(List<object> value, Type type)
+        {
+            var containedType = type.GenericTypeArguments.First();
+            return value.Select(item => Convert.ChangeType(item, containedType));
+        }
+        /// <summary>
+        /// When application attempts to close verify no clients are connected.
+        /// Request all threads stop when closing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void main_Closing(object sender, CancelEventArgs e)
+        {
+            if (clientList.HasItems)
+            {
+                e.Cancel = true;
+                MessageBox.Show("Unable to close server while clients are connected.");
+            }
+            requestStop();
+        }
         #endregion
 
         #region Listener
@@ -116,305 +116,314 @@ namespace OMS
         /// Listens to the network for requests from clients
         /// </summary>
         private void commandListener()
-		{
-			UdpClient client = new UdpClient(44445);
-			byte[] ResponseData = Encoding.ASCII.GetBytes("OMS-Server");
+        {
+            UdpClient client = new UdpClient(44445);
+            byte[] ResponseData = Encoding.ASCII.GetBytes("OMS-Server");
 
-			while (!stop)
-			{
-				IPEndPoint ClientEp = new IPEndPoint(IPAddress.Any, 44446);
-				try
-				{
-					byte[] clientRequest = client.Receive(ref ClientEp);
-					Console.WriteLine(Encoding.ASCII.GetString(clientRequest));
-					switch (Encoding.ASCII.GetString(clientRequest))
-					{
-						case "OMS-Client":
-							addClient(ClientEp.Address);
-							Console.WriteLine("Recived {0} from {1}, sending response", clientRequest, ClientEp.Address.ToString());
-							client.Send(ResponseData, ResponseData.Length, ClientEp);
-							break;
-						case "clientClosed":
-							clientClosed(ClientEp.Address);
-							break;
-						case "requestHelp":
-							foreach (ClientInfo iter in clientList.Items)
-							{
-								if (iter.selectedPermission == "Waiter")
-								{
-									sendCommand(iter.IP, "requestHelp");
-									sendCommand(iter.IP, ClientEp.Address.ToString());
-								}
-							}
-							break;
-						case "cancelHelp":
-							foreach (ClientInfo iter in clientList.Items)
-							{
-								if (iter.selectedPermission == "Waiter")
-								{
-									sendCommand(iter.IP, "cancelHelp");
-									sendCommand(iter.IP, ClientEp.Address.ToString());
-								}
-							}
-							break;
-						case "getTables":
-							sendTables(ClientEp.Address);
-							break;
-						case "refillRequest":
-							foreach (ClientInfo iter in clientList.Items)
-							{
-								clientRequest = client.Receive(ref ClientEp);
-								if (iter.selectedPermission == "Waiter")
-								{
-									sendCommand(iter.IP, "refillRequest");
-									sendCommand(iter.IP, ClientEp.Address.ToString());
-									sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
-								}
-							}
-							break;
-						case "cancelRefill":
-							foreach (ClientInfo iter in clientList.Items)
-							{
-								clientRequest = client.Receive(ref ClientEp);
-								if (iter.selectedPermission == "Waiter")
-								{
-									sendCommand(iter.IP, "cancelRefill");
-									sendCommand(iter.IP, ClientEp.Address.ToString());
-									sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
-								}
-							}
-							break;
-						case "recieveClient":
-							clientRequest = client.Receive(ref ClientEp);
-							updateClientStatus((ClientInfo)ByteToObject(clientRequest));
-							break;
-						default:
-							break;
-					}
-				}
-				catch (Exception) { }
-			}
-			client.Close();
-		}
-		/// <summary>
-		/// Request threads stop
-		/// </summary>
-		public void requestStop()
-		{
-			stop = true;
-		}
-		/// <summary>
-		/// Allow threads to run
-		/// </summary>
-		public void setStop()
-		{
-			stop = false;
-		}
-		#endregion
+            while (!stop)
+            {
+                IPEndPoint ClientEp = new IPEndPoint(IPAddress.Any, 44446);
+                try
+                {
+                    byte[] clientRequest = client.Receive(ref ClientEp);
+                    Console.WriteLine(Encoding.ASCII.GetString(clientRequest));
+                    switch (Encoding.ASCII.GetString(clientRequest))
+                    {
+                        case "OMS-Client":
+                            addClient(ClientEp.Address);
+                            Console.WriteLine("Recived {0} from {1}, sending response", clientRequest, ClientEp.Address.ToString());
+                            client.Send(ResponseData, ResponseData.Length, ClientEp);
+                            break;
+                        case "clientClosed":
+                            clientClosed(ClientEp.Address);
+                            break;
+                        case "requestHelp":
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                if (iter.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(iter.IP, "requestHelp");
+                                    sendCommand(iter.IP, ClientEp.Address.ToString());
+                                }
+                            }
+                            break;
+                        case "cancelHelp":
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                if (iter.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(iter.IP, "cancelHelp");
+                                    sendCommand(iter.IP, ClientEp.Address.ToString());
+                                }
+                            }
+                            break;
+                        case "getTables":
+                            sendTables(ClientEp.Address);
+                            break;
+                        case "refillRequest":
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                clientRequest = client.Receive(ref ClientEp);
+                                if (iter.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(iter.IP, "refillRequest");
+                                    sendCommand(iter.IP, ClientEp.Address.ToString());
+                                    sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
+                                }
+                            }
+                            break;
+                        case "cancelRefill":
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                clientRequest = client.Receive(ref ClientEp);
+                                if (iter.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(iter.IP, "cancelRefill");
+                                    sendCommand(iter.IP, ClientEp.Address.ToString());
+                                    sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
+                                }
+                            }
+                            break;
+                        case "recieveClient":
+                            clientRequest = client.Receive(ref ClientEp);
+                            updateClientStatus((ClientInfo)ByteToObject(clientRequest));
+                            break;
+                        case "updateOrders":
+                            foreach (ClientInfo c in clientList.Items)
+                            {
+                                if (c.selectedPermission == "Kitchen" || c.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(c.IP, "updateOrders");
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception) { }
+            }
+            client.Close();
+        }
+        /// <summary>
+        /// Request threads stop
+        /// </summary>
+        public void requestStop()
+        {
+            stop = true;
+        }
+        /// <summary>
+        /// Allow threads to run
+        /// </summary>
+        public void setStop()
+        {
+            stop = false;
+        }
+        #endregion
 
-		#region Client Add/Remove
-		/// <summary>
-		/// Adds client to local clients list
-		/// Syncs client with sotred permission
-		/// Sends tables to waiter clients when new table connects
-		/// Updates clientList interface element
-		/// </summary>
-		/// <param name="ip"></param>
-		public void addClient(IPAddress ip)
-		{
-			if (clients == null || !clients.Exists(x => x.Equals(ip)))
-				clients.Add(ip);
-			syncClientAuto(new ClientInfo { IP = ip, Name = getClientName(ip), selectedPermission = getClientPermission(ip) });
-			updateClientList();
-			if (getClientPermission(ip) == "Table")
-			{
-				foreach (ClientInfo c in clientList.Items)
-				{
-					if (c.selectedPermission == "Waiter")
-						sendTables(c.IP);
-				}
-			}
-		}
+        #region Client Add/Remove
+        /// <summary>
+        /// Adds client to local clients list
+        /// Syncs client with sotred permission
+        /// Sends tables to waiter clients when new table connects
+        /// Updates clientList interface element
+        /// </summary>
+        /// <param name="ip"></param>
+        public void addClient(IPAddress ip)
+        {
+            if (clients == null || !clients.Exists(x => x.Equals(ip)))
+                clients.Add(ip);
+            syncClientAuto(new ClientInfo { IP = ip, Name = getClientName(ip), selectedPermission = getClientPermission(ip) });
+            updateClientList();
+            if (getClientPermission(ip) == "Table")
+            {
+                foreach (ClientInfo c in clientList.Items)
+                {
+                    if (c.selectedPermission == "Waiter")
+                        sendTables(c.IP);
+                }
+            }
+        }
 
-		private void clientClosed(IPAddress ip)
-		{
-			clients.Remove(ip);
-			updateClientList();
-		}
+        private void clientClosed(IPAddress ip)
+        {
+            clients.Remove(ip);
+            updateClientList();
+        }
 
-		private void updateClientList()
-		{
-			Dispatcher.Invoke(() =>
-			{
-				clientList.Items.Clear();
-				foreach (IPAddress client in clients)
-				{
-					clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = getClientPermission(client) });
-				}
-			});
-		}
+        private void updateClientList()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                clientList.Items.Clear();
+                foreach (IPAddress client in clients)
+                {
+                    clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = getClientPermission(client) });
+                }
+            });
+        }
 
-		private string getClientPermission(IPAddress client)
-		{
-			string permission = "None";
-			// Check database for permission
-			using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-			{
-				// Create command
-				var sql = String.Format("select * from dbo.Clients where IPAddress = '{0}' and Name = '{1}'", client.ToString(), getClientName(client));
-				SqlCommand command = new SqlCommand(sql);
-				command.Connection = connection;
-				// Specify the query to be executed.
-				command.CommandType = CommandType.Text;
-				// Open a connection to database.
-				connection.Open();
-				// Read data returned for the query.
-				SqlDataReader reader = command.ExecuteReader();
+        private string getClientPermission(IPAddress client)
+        {
+            string permission = "None";
+            // Check database for permission
+            using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+            {
+                // Create command
+                var sql = String.Format("select * from dbo.Clients where IPAddress = '{0}' and Name = '{1}'", client.ToString(), getClientName(client));
+                SqlCommand command = new SqlCommand(sql);
+                command.Connection = connection;
+                // Specify the query to be executed.
+                command.CommandType = CommandType.Text;
+                // Open a connection to database.
+                connection.Open();
+                // Read data returned for the query.
+                SqlDataReader reader = command.ExecuteReader();
 
-				// while not done reading the stuff returned from the query
-				while (reader.Read())
-				{
-					permission = (string)reader[2];
-				}
-			}
-			return permission;
-		}
+                // while not done reading the stuff returned from the query
+                while (reader.Read())
+                {
+                    permission = (string)reader[2];
+                }
+            }
+            return permission;
+        }
 
-		private string getClientName(IPAddress ip)
-		{
-			string machineName = string.Empty;
-			try
-			{
-				IPHostEntry hostEntry = Dns.GetHostEntry(ip);
+        private string getClientName(IPAddress ip)
+        {
+            string machineName = string.Empty;
+            try
+            {
+                IPHostEntry hostEntry = Dns.GetHostEntry(ip);
 
-				machineName = hostEntry.HostName;
-			}
-			catch (Exception) { }
-			return machineName;
-		}
-		#endregion
+                machineName = hostEntry.HostName;
+            }
+            catch (Exception) { }
+            return machineName;
+        }
+        #endregion
 
-		#region Client Communication
-		public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
-		{
-			var parent = VisualTreeHelper.GetParent(child);
-			if (parent != null && !(parent is T))
-				return (T)GetAncestorOfType<T>((FrameworkElement)parent);
-			return (T)parent;
-		}
+        #region Client Communication
+        public T GetAncestorOfType<T>(FrameworkElement child) where T : FrameworkElement
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+            if (parent != null && !(parent is T))
+                return (T)GetAncestorOfType<T>((FrameworkElement)parent);
+            return (T)parent;
+        }
 
-		private void syncClientAuto(ClientInfo client)
-		{
-			requestStop();
-			if (client.selectedPermission == null)
-				return;
-			IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
-			UdpClient connection = new UdpClient();
+        private void syncClientAuto(ClientInfo client)
+        {
+            requestStop();
+            if (client.selectedPermission == null)
+                return;
+            IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
+            UdpClient connection = new UdpClient();
 
-			string command = "setPermission";
-			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+            string command = "setPermission";
+            byte[] sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length, clientIP);
+            connection.Send(sendCmd, sendCmd.Length, clientIP);
 
-			command = client.selectedPermission;
-			sendCmd = Encoding.ASCII.GetBytes(command);
+            command = client.selectedPermission;
+            sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length, clientIP);
+            connection.Send(sendCmd, sendCmd.Length, clientIP);
 
-			connection.Close();
-			setStop();
-		}
+            connection.Close();
+            setStop();
+        }
 
-		private void syncClient_Click(object sender, RoutedEventArgs e)
-		{
-			requestStop();
-			ClientInfo client = (ClientInfo)GetAncestorOfType<ListViewItem>(sender as Button).Content;
-			if (client.selectedPermission == null)
-				return;
-			IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
-			UdpClient connection = new UdpClient();
+        private void syncClient_Click(object sender, RoutedEventArgs e)
+        {
+            requestStop();
+            ClientInfo client = (ClientInfo)GetAncestorOfType<ListViewItem>(sender as Button).Content;
+            if (client.selectedPermission == null)
+                return;
+            IPEndPoint clientIP = new IPEndPoint(client.IP, 44446);
+            UdpClient connection = new UdpClient();
 
-			string command = "setPermission";
-			byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+            string command = "setPermission";
+            byte[] sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length, clientIP);
+            connection.Send(sendCmd, sendCmd.Length, clientIP);
 
-			command = client.selectedPermission;
-			sendCmd = Encoding.ASCII.GetBytes(command);
+            command = client.selectedPermission;
+            sendCmd = Encoding.ASCII.GetBytes(command);
 
-			connection.Send(sendCmd, sendCmd.Length, clientIP);
-			
-			connection.Close();
-			setStop();
+            connection.Send(sendCmd, sendCmd.Length, clientIP);
 
-			// Send client info to database
-			sendClient(client);
-		}
+            connection.Close();
+            setStop();
 
-		private void sendCommand(IPAddress clientIP, string command)
-		{
-			try
-			{
-				IPEndPoint client = new IPEndPoint(clientIP, 44446);
-				UdpClient connection = new UdpClient();
+            // Send client info to database
+            sendClient(client);
+        }
 
-				byte[] sendCmd = Encoding.ASCII.GetBytes(command);
+        private void sendCommand(IPAddress clientIP, string command)
+        {
+            try
+            {
+                IPEndPoint client = new IPEndPoint(clientIP, 44446);
+                UdpClient connection = new UdpClient();
 
-				connection.Send(sendCmd, sendCmd.Length, client);
+                byte[] sendCmd = Encoding.ASCII.GetBytes(command);
 
-				connection.Close();
-			}
-			catch (Exception) { }
-		}
+                connection.Send(sendCmd, sendCmd.Length, client);
 
-		private void sendTables(IPAddress clientIP)
-		{
-			UdpClient client = new UdpClient();
-			IPEndPoint ClientEp = new IPEndPoint(clientIP, 44446);
-			// Generate table list
-			List<ClientInfo> tableList = new List<ClientInfo>();
+                connection.Close();
+            }
+            catch (Exception) { }
+        }
 
-			byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
-			client.Send(prepData, prepData.Length, ClientEp);
-			//Dispatcher.Invoke(() =>
-			//{
-			//	if (clientList.Items.Count < 4)
-			//	{
-			//		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
-			//		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
-			//		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
-			//		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
-			//	}
-			//});
-			foreach (ClientInfo iter in clientList.Items)
-			{
-				if (iter.selectedPermission == "Table")
-					tableList.Add(iter);
-			}
+        private void sendTables(IPAddress clientIP)
+        {
+            UdpClient client = new UdpClient();
+            IPEndPoint ClientEp = new IPEndPoint(clientIP, 44446);
+            // Generate table list
+            List<ClientInfo> tableList = new List<ClientInfo>();
 
-			byte[] sendData = ObjectToByteArray(tableList);
-			client.Send(sendData, sendData.Length, ClientEp);
-		}
+            byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
+            client.Send(prepData, prepData.Length, ClientEp);
+            //Dispatcher.Invoke(() =>
+            //{
+            //	if (clientList.Items.Count < 4)
+            //	{
+            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
+            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
+            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
+            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
+            //	}
+            //});
+            foreach (ClientInfo iter in clientList.Items)
+            {
+                if (iter.selectedPermission == "Table")
+                    tableList.Add(iter);
+            }
 
-		private void updateClientStatus(ClientInfo client)
-		{
-			foreach (ClientInfo iter in clientList.Items)
-			{
-				if (client.IP.ToString() == iter.IP.ToString())
-				{
-					iter.priorStatus = client.priorStatus;
-					iter.status = client.status;
-				}
-			}
+            byte[] sendData = ObjectToByteArray(tableList);
+            client.Send(sendData, sendData.Length, ClientEp);
+        }
 
-			foreach (ClientInfo iter in clientList.Items)
-			{
-				if (iter.selectedPermission == "Waiter")
-				{
-					sendTables(iter.IP);
-				}
-			}
-		}
+        private void updateClientStatus(ClientInfo client)
+        {
+            foreach (ClientInfo iter in clientList.Items)
+            {
+                if (client.IP.ToString() == iter.IP.ToString())
+                {
+                    iter.priorStatus = client.priorStatus;
+                    iter.status = client.status;
+                }
+            }
+
+            foreach (ClientInfo iter in clientList.Items)
+            {
+                if (iter.selectedPermission == "Waiter")
+                {
+                    sendTables(iter.IP);
+                }
+            }
+        }
 		#endregion
 
 		#region Database Functions

@@ -261,21 +261,25 @@ namespace OMS
 
 				ms.Position = 0;
 				byte[] orderData = ms.ToArray();
+                try
+                {
+                    using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+                    {
+                        string command = "INSERT into dbo.Orders (Order, Client) VALUES (@order, @client)";
 
-				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
-				{
-					string command = "INSERT into dbo.Orders (Order, Client) VALUES (@order, @client)";
+                        using (SqlCommand querySave = new SqlCommand(command, openCon))
+                        {
+                            querySave.Parameters.AddWithValue("@order", orderData);
+                            querySave.Parameters.AddWithValue("@client", Dns.GetHostAddresses(Dns.GetHostName()));
 
-					using (SqlCommand querySave = new SqlCommand(command, openCon))
-					{
-						querySave.Parameters.AddWithValue("@order", orderData);
-						querySave.Parameters.AddWithValue("@client", Dns.GetHostAddresses(Dns.GetHostName()));
-
-						openCon.Open();
-						querySave.ExecuteScalar();
-						openCon.Close();
-					}
-				}
+                            openCon.Open();
+                            querySave.ExecuteScalar();
+                            openCon.Close();
+                            commHelper.functionSend("updateOrders");
+                        }
+                    }
+                }
+                catch (Exception) { }
 			}
 		}
 		/// <summary>
