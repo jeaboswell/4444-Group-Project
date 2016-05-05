@@ -73,6 +73,7 @@ namespace OMS
                     order += (food.name + ", ");
                 }
                 orderList.Items.Add(item.Order_num + " " + order);
+                order = "";
             }
         }
 
