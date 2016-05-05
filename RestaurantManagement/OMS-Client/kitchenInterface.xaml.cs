@@ -79,6 +79,11 @@ namespace OMS
 
         public void createMenu()
         {
+			Dispatcher.Invoke(() =>
+			{
+				menuList.Items.Clear();
+			});
+			myMenu.Clear();
 			try
 			{
 				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
@@ -143,7 +148,12 @@ namespace OMS
         /// Update the database to make it work nicer, and change the 
         /// </summary>
         public void createOrders()
-        {
+		{
+			Dispatcher.Invoke(() =>
+			{
+				orderList.Items.Clear();
+			});
+			myOrders.Clear();
 			try
 			{
 				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
@@ -212,6 +222,8 @@ namespace OMS
 
         private void doneButton_Click(object sender, RoutedEventArgs e)
         {
+			if (removeOrder == "")
+				return;
             using (C.SqlConnection openCon = new C.SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
             {
                 string command = "update dbo.Orders set Finished = @true where Id = @id";

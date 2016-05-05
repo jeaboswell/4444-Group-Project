@@ -193,10 +193,7 @@ namespace OMS
 							employeeUI.cancelHelp(IPAddress.Parse(Encoding.ASCII.GetString(command)));
 							break;
                         case "updateOrders":
-                            Dispatcher.Invoke(() =>
-                            {
-                                kitchenUI.createOrders();
-                            });
+                            kitchenUI.createOrders();
                             
                             break;
                         default:
