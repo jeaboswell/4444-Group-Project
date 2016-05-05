@@ -1568,6 +1568,7 @@ namespace OMS
 					querySave.ExecuteScalar();
 					((Cart)order).Order_num = (int)querySave.Parameters["@Id"].Value;
 					openCon.Close();
+					commHelper.functionSend("updateOrders");
 					sentOrders.Add(order);
 					order = new Cart();
 					addCartItems();
