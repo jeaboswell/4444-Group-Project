@@ -185,6 +185,8 @@ namespace OMS
 						{
 							orderList.Items.Add(item.Order_num + " " + order);
 						});
+
+                        order = "";
 					}
 				}
 			}
