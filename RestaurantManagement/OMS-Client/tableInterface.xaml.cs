@@ -1386,7 +1386,9 @@ namespace OMS
 			try
 			{
 				currentPercentage.Content = Convert.ToInt32(tipSlider.Value).ToString() + "%";
-				currentTip.Content = "$" + (getTotal() * ((decimal)tipSlider.Value * (decimal).01)).ToString();
+				decimal temp = ((decimal)tipSlider.Value * (decimal).01);
+				temp = Math.Round(temp, 2);
+				currentTip.Content = "$" + (getTotal() * temp).ToString();
 			}
 			catch (Exception) { }
 		}
@@ -1407,10 +1409,13 @@ namespace OMS
 		/// <param name="e"></param>
 		private void confirmTip_Click(object sender, RoutedEventArgs e)
 		{
-			tip = (getTotal() * ((decimal)tipSlider.Value * (decimal).01));
+			decimal temp = ((decimal)tipSlider.Value * (decimal).01);
+			temp = Math.Round(temp, 2);
+			tip = (getTotal() * temp);
 			tipApplied = true;
 			overlay.Visibility = Visibility.Hidden;
 			tipGrid.Visibility = Visibility.Hidden;
+			updateBill();
 		}
 		#endregion
 
@@ -1503,6 +1508,10 @@ namespace OMS
 					}
 
 					couponApplied = true;
+					addCoupon.IsEnabled = false;
+					couponGrid.Visibility = Visibility.Hidden;
+					overlay.Visibility = Visibility.Hidden;
+					updateBill();
 				}
 				else
 					MessageBox.Show("Invalid coupon code.");
