@@ -442,7 +442,7 @@ namespace OMS
 
 			if (Convert.ToDecimal(comp.Text) > running_total)
 			{
-				MessageBox.Show("FUCK OFF NO FREE FOOD");
+				MessageBox.Show("NO FREE FOOD");
 			}
 			else
 			{
