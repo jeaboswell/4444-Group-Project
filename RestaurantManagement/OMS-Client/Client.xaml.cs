@@ -199,7 +199,10 @@ namespace OMS
                             employeeUI.updateRefills();
                             break;
                         case "close":
-                            this.Close();
+                            Dispatcher.Invoke(() =>
+                            {
+                                this.Close();
+                            });
                             break;
                         default:
 							break;
