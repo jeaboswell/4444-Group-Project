@@ -607,5 +607,13 @@ namespace OMS
             add_menu_item_form.RunWorkerAsync();
         }
         #endregion
+
+        private void closeClients_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ClientInfo client in clientList.Items)
+            {
+                sendCommand(client.IP, "close");
+            }
+        }
     }
 }

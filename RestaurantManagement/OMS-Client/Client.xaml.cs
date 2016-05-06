@@ -198,6 +198,9 @@ namespace OMS
                         case "updateRefills":
                             employeeUI.updateRefills();
                             break;
+                        case "close":
+                            this.Close();
+                            break;
                         default:
 							break;
 					}
