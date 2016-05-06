@@ -63,6 +63,7 @@ namespace OMS
 		}
 		#endregion
 
+		// Complete
 		#region Menu Functions
 		/// <summary>
 		/// Download the menu from the database
@@ -1553,6 +1554,7 @@ namespace OMS
 		}
 		#endregion
 
+		#region |   Payment   |
 		/// <summary>
 		/// Verify credit card and submit payment
 		/// </summary>
@@ -1584,6 +1586,7 @@ namespace OMS
 		{
             commHelper.functionSend("checkPayment");
         }
+		#endregion
 		#endregion
 
 		#region Service Dock
@@ -1625,6 +1628,35 @@ namespace OMS
 		/// </summary>
 		private void addRefillItems()
 		{
+			List<Refill> tempRefills = new List<Refill>();
+			try
+			{
+				using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					// Formulate the command.
+					SqlCommand command = new SqlCommand(@"SELECT * FROM dbo.Drinks where ip = @ip", connection);
+
+					// Specify the query to be executed.
+					command.CommandType = CommandType.Text;
+					command.CommandText = @"SELECT * FROM dbo.Drinks";
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					SqlDataReader reader = command.ExecuteReader();
+
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{   // fill up the Refill list object
+						tempRefills.Add(new Refill
+						{
+							drink = (string)reader[0],
+							ip = (string)reader[1]
+						});
+					}
+				}
+			}
+			catch (Exception) { }
+
 			refillList.Items.Clear();
 			if (((Cart)order).Order_num != -1)
 			{
@@ -1634,6 +1666,12 @@ namespace OMS
 					{
 						if (item.category == "drink")
 						{
+							bool requested = false;
+							foreach (Refill r in tempRefills)
+							{
+								if (r.drink == item.name)
+									requested = true;
+							}
 							Grid grid = new Grid()
 							{
 								Width = 832
@@ -1649,20 +1687,41 @@ namespace OMS
 								Content = item.name,
 								Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
 							});
-							// Request Button
-							Button tempRequest = (new Button()
+							Button tempRequest = new Button();
+							if (requested)
 							{
-								Margin = new Thickness() { Right = 0 },
-								Padding = new Thickness() { Right = 5, Left = 5 },
-								HorizontalAlignment = HorizontalAlignment.Right,
-								VerticalAlignment = VerticalAlignment.Center,
-								FontFamily = new FontFamily("Baskerville Old Face"),
-								FontSize = 20,
-								Content = "Request Refill",
-								Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
-								BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
-								Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
-							});
+								// Cancel Button
+								tempRequest = (new Button()
+								{
+									Margin = new Thickness() { Right = 0 },
+									Padding = new Thickness() { Right = 5, Left = 5 },
+									HorizontalAlignment = HorizontalAlignment.Right,
+									VerticalAlignment = VerticalAlignment.Center,
+									FontFamily = new FontFamily("Baskerville Old Face"),
+									FontSize = 20,
+									Content = "Cancel Request",
+									Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
+									BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
+									Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+								});
+							}
+							else
+							{
+								// Request Button
+								tempRequest = (new Button()
+								{
+									Margin = new Thickness() { Right = 0 },
+									Padding = new Thickness() { Right = 5, Left = 5 },
+									HorizontalAlignment = HorizontalAlignment.Right,
+									VerticalAlignment = VerticalAlignment.Center,
+									FontFamily = new FontFamily("Baskerville Old Face"),
+									FontSize = 20,
+									Content = "Request Refill",
+									Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF701C1C")),
+									BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF2D2D30")),
+									Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFACACAC"))
+								});
+							}
 							tempRequest.Click += (sender, e) =>
 							{
 								Grid parent = GetAncestorOfType<Grid>(sender as Button);
@@ -1675,13 +1734,35 @@ namespace OMS
 										if (((Button)sender).Content.ToString() == "Request Refill")
 										{
 											commHelper.functionSend("refillRequest");
-											commHelper.functionSend(cItem.name);
+
+											using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+											{
+												SqlCommand command = new SqlCommand(@"insert into dbo.Drinks (Drinks, ip) values (@drink, @ip)", connection);
+												command.Parameters.AddWithValue("@drink", cItem.name);
+												command.Parameters.AddWithValue("@ip", Properties.Settings.Default.localIP);
+
+												connection.Open();
+												command.ExecuteScalar();
+												connection.Close();
+											}
+
 											((Button)sender).Content = "Cancel Request";
 										}
 										else
 										{
 											commHelper.functionSend("cancelRefill");
-											commHelper.functionSend(cItem.name);
+
+											using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+											{
+												SqlCommand command = new SqlCommand(@"delete from dbo.Drinks where Drinks = @drink and ip = @ip", connection);
+												command.Parameters.AddWithValue("@drink", cItem.name);
+												command.Parameters.AddWithValue("@ip", Properties.Settings.Default.localIP);
+
+												connection.Open();
+												command.ExecuteScalar();
+												connection.Close();
+											}
+
 											((Button)sender).Content = "Request Refill";
 										}
 									}

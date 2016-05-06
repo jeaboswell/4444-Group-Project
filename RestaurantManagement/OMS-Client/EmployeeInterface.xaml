@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689">
     <Grid Background="Black">
         <WrapPanel x:Name="Table_Grid" Margin="0" Grid.ColumnSpan="2"/>
-        <Grid x:Name="tableOptions" Grid.ColumnSpan="2">
+        <Grid x:Name="tableOptions" Grid.ColumnSpan="2" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="310"/>
                 <ColumnDefinition/>
