@@ -313,6 +313,10 @@ namespace OMS
                         sendTables(c.IP);
                 }
             }
+			else if (getClientPermission(ip) == "Waiter")
+			{
+				sendTables(ip);
+			}
         }
 
         private void clientClosed(IPAddress ip)

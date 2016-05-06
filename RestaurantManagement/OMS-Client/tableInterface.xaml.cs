@@ -1686,6 +1686,8 @@ namespace OMS
 				}
 				catch (Exception) { }
 			}
+			sentOrders.Clear();
+			updateBill();
 		}
 		#endregion
 		#endregion
