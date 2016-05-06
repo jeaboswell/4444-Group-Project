@@ -1688,6 +1688,7 @@ namespace OMS
 			}
 			sentOrders.Clear();
 			updateBill();
+			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 		}
 		#endregion
 		#endregion

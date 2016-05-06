@@ -196,7 +196,10 @@ namespace OMS
                             employeeUI.updateRefills();
                             break;
 						case "paid":
-							tableUI.markPaid();
+							Dispatcher.Invoke(() =>
+							{
+								tableUI.markPaid();
+							});
 							break;
 						case "ticketAdjusted":
 							command = server.Receive(ref serverEp);
