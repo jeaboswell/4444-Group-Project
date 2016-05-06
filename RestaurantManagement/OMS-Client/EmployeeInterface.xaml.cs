@@ -259,8 +259,61 @@ namespace OMS
     
         private void ticketAdjustment_Click(object sender, RoutedEventArgs e)
         {
-        
-        }
+			List<Cart> temp = new List<Cart>();
+            tick_ad.Visibility = Visibility.Visible;
+			string ip = "";
+			foreach (ClientInfo thing in TableList)
+			{
+				if (thing.Name == currentTableName.Content.ToString())
+				{
+					ip = thing.IP.ToString();
+				}
+			}
+			try
+			{
+				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+				// Create an SqlConnection from the provided connection string.
+				using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+				{
+					// Formulate the command.
+					SqlCommand command = new SqlCommand();
+					command.Connection = connection;
+
+					// Specify the query to be executed.
+					command.CommandType = CommandType.Text;
+					command.CommandText = @"
+                    SELECT * FROM dbo.Orders
+					WHERE Client=@cli
+                    ";
+					command.Parameters.AddWithValue("@cli",ip );
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					SqlDataReader reader = command.ExecuteReader();
+
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						Cart tempCart = new Cart();
+						tempCart = (Cart)ByteToObject((byte[])reader[1]);
+						tempCart.Order_num = (int)reader[0];
+						temp.Add(tempCart);
+					}
+				}
+			}
+			catch (Exception) { }
+			decimal running_total = 0m;
+
+			foreach (Cart item in temp)
+			{
+				foreach (cartItem food in item.Items)
+				{
+					running_total += food.price;
+				}
+			}
+			running_total = Math.Round(running_total,2);
+			comp_item_price.Content = running_total.ToString();
+		}
 
         private void cleanTable_Click(object sender, RoutedEventArgs e)
         {
@@ -331,6 +384,73 @@ namespace OMS
             catch (Exception) { }
 
             return null;
+        }
+
+        private void tick_done_Click(object sender, RoutedEventArgs e)
+        {
+			List<Cart> temp = new List<Cart>();
+			string ip = "";
+			foreach (ClientInfo thing in TableList)
+			{
+				if (thing.Name == currentTableName.Content.ToString())
+				{
+					ip = thing.IP.ToString();
+				}
+			}
+			try
+			{
+				string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+				// Create an SqlConnection from the provided connection string.
+				using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+				{
+					// Formulate the command.
+					SqlCommand command = new SqlCommand();
+					command.Connection = connection;
+
+					// Specify the query to be executed.
+					command.CommandType = CommandType.Text;
+					command.CommandText = @"
+                    SELECT * FROM dbo.Orders
+					WHERE Client=@cli
+                    ";
+					command.Parameters.AddWithValue("@cli", ip);
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					SqlDataReader reader = command.ExecuteReader();
+
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						Cart tempCart = new Cart();
+						tempCart = (Cart)ByteToObject((byte[])reader[1]);
+						tempCart.Order_num = (int)reader[0];
+						temp.Add(tempCart);
+					}
+				}
+			}
+			catch (Exception) { }
+			decimal running_total = 0m;
+
+			foreach (Cart item in temp)
+			{
+				foreach (cartItem food in item.Items)
+				{
+					running_total += food.price;
+				}
+			}
+
+			if (Convert.ToDecimal(comp.Text) > running_total)
+			{
+				MessageBox.Show("FUCK OFF NO FREE FOOD");
+			}
+			else
+			{
+				commHelper.functionSend("ticketAdjusted");
+				commHelper.functionSend(comp.Text);
+				commHelper.functionSend(ip);
+				tick_ad.Visibility = Visibility.Hidden;
+			}
         }
     }
 }

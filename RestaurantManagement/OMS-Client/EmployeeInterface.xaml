@@ -44,6 +44,11 @@
                     <Button x:Name="eatingButton" Content="Eating" Margin="0" VerticalAlignment="Center" RenderTransformOrigin="0.68,0.55" Grid.Column="3" FontSize="35" HorizontalAlignment="Center" Padding="5,0,5,5" MinWidth="137.5" Background="#FFADEE89" Click="eatingButton_Click"/>
                 </Grid>
                 <ListBox x:Name="refillBox" HorizontalAlignment="Left" Height="239" Margin="10,10,0,0" Grid.Row="5" Grid.RowSpan="3" VerticalAlignment="Top" Width="942" Background="{x:Null}"/>
+                <Grid x:Name="tick_ad" HorizontalAlignment="Left" Height="679" Margin="0,10,0,0" Grid.RowSpan="8" VerticalAlignment="Top" Width="952" Background="#FFDDDDDD" Visibility="Hidden">
+                    <Button x:Name="tick_done" Content="Done" HorizontalAlignment="Left" Margin="827,590,0,0" VerticalAlignment="Top" Width="125" Height="89" FontSize="35" Click="tick_done_Click"/>
+                    <Label x:Name="comp_item_price" Content="" HorizontalAlignment="Left" Margin="105,110,0,0" VerticalAlignment="Top" Height="64" Width="330" FontSize="40"/>
+                    <TextBox x:Name="comp" HorizontalAlignment="Left" Height="73" Margin="105,357,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="330" FontSize="40"/>
+                </Grid>
             </Grid>
             <Grid Margin="0" Background="#FFDDDDDD">
                 <Grid.RowDefinitions>
