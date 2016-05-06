@@ -194,7 +194,9 @@ namespace OMS
 							break;
                         case "updateOrders":
                             kitchenUI.createOrders();
-                            
+                            break;
+                        case "updateRefills":
+                            employeeUI.updateRefills();
                             break;
                         default:
 							break;
