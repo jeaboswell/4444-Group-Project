@@ -1098,7 +1098,7 @@ namespace OMS
 				}
 			}
 			// Separator for coupon and tip section
-			if (couponApplied || tipApplied)
+			if (couponApplied || tipApplied || adjustmentApplied)
 				paymentList.Items.Add(S());
 			// Print coupon discount
 			if (couponApplied)
@@ -1124,7 +1124,7 @@ namespace OMS
 				});
 				billDiscount.Children.Add(new Label()
 				{
-					Content = "$" + discount.ToString(),
+					Content = "-$" + discount.ToString(),
 					FontSize = 20,
 					FontFamily = new FontFamily("Baskerville Old Face"),
 					Margin = new Thickness() { Right = 0, Top = 0 },
@@ -1132,6 +1132,36 @@ namespace OMS
 					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
 				});
 				paymentList.Items.Add(billDiscount);
+			}
+			// Print ticket adjustment
+			if (adjustmentApplied)
+			{
+				runningTotal -= adjustment;
+				Grid billAdjustment = new Grid()
+				{
+					Margin = new Thickness() { Left = 0, Right = 0 },
+					HorizontalAlignment = HorizontalAlignment.Stretch,
+					Width = 573
+				};
+				billAdjustment.Children.Add(new Label()
+				{
+					Content = "Adjustment",
+					FontSize = 20,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					Margin = new Thickness() { Left = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Left,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+				});
+				billAdjustment.Children.Add(new Label()
+				{
+					Content = "-$" + adjustment.ToString(),
+					FontSize = 20,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					Margin = new Thickness() { Right = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Right,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+				});
+				paymentList.Items.Add(billAdjustment);
 			}
 			// Calculate tax
 			tax = runningTotal * (decimal).0625;

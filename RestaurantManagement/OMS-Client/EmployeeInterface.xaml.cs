@@ -206,7 +206,7 @@ namespace OMS
                     itr.priorStatus = itr.status;
                     itr.status = "Paid";
                     commHelper.functionSend("clientPaid");
-                    commHelper.functionSend(itr.IP.ToString());
+                    commHelper.objectSend(itr);
                 }
             }
             currentTableStatus.Content = "Paid";
@@ -221,7 +221,7 @@ namespace OMS
                     itr.priorStatus = itr.status;
                     itr.status = "Paid";
                     commHelper.functionSend("clientPaid");
-                    commHelper.functionSend(itr.IP.ToString());
+                    commHelper.objectSend(itr);
                 }
             }
             currentTableStatus.Content = "Paid";
@@ -327,7 +327,7 @@ namespace OMS
 
 
         /// <summary>
-        /// Update the database to make it work nicer, and change the 
+        /// PUll refill requests from the database 
         /// </summary>
         public void getDrinks(string clientIP)
         {

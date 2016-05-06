@@ -138,10 +138,13 @@ namespace OMS
                             clientClosed(ClientEp.Address);
                             break;
                         case "clientPaid":
-                            clientRequest = client.Receive(ref ClientEp);
+							clientRequest = client.Receive(ref ClientEp);
+							object paidClient = ByteToObject(clientRequest);
+							updateClientStatus((ClientInfo)paidClient);
+
                             foreach (ClientInfo iter in clientList.Items)
                             {
-                                if (iter.IP == IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)) )
+                                if (iter.IP.ToString() == ((ClientInfo)paidClient).IP.ToString())
                                 {
                                     sendCommand(iter.IP, "paid");
                                 }
