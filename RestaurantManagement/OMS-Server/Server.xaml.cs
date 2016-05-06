@@ -137,6 +137,16 @@ namespace OMS
                         case "clientClosed":
                             clientClosed(ClientEp.Address);
                             break;
+                        case "clientPaid":
+                            clientRequest = client.Receive(ref ClientEp);
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                if (iter.IP == IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)) )
+                                {
+                                    sendCommand(iter.IP,"paid");
+                                }
+                            }
+                            break;
                         case "requestHelp":
                             foreach (ClientInfo iter in clientList.Items)
                             {
@@ -181,6 +191,24 @@ namespace OMS
                                 if (c.selectedPermission == "Kitchen" || c.selectedPermission == "Waiter")
                                 {
                                     sendCommand(c.IP, "updateOrders");
+                                }
+                            }
+                            break;
+                        case "checkPayment":
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                if (iter.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(iter.IP, "checkPayment");
+                                }
+                            }
+                            break;
+                        case "cashPayment":
+                            foreach (ClientInfo iter in clientList.Items)
+                            {
+                                if (iter.selectedPermission == "Waiter")
+                                {
+                                    sendCommand(iter.IP, "cashPayment");
                                 }
                             }
                             break;
