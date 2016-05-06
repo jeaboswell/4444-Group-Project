@@ -161,26 +161,12 @@ namespace OMS
                             sendTables(ClientEp.Address);
                             break;
                         case "refillRequest":
-                            foreach (ClientInfo iter in clientList.Items)
-                            {
-                                clientRequest = client.Receive(ref ClientEp);
-                                if (iter.selectedPermission == "Waiter")
-                                {
-                                    sendCommand(iter.IP, "refillRequest");
-                                    sendCommand(iter.IP, ClientEp.Address.ToString());
-                                    sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
-                                }
-                            }
-                            break;
                         case "cancelRefill":
                             foreach (ClientInfo iter in clientList.Items)
                             {
-                                clientRequest = client.Receive(ref ClientEp);
                                 if (iter.selectedPermission == "Waiter")
                                 {
-                                    sendCommand(iter.IP, "cancelRefill");
-                                    sendCommand(iter.IP, ClientEp.Address.ToString());
-                                    sendCommand(iter.IP, Encoding.ASCII.GetString(clientRequest));
+                                    sendCommand(iter.IP, "updateRefills");
                                 }
                             }
                             break;
@@ -386,16 +372,18 @@ namespace OMS
 
             byte[] prepData = Encoding.ASCII.GetBytes("receiveTables");
             client.Send(prepData, prepData.Length, ClientEp);
+
             //Dispatcher.Invoke(() =>
             //{
-            //	if (clientList.Items.Count < 4)
-            //	{
-            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
-            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
-            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
-            //		clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
-            //	}
+            //    if (clientList.Items.Count < 4)
+            //    {
+            //        clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.1"), Name = "Table 1", selectedPermission = "Table" });
+            //        clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.2"), Name = "Table 2", selectedPermission = "Table" });
+            //        clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.3"), Name = "Table 3", selectedPermission = "Table" });
+            //        clientList.Items.Add(new ClientInfo { IP = IPAddress.Parse("1.1.1.4"), Name = "Table 4", selectedPermission = "Table" });
+            //    }
             //});
+
             foreach (ClientInfo iter in clientList.Items)
             {
                 if (iter.selectedPermission == "Table")
@@ -620,5 +608,13 @@ namespace OMS
             add_menu_item_form.RunWorkerAsync();
         }
         #endregion
+
+        private void closeClients_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ClientInfo client in clientList.Items)
+            {
+                sendCommand(client.IP, "close");
+            }
+        }
     }
 }

@@ -25,13 +25,18 @@ using MColor = System.Windows.Media.Color;
 
 namespace OMS
 {
+    public class Refill
+    {
+        public string drink { get; set; }
+        public string ip { get; set; }
+    }
     /// <summary>
     /// Interaction logic for EmployeeInterface.xaml
     /// </summary>
     public partial class EmployeeInterface : UserControl
     {
         List<ClientInfo> TableList = new List<ClientInfo>();
-
+        List<Refill> RefillList = new List<Refill>();
         public EmployeeInterface()
         {
 			InitializeComponent();
@@ -63,6 +68,7 @@ namespace OMS
                 tmpButton.Content = iter.Name;
                 tmpButton.Click += (sender, e) => 
                 {
+                    updateRefills();
                     currentTableName.Content = ((Button)sender).Content;
                     currentTableStatus.Content = iter.status;
                     tableOptions.Visibility = Visibility.Visible;
@@ -94,6 +100,43 @@ namespace OMS
                 Table_Grid.Children.Add(tmpButton);
             }
 
+        }
+
+        public void updateRefills()
+        {
+            RefillList.Clear();
+            try
+            {
+                string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
+                // Create an SqlConnection from the provided connection string.
+                using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+                {
+                    // Formulate the command.
+                    SqlCommand command = new SqlCommand();
+                    command.Connection = connection;
+
+                    // Specify the query to be executed.
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"
+                    SELECT * FROM dbo.Drinks
+                    ";
+                    // Open a connection to database.
+                    connection.Open();
+                    // Read data returned for the query.
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // while not done reading the stuff returned from the query
+                    while (reader.Read())
+                    {   // fill up the Refill list object
+                        RefillList.Add(new Refill
+                        {
+                            drink = (string)reader[0],
+                            ip = (string)reader[1]
+                        });
+                    }
+                }
+            }
+            catch (Exception) { }
         }
 
         public void requestHelp(IPAddress table)
@@ -253,60 +296,14 @@ namespace OMS
         /// </summary>
         public void getDrinks(string clientIP)
         {
-            drinkList.Children.Clear();
-            try
+            refillBox.Items.Clear();
+            foreach ( Refill thing in RefillList )
             {
-                string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
-                // Create an SqlConnection from the provided connection string.
-                using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+                if (thing.ip == clientIP)
                 {
-                    List<Cart> TableOrders = new List<Cart>();
-                    // Formulate the command.
-                    SqlCommand command = new SqlCommand();
-                    command.Connection = connection;
-
-                    // Specify the query to be executed.
-                    command.CommandType = CommandType.Text;
-                    command.CommandText = @"
-                    SELECT * FROM dbo.Orders
-                    WHERE Client = @client
-                    ";
-                    command.Parameters.AddWithValue("@client", clientIP);
-                    // Open a connection to database.
-                    connection.Open();
-                    // Read data returned for the query.
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    // while not done reading the stuff returned from the query
-                    while (reader.Read())
-                    {
-                        Cart tempCart = new Cart();
-                        tempCart = (Cart)ByteToObject((byte[])reader[1]);
-                        tempCart.Order_num = (int)reader[0];
-                        TableOrders.Add(tempCart);
-                    }
-
-                    connection.Close();
-
-                    foreach (Cart cart in TableOrders)
-                    {
-                        foreach (cartItem food in cart.Items)
-                        {
-                            if (food.category == "drink")
-                            {
-                                Grid tempGrid = new Grid() { Width = 471, Height = 79.6667 };
-                                tempGrid.Children.Add(new Label()
-                                {
-                                    Content = food.name,
-                                    FontSize = 35,
-                                    HorizontalAlignment = HorizontalAlignment.Left
-                                });
-                            }
-                        }
-                    }
+                    refillBox.Items.Add(thing.drink);
                 }
             }
-            catch (Exception) { }
         }
 
         private object ByteToObject(byte[] byteArray)

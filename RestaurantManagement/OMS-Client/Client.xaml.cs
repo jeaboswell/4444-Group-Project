@@ -194,7 +194,15 @@ namespace OMS
 							break;
                         case "updateOrders":
                             kitchenUI.createOrders();
-                            
+                            break;
+                        case "updateRefills":
+                            employeeUI.updateRefills();
+                            break;
+                        case "close":
+                            Dispatcher.Invoke(() =>
+                            {
+                                this.Close();
+                            });
                             break;
                         default:
 							break;

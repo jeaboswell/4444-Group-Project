@@ -92,7 +92,9 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Customers">
-                    <Grid Background="#FFE5E5E5"/>
+                    <Grid Background="#FFE5E5E5">
+                        <Button x:Name="closeClients" Content="Close all Clients" HorizontalAlignment="Left" VerticalAlignment="Top" Width="119" Height="81" Click="closeClients_Click"/>
+                    </Grid>
                 </TabItem>
             </TabControl>
 
