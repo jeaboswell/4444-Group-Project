@@ -195,23 +195,35 @@ namespace OMS
                             }
                             break;
                         case "checkPayment":
-                            foreach (ClientInfo iter in clientList.Items)
+							foreach (ClientInfo iter in clientList.Items)
                             {
-                                if (iter.selectedPermission == "Waiter")
-                                {
-                                    sendCommand(iter.IP, "checkPayment");
-                                }
+								if (iter.IP == ClientEp.Address)
+								{
+									iter.priorStatus = iter.status;
+									iter.status = "Waiting to pay with check";
+								}
                             }
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								if (iter.selectedPermission == "Waiter")
+									sendTables(iter.IP);
+							}
                             break;
                         case "cashPayment":
-                            foreach (ClientInfo iter in clientList.Items)
-                            {
-                                if (iter.selectedPermission == "Waiter")
-                                {
-                                    sendCommand(iter.IP, "cashPayment");
-                                }
-                            }
-                            break;
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								if (iter.IP == ClientEp.Address)
+								{
+									iter.priorStatus = iter.status;
+									iter.status = "Waiting to pay with cash";
+								}
+							}
+							foreach (ClientInfo iter in clientList.Items)
+							{
+								if (iter.selectedPermission == "Waiter")
+									sendTables(iter.IP);
+							}
+							break;
                         default:
                             break;
                     }
