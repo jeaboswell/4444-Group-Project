@@ -143,7 +143,7 @@ namespace OMS
                             {
                                 if (iter.IP == IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)) )
                                 {
-                                    sendCommand(iter.IP,"paid");
+                                    sendCommand(iter.IP, "paid");
                                 }
                             }
                             break;
@@ -230,6 +230,21 @@ namespace OMS
 							clientRequest = client.Receive(ref ClientEp);
 							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjusted");
 							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), price);
+							break;
+						case "orderSubmitted":
+							foreach (ClientInfo c in clientList.Items)
+							{
+								if (c.IP.ToString() == ClientEp.Address.ToString())
+								{
+									c.priorStatus = c.status;
+									c.status = "Placed order and waiting on food";
+								}
+							}
+							foreach (ClientInfo c in clientList.Items)
+							{
+								if (c.selectedPermission == "Waiter")
+									sendTables(c.IP);
+							}
 							break;
                         default:
                             break;

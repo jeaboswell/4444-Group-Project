@@ -385,6 +385,7 @@
                             <Button x:Name="checkPayment" Content="Pay with check" Grid.Column="1" HorizontalAlignment="Left" Margin="10,413,435,0" VerticalAlignment="Top" Padding="5,1" FontSize="30" Click="checkPayment_Click"/>
                             <Button x:Name="addTip" Content="Add Tip" HorizontalAlignment="Right" Margin="0,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.307,-0.031" Padding="5,1" FontSize="30" Click="addTip_Click"/>
                             <Button x:Name="addCoupon" Content="Add Coupon" HorizontalAlignment="Right" Margin="0,38,130,0" VerticalAlignment="Top" RenderTransformOrigin="0.307,-0.031" Padding="5,1" FontSize="30" Click="addCoupon_Click"/>
+                            <Label x:Name="waiterNotified" Content="Waiter notified" Grid.Column="1" Margin="0,469,0,25" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="Hidden"/>
                         </Grid>
                     </TabItem>
                 </TabControl>

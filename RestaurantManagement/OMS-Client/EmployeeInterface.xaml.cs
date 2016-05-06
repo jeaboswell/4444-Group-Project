@@ -197,41 +197,11 @@ namespace OMS
             currentTableStatus.Content = "";
         }
 
-		public static void objectSend(ClientInfo obj)
-		{
-			try
-			{
-				IPAddress serverIp = IPAddress.Parse(Properties.Settings.Default.serverIP);
-				IPEndPoint server = new IPEndPoint(serverIp, 44445);
-				UdpClient connection = new UdpClient();
-
-				byte[] sendObj = ObjectToByteArray(obj);
-
-				connection.Send(sendObj, sendObj.Length, server);
-
-				connection.Close();
-			}
-			catch (Exception) { }
-		}
-
-		private static byte[] ObjectToByteArray(ClientInfo obj)
-		{
-			if (obj == null)
-				return null;
-			BinaryFormatter bf = new BinaryFormatter();
-			using (MemoryStream ms = new MemoryStream())
-			{
-				bf.Serialize(ms, obj);
-				ms.Position = 0;
-				return ms.ToArray();
-			}
-		}
-
 		private void payWithCash_Click(object sender, RoutedEventArgs e)
         {
             foreach (ClientInfo itr in TableList)
             {
-                if (itr.IP == sender)
+                if (itr.Name == currentTableName.Content.ToString())
                 {
                     itr.priorStatus = itr.status;
                     itr.status = "Paid";
@@ -246,7 +216,7 @@ namespace OMS
         {
             foreach (ClientInfo itr in TableList)
             {
-                if (itr.IP == sender)
+                if (itr.Name == currentTableName.Content.ToString())
                 {
                     itr.priorStatus = itr.status;
                     itr.status = "Paid";

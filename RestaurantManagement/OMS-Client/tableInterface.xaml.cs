@@ -40,8 +40,8 @@ namespace OMS
 		List<object> myMenu = new List<object>();
 		int funGames = 0, couponGames = 0;
 		object order = new object();
-		bool payFirst = true, tipApplied = false, couponApplied = false;
-		decimal tip = 0;
+		bool payFirst = true, tipApplied = false, couponApplied = false, adjustmentApplied = false;
+		decimal tip = 0, adjustment = 0;
 		#endregion
 
 		#region Initialization
@@ -721,7 +721,7 @@ namespace OMS
 		}
 		#endregion
 
-		// Complete
+		// ToDo: Check member coupon string against DB
 		#region eClub Functions
 		/// <summary>
 		/// Close the check in interface
@@ -1018,6 +1018,9 @@ namespace OMS
 		}
 		#endregion
 
+		// ToDo: Accept price adjustments
+		//		 Add survey after payment
+		//		 Submit payment (Remove orders from DB)
 		#region Payment Functions
 		/// <summary>
 		/// Updates payment tab
@@ -1554,6 +1557,14 @@ namespace OMS
 		}
 		#endregion
 
+		#region |   Adjustment   |
+		public void setAdjustment(decimal adj)
+		{
+			adjustment = adj;
+			adjustmentApplied = true;
+		}
+		#endregion
+
 		#region |   Payment   |
 		/// <summary>
 		/// Verify credit card and submit payment
@@ -1562,11 +1573,41 @@ namespace OMS
 		/// <param name="e"></param>
 		private void submitPayment_Click(object sender, RoutedEventArgs e)
 		{
+			#region Validate fields
+			string message = "";
+			bool pass = true;
 			// Verify the credit card number is valid
 			if (validCC(ccNumber.Text))
 			{
-
+				message += "Invalid card number.\n";
+				pass = false;
 			}
+			if (ccMonth.SelectedIndex == -1 || ccYear.SelectedIndex == -1)
+			{
+				message += "Invalid expiration date.\n";
+				pass = false;
+			}
+			else if (ccYear.SelectedValue.ToString() == DateTime.Now.Year.ToString())
+			{
+				if (Convert.ToInt32(ccMonth.SelectedValue.ToString()) < DateTime.Now.Month)
+				{
+					message += "Invalid expiration date.\n";
+					pass = false;
+				}
+			}
+			if (ccCVV.Text.Length != 3)
+			{
+				message += "Invalid CVV code.\n";
+				pass = false;
+			}
+			if (ccName.Text.Length < 3)
+			{
+				message += "Please enter your full name.\n";
+				pass = false;
+			}
+			#endregion
+
+
 		}
 		/// <summary>
 		/// Notify wait staff that customer wishes to pay with cash
@@ -1576,6 +1617,7 @@ namespace OMS
 		private void cashPayment_Click(object sender, RoutedEventArgs e)
 		{
             commHelper.functionSend("cashPayment");
+			waiterNotified.Visibility = Visibility.Visible;
         }
 		/// <summary>
 		/// Notify wait stagg that customer wishes to pay with a check
@@ -1585,7 +1627,13 @@ namespace OMS
 		private void checkPayment_Click(object sender, RoutedEventArgs e)
 		{
             commHelper.functionSend("checkPayment");
-        }
+			waiterNotified.Visibility = Visibility.Visible;
+		}
+
+		public void markPaid()
+		{
+
+		}
 		#endregion
 		#endregion
 
@@ -2002,6 +2050,7 @@ namespace OMS
 						overlay.Visibility = Visibility.Hidden;
 					}
 				}
+				commHelper.functionSend("orderSubmitted");
 			}
 			catch (Exception) { }
 

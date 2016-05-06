@@ -49,7 +49,7 @@ namespace OMS
 			AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
 			{
 				string resourceName = new AssemblyName(args.Name).Name + ".dll";
-				string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+				string resource = Array.Find(GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
 
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
 				{
@@ -89,10 +89,7 @@ namespace OMS
 			menuLoader = new BackgroundWorker();
 			menuLoader.DoWork += new DoWorkEventHandler(menuLoader_DoWork);
 			menuLoader.RunWorkerAsync();
-
-			//Thread findServer = new Thread(Connect);
-			//findServer.IsBackground = true;
-			//findServer.Start();
+			
 			setPermission(Properties.Settings.Default.savedPermission);
 		}
 
@@ -198,7 +195,16 @@ namespace OMS
                         case "updateRefills":
                             employeeUI.updateRefills();
                             break;
-                        case "close":
+						case "paid":
+							tableUI.markPaid();
+							break;
+						case "ticketAdjusted":
+							command = server.Receive(ref serverEp);
+							decimal price = Convert.ToDecimal(Encoding.ASCII.GetString(command));
+							price = Math.Round(price, 2);
+							tableUI.setAdjustment(price);
+							break;
+						case "close":
                             Dispatcher.Invoke(() =>
                             {
 								Close();

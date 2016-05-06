@@ -91,7 +91,7 @@
                         <Button x:Name="add_menu_item" Content="Add Item" HorizontalAlignment="Left" Margin="40,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="add_menu_item_Click"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Customers">
+                <TabItem Header="Tools">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="closeClients" Content="Close all Clients" HorizontalAlignment="Left" VerticalAlignment="Top" Width="119" Height="81" Click="closeClients_Click"/>
                     </Grid>
