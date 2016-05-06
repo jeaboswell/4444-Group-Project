@@ -1419,6 +1419,7 @@ namespace OMS
 		}
 		#endregion
 
+		#region |   Coupon   |
 		/// <summary>
 		/// Open add coupon overlay and adjust bill accordingly
 		/// </summary>
@@ -1429,7 +1430,11 @@ namespace OMS
 			overlay.Visibility = Visibility.Visible;
 			couponGrid.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Hide keyboard
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void billCoupon_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			defaultKeyboard.Visibility = Visibility.Hidden;
@@ -1438,7 +1443,11 @@ namespace OMS
 			couponGrid.Margin = tempMargin;
 			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 		}
-
+		/// <summary>
+		/// Display keyboard
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void billCoupon_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
 			defaultKeyboard.Visibility = Visibility.Visible;
@@ -1448,20 +1457,32 @@ namespace OMS
 			tempMargin.Top -= 300;
 			couponGrid.Margin = tempMargin;
 		}
-
+		/// <summary>
+		/// WIP
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void billCoupon_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
 			if (billCoupon.Text.Length == 5)
 				e.Handled = true;
 		}
-
+		/// <summary>
+		/// WIP
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void billCoupon_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			if (billCoupon.Text.Length > 5)
 				billCoupon.Text.Remove(5);
 			e.Handled = true;
 		}
-
+		/// <summary>
+		/// Applies coupon to the bill
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void applyCoupon_Click(object sender, RoutedEventArgs e)
 		{
 			bool valid = false;
@@ -1518,7 +1539,11 @@ namespace OMS
 			}
 			catch (Exception) { }
 		}
-
+		/// <summary>
+		/// Closes the coupon overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cancelCoupon_Click(object sender, RoutedEventArgs e)
 		{
 			defaultKeyboard.Visibility = Visibility.Hidden;
@@ -1526,6 +1551,8 @@ namespace OMS
 			couponGrid.Visibility = Visibility.Hidden;
 			overlay.Visibility = Visibility.Hidden;
 		}
+		#endregion
+
 		/// <summary>
 		/// Verify credit card and submit payment
 		/// </summary>
