@@ -69,8 +69,9 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OMS-Library">
-      <HintPath>Resources\References\OMS-Library.dll</HintPath>
+    <Reference Include="OMS-Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e7c22937ec1de937, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OMS-Client\Resources\References\OMS-Library.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

@@ -186,7 +186,8 @@ namespace OMS
                             break;
                         case "recieveClient":
                             clientRequest = client.Receive(ref ClientEp);
-                            updateClientStatus((ClientInfo)ByteToObject(clientRequest));
+							object temp = ByteToObject(clientRequest);
+                            updateClientStatus((ClientInfo)temp);
                             break;
                         case "updateOrders":
                             foreach (ClientInfo c in clientList.Items)
@@ -258,7 +259,7 @@ namespace OMS
                 clientList.Items.Clear();
                 foreach (IPAddress client in clients)
                 {
-                    clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = getClientPermission(client) });
+                    clientList.Items.Add(new ClientInfo { IP = client, Name = getClientName(client), selectedPermission = getClientPermission(client), status = "Open" });
                 }
             });
         }

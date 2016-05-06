@@ -117,6 +117,7 @@ namespace OMS
 						member.points = (int)reader[4] + 1;
 						member.email = (string)reader[6];
 						member.discountCodes = (string)reader[7];
+						reader.Close();
 
 						myCommand = new SqlCommand("update dbo.Customers set Points = @points where Phone = @phone", openCon);
 						myCommand.Parameters.AddWithValue("@phone", phoneNumber.Content.ToString());
@@ -131,6 +132,14 @@ namespace OMS
 
 			if (valid)
 			{
+				if (member.birthDate.Month == DateTime.Now.Month && member.birthDate.Day == DateTime.Now.Day)
+				{
+					coupon c = new coupon();
+					c.generateCoupon(member);
+					member.discountCodes += "," + c.code;
+					parent.overlay.Visibility = Visibility.Visible;
+					parent.birthdayPopup.Visibility = Visibility.Visible;
+				}
 				parent.setCurrentMember(member);
 				if (member.points >= 5)
 					parent.redeemGrid.Visibility = Visibility.Hidden;

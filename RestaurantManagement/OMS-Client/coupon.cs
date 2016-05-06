@@ -26,9 +26,8 @@ namespace OMS
 
 		private bool valid()
 		{
-			string SQLConnectionString = "Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;";
 			// Create an SqlConnection from the provided connection string.
-			using (SqlConnection connection = new SqlConnection(SQLConnectionString))
+			using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 			{
 				// Formulate the command.
 				SqlCommand command = new SqlCommand();

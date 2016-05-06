@@ -40,7 +40,8 @@ namespace OMS
 		List<object> myMenu = new List<object>();
 		int funGames = 0, couponGames = 0;
 		object order = new object();
-		bool payFirst = true;
+		bool payFirst = true, tipApplied = false, couponApplied = false;
+		decimal tip = 0;
 		#endregion
 
 		#region Initialization
@@ -541,6 +542,7 @@ namespace OMS
 		#endregion
 		#endregion
 
+		// Complete
 		#region Game Functions
 		/// <summary>
 		/// Return to games home page
@@ -718,6 +720,7 @@ namespace OMS
 		}
 		#endregion
 
+		// Complete
 		#region eClub Functions
 		/// <summary>
 		/// Close the check in interface
@@ -981,9 +984,10 @@ namespace OMS
 		{
 			coupon c = new coupon();
 			c.generateCoupon(currentMember);
+			memberCoupons.Items.Add(c.code);
 			currentMember.points -= 5;
 
-			if (currentMember.points == 0)
+			if (currentMember.points < 5)
 				redeemGrid.Visibility = Visibility.Hidden;
 
 			try
@@ -1000,6 +1004,16 @@ namespace OMS
 				}
 			}
 			catch (Exception) { }
+		}
+		/// <summary>
+		/// Close the birthday popup overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void birthdayOkay_Click(object sender, RoutedEventArgs e)
+		{
+			birthdayPopup.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
 		}
 		#endregion
 
@@ -1020,11 +1034,33 @@ namespace OMS
 			}
 		}
 		/// <summary>
+		/// Returns a new grid separator for bill printing
+		/// </summary>
+		/// <returns></returns>
+		Grid S()
+		{
+			Grid separator = new Grid()
+			{
+				Margin = new Thickness() { Left = 0, Right = 0 },
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				Width = 573
+			};
+			separator.Children.Add(new Separator()
+			{
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				Margin = new Thickness() { Left = 0, Right = 0 },
+				Width = 573
+			});
+
+			return separator;
+		}
+		/// <summary>
 		/// Add all items from submitted orders to the payment list
 		/// </summary>
 		private void updateBill()
 		{
 			paymentList.Items.Clear();
+			decimal runningTotal = 0, tax;
 			foreach (Cart oItem in sentOrders)
 			{
 				foreach (cartItem cItem in oItem.Items)
@@ -1053,9 +1089,135 @@ namespace OMS
 						HorizontalAlignment = HorizontalAlignment.Right,
 						Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
 					});
+					runningTotal += decimal.ToInt32(cItem.price);
 					paymentList.Items.Add(billItem);
 				}
 			}
+			// Separator for coupon and tip section
+			if (couponApplied || tipApplied)
+				paymentList.Items.Add(S());
+			// Print coupon discount
+			if (couponApplied)
+			{
+				decimal discount = runningTotal * (decimal).1;
+				discount = Math.Round(discount, 2);
+				runningTotal -= discount;
+
+				Grid billDiscount = new Grid()
+				{
+					Margin = new Thickness() { Left = 0, Right = 0 },
+					HorizontalAlignment = HorizontalAlignment.Stretch,
+					Width = 573
+				};
+				billDiscount.Children.Add(new Label()
+				{
+					Content = "Coupon (-10%)",
+					FontSize = 20,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					Margin = new Thickness() { Left = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Left,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+				});
+				billDiscount.Children.Add(new Label()
+				{
+					Content = "$" + discount.ToString(),
+					FontSize = 20,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					Margin = new Thickness() { Right = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Right,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+				});
+				paymentList.Items.Add(billDiscount);
+			}
+			// Calculate tax
+			tax = runningTotal * (decimal).0625;
+			tax = Math.Round(tax, 2);
+			// Print tip
+			if (tipApplied)
+			{
+				runningTotal += tip;
+
+				Grid billTip = new Grid()
+				{
+					Margin = new Thickness() { Left = 0, Right = 0 },
+					HorizontalAlignment = HorizontalAlignment.Stretch,
+					Width = 573
+				};
+				billTip.Children.Add(new Label()
+				{
+					Content = "Tip",
+					FontSize = 20,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					Margin = new Thickness() { Left = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Left,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+				});
+				billTip.Children.Add(new Label()
+				{
+					Content = "$" + tip.ToString(),
+					FontSize = 20,
+					FontFamily = new FontFamily("Baskerville Old Face"),
+					Margin = new Thickness() { Right = 0, Top = 0 },
+					HorizontalAlignment = HorizontalAlignment.Right,
+					Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+				});
+				paymentList.Items.Add(billTip);
+			}
+			// Tax
+			paymentList.Items.Add(S());
+			runningTotal += tax;
+			Grid billTax = new Grid()
+			{
+				Margin = new Thickness() { Left = 0, Right = 0 },
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				Width = 573
+			};
+			billTax.Children.Add(new Label()
+			{
+				Content = "Tax (6.25%)",
+				FontSize = 20,
+				FontFamily = new FontFamily("Baskerville Old Face"),
+				Margin = new Thickness() { Left = 0, Top = 0 },
+				HorizontalAlignment = HorizontalAlignment.Left,
+				Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+			});
+			billTax.Children.Add(new Label()
+			{
+				Content = "$" + tax.ToString(),
+				FontSize = 20,
+				FontFamily = new FontFamily("Baskerville Old Face"),
+				Margin = new Thickness() { Right = 0, Top = 0 },
+				HorizontalAlignment = HorizontalAlignment.Right,
+				Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+			});
+			paymentList.Items.Add(billTax);
+			// Total
+			paymentList.Items.Add(S());
+			Grid billTotal = new Grid()
+			{
+				Margin = new Thickness() { Left = 0, Right = 0 },
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				Width = 573
+			};
+			billTotal.Children.Add(new Label()
+			{
+				Content = "Total",
+				FontSize = 20,
+				FontFamily = new FontFamily("Baskerville Old Face"),
+				Margin = new Thickness() { Left = 0, Top = 0 },
+				HorizontalAlignment = HorizontalAlignment.Left,
+				Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+			});
+			billTotal.Children.Add(new Label()
+			{
+				Content = "$" + runningTotal.ToString(),
+				FontSize = 20,
+				FontFamily = new FontFamily("Baskerville Old Face"),
+				Margin = new Thickness() { Right = 0, Top = 0 },
+				HorizontalAlignment = HorizontalAlignment.Right,
+				Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
+			});
+			paymentList.Items.Add(billTotal);
 		}
 
 		#region |   Credit Card Fields   |
@@ -1167,6 +1329,8 @@ namespace OMS
 			}
 		}
 		#endregion
+
+		#region |   Tip   |
 		/// <summary>
 		/// Open add tip overlay and submit given tip
 		/// </summary>
@@ -1174,8 +1338,82 @@ namespace OMS
 		/// <param name="e"></param>
 		private void addTip_Click(object sender, RoutedEventArgs e)
 		{
+			overlay.Visibility = Visibility.Visible;
+			tipGrid.Visibility = Visibility.Visible;
 
+			try
+			{
+				currentPercentage.Content = Convert.ToInt32(tipSlider.Value).ToString() + "%";
+				currentTip.Content = "$" + (getTotal() * (18 * (decimal).01)).ToString();
+			}
+			catch (Exception)
+			{
+				currentPercentage.Content = "18%";
+				currentTip.Content = "$" + (getTotal() * (18 * (decimal).01)).ToString();
+			}
 		}
+		/// <summary>
+		/// Returns the curent total of the bill
+		/// </summary>
+		/// <returns></returns>
+		private decimal getTotal()
+		{
+			decimal runningTotal = 0;
+			foreach (Cart oItem in sentOrders)
+			{
+				// Add all item prices
+				foreach (cartItem cItem in oItem.Items)
+				{
+					runningTotal += decimal.ToInt32(cItem.price);
+				}
+				// Apply coupons
+				if (couponApplied)
+				{
+					decimal discount = runningTotal * (decimal).1;
+					discount = Math.Round(discount, 2);
+					runningTotal -= discount;
+				}
+			}
+			return runningTotal;
+		}
+		/// <summary>
+		/// Adjust value of tip
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tipSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			try
+			{
+				currentPercentage.Content = Convert.ToInt32(tipSlider.Value).ToString() + "%";
+				currentTip.Content = "$" + (getTotal() * ((decimal)tipSlider.Value * (decimal).01)).ToString();
+			}
+			catch (Exception) { }
+		}
+		/// <summary>
+		/// Close tip overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void cancelTip_Click(object sender, RoutedEventArgs e)
+		{
+			overlay.Visibility = Visibility.Hidden;
+			tipGrid.Visibility = Visibility.Hidden;
+		}
+		/// <summary>
+		/// Add tip to bill and close overlay
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void confirmTip_Click(object sender, RoutedEventArgs e)
+		{
+			tip = (getTotal() * ((decimal)tipSlider.Value * (decimal).01));
+			tipApplied = true;
+			overlay.Visibility = Visibility.Hidden;
+			tipGrid.Visibility = Visibility.Hidden;
+		}
+		#endregion
+
 		/// <summary>
 		/// Open add coupon overlay and adjust bill accordingly
 		/// </summary>
@@ -1183,7 +1421,101 @@ namespace OMS
 		/// <param name="e"></param>
 		private void addCoupon_Click(object sender, RoutedEventArgs e)
 		{
+			overlay.Visibility = Visibility.Visible;
+			couponGrid.Visibility = Visibility.Visible;
+		}
 
+		private void billCoupon_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			cancelCouponAlternate.Visibility = Visibility.Hidden;
+			Thickness tempMargin = new Thickness() { Top = 125, Bottom = 125, Left = 200, Right = 200 };
+			couponGrid.Margin = tempMargin;
+			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+		}
+
+		private void billCoupon_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Visible;
+			cancelCouponAlternate.Visibility = Visibility.Visible;
+			Thickness tempMargin = couponGrid.Margin;
+			tempMargin.Bottom += 300;
+			tempMargin.Top -= 300;
+			couponGrid.Margin = tempMargin;
+		}
+
+		private void billCoupon_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			if (billCoupon.Text.Length == 5)
+				e.Handled = true;
+		}
+
+		private void billCoupon_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			if (billCoupon.Text.Length > 5)
+				billCoupon.Text.Remove(5);
+			e.Handled = true;
+		}
+
+		private void applyCoupon_Click(object sender, RoutedEventArgs e)
+		{
+			bool valid = false;
+			try
+			{
+				// Create an SqlConnection from the provided connection string.
+				using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					// Formulate the command.
+					SqlCommand command = new SqlCommand();
+					command.Connection = connection;
+
+					// Specify the query to be executed.
+					command.CommandType = CommandType.Text;
+					command.CommandText = @"
+                    SELECT * FROM dbo.Coupons
+                    ";
+					// Open a connection to database.
+					connection.Open();
+					// Read data returned for the query.
+					SqlDataReader reader = command.ExecuteReader();
+
+					// while not done reading the stuff returned from the query
+					while (reader.Read())
+					{
+						string temp = (string)reader[0];
+
+						if (temp == billCoupon.Text.ToString())
+							valid = true;
+					}
+					connection.Close();
+				}
+
+				if (valid == true)
+				{
+					using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+					{
+						SqlCommand command = new SqlCommand(@"delete from dbo.Coupons where Code = @code", connection);
+						command.Parameters.AddWithValue("@code", billCoupon.Text.ToString());
+						
+						connection.Open();
+						command.ExecuteScalar();
+						connection.Close();
+					}
+
+					couponApplied = true;
+				}
+				else
+					MessageBox.Show("Invalid coupon code.");
+			}
+			catch (Exception) { }
+		}
+
+		private void cancelCoupon_Click(object sender, RoutedEventArgs e)
+		{
+			defaultKeyboard.Visibility = Visibility.Hidden;
+			cancelCouponAlternate.Visibility = Visibility.Hidden;
+			couponGrid.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
 		}
 		/// <summary>
 		/// Verify credit card and submit payment
@@ -1523,34 +1855,40 @@ namespace OMS
 		/// <param name="e"></param>
 		private void yesSubmit_Click(object sender, RoutedEventArgs e)
 		{
-			using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+			try
 			{
-				using (SqlCommand querySave = new SqlCommand("insert into dbo.Orders ([Order], Client) values (@order, @client) set @Id = SCOPE_IDENTITY()", openCon))
+				using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
 				{
-					querySave.Parameters.AddWithValue("@order", ObjectToByteArray(order));
-					querySave.Parameters.AddWithValue("@client", Properties.Settings.Default.localIP);
-					querySave.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+					using (SqlCommand querySave = new SqlCommand("insert into dbo.Orders ([Order], Client) values (@order, @client) set @Id = SCOPE_IDENTITY()", openCon))
+					{
+						querySave.Parameters.AddWithValue("@order", ObjectToByteArray(order));
+						querySave.Parameters.AddWithValue("@client", Properties.Settings.Default.localIP);
+						querySave.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-					openCon.Open();
-					querySave.ExecuteScalar();
-					((Cart)order).Order_num = (int)querySave.Parameters["@Id"].Value;
-					openCon.Close();
-					commHelper.functionSend("updateOrders");
-					sentOrders.Add(order);
-					order = new Cart();
-					addCartItems();
+						openCon.Open();
+						querySave.ExecuteScalar();
+						((Cart)order).Order_num = (int)querySave.Parameters["@Id"].Value;
+						openCon.Close();
+						commHelper.functionSend("updateOrders");
+						sentOrders.Add(order);
+						order = new Cart();
+						addCartItems();
 
-					addedAlert.Content = "Order submitted to kitchen!";
-					verifyOrderSubmission.Visibility = Visibility.Hidden;
-					cartView.Visibility = Visibility.Hidden;
-					submitCart.IsEnabled = false;
-					addedAlert.Visibility = Visibility.Visible;
-					Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
-					Thread.Sleep(1000);
-					addedAlert.Visibility = Visibility.Hidden;
-					overlay.Visibility = Visibility.Hidden;
+						addedAlert.Content = "Order submitted to kitchen!";
+						verifyOrderSubmission.Visibility = Visibility.Hidden;
+						cartView.Visibility = Visibility.Hidden;
+						submitCart.IsEnabled = false;
+						addedAlert.Visibility = Visibility.Visible;
+						Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+						Thread.Sleep(1000);
+						addedAlert.Visibility = Visibility.Hidden;
+						overlay.Visibility = Visibility.Hidden;
+					}
 				}
 			}
+			catch (Exception) { }
+
+			updateBill();
 		}
 		/// <summary>
 		/// Return to the cart overlay

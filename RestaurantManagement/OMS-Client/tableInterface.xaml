@@ -232,7 +232,7 @@
                                     <Image Source="Resources/closeX.png" Margin="10,0"/>
                                 </Button>
                             </Grid>
-                            <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2" Visibility="Hidden">
+                            <Grid x:Name="eClubHome" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Height="553" Width="1246" Grid.RowSpan="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -292,7 +292,7 @@
                                 </Button>
 
                             </Grid>
-                            <Grid x:Name="welcomeGrid" Margin="0">
+                            <Grid x:Name="welcomeGrid" Margin="0" Visibility="Hidden">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -471,6 +471,37 @@
                         <Separator Margin="0,54,0,0" VerticalAlignment="Top"/>
                         <Button x:Name="closeRefill" Content="Close" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontSize="30" FontFamily="Baskerville Old Face" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Padding="5,1" HorizontalContentAlignment="Center" MinWidth="97" Click="closeRefill_Click"/>
                         <ListBox x:Name="refillList" Height="369" Margin="10,60,10,10" Width="852" Background="#FF2D2D30" Foreground="#FFACACAC"/>
+                    </Grid>
+                    <Grid x:Name="birthdayPopup" Margin="300,175" Background="Black" Visibility="Hidden" Focusable="True">
+                        <Label x:Name="label32" Content="Happy Birthday!" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="50"/>
+                        <Label x:Name="label33" Content="A coupon has been added to your account." HorizontalAlignment="Center" Margin="0,87,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="30" Foreground="#FFACACAC"/>
+                        <Separator Height="5" Margin="0,77,0,0" VerticalAlignment="Top" Background="#FFACACAC" Width="341"/>
+                        <Button x:Name="birthdayOkay" Content="Okay" HorizontalAlignment="Center" Margin="0,183,0,50" VerticalAlignment="Bottom" Foreground="#FFACACAC" BorderBrush="#FF2D2D30" Background="#FF2D2D30" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Width="300" Height="100" Click="birthdayOkay_Click"/>
+                    </Grid>
+                    <Grid x:Name="tipGrid" Margin="200,125" Background="Black" Visibility="Hidden" Focusable="True">
+                        <Slider x:Name="tipSlider" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="377" Foreground="#FFACACAC" Maximum="100" Value="18" ValueChanged="tipSlider_ValueChanged"/>
+                        <Label x:Name="label34" Content="Add Tip" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Foreground="#FFACACAC"/>
+                        <Label x:Name="label35" Content="100%" HorizontalAlignment="Left" Margin="630,0,0,0" VerticalAlignment="Center" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="30"/>
+                        <Label x:Name="label35_Copy" Content="0%" HorizontalAlignment="Left" Margin="196,0,0,0" VerticalAlignment="Center" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="30"/>
+                        <Label x:Name="currentPercentage" Content="18%" HorizontalAlignment="Center" Margin="0,134,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Foreground="#FFACACAC" HorizontalContentAlignment="Center"/>
+                        <Label x:Name="currentTip" Content="$20.00" HorizontalAlignment="Center" Margin="0,0,0,130" VerticalAlignment="Bottom" FontFamily="Baskerville Old Face" FontSize="50" Foreground="#FFACACAC" HorizontalContentAlignment="Center"/>
+                        <Separator Height="5" Margin="0,77,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="cancelTip" Content="Cancel" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Foreground="#FFACACAC" BorderBrush="#FF701C1C" Background="#FF701C1C" Click="cancelTip_Click"/>
+                        <Button x:Name="confirmTip" Content="Confirm" HorizontalAlignment="Center" Margin="0,0,0,40" VerticalAlignment="Bottom" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Foreground="#FFACACAC" BorderBrush="#FF2D2D30" Background="#FF2D2D30" Click="confirmTip_Click"/>
+
+                    </Grid>
+                    <Grid x:Name="couponGrid" Margin="200,125" Background="Black" Visibility="Hidden" Focusable="True">
+                        <Label x:Name="label36" Content="Add Coupon:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Foreground="#FFACACAC"/>
+                        <Separator Height="5" Margin="0,77,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="cancelCoupon" Content="Cancel" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Background="#FF701C1C" BorderBrush="#FF701C1C" Foreground="#FFACACAC" Click="cancelCoupon_Click"/>
+                        <Grid Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Label x:Name="label37" Content="Enter Code:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40"/>
+                            <TextBox x:Name="billCoupon" HorizontalAlignment="Left" Height="56" Margin="204,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" Background="#FF2D2D30" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="40" VerticalContentAlignment="Center" Padding="5,0,0,0" HorizontalContentAlignment="Center" LostKeyboardFocus="billCoupon_LostKeyboardFocus" GotKeyboardFocus="billCoupon_GotKeyboardFocus" PreviewTextInput="billCoupon_PreviewTextInput" TextChanged="billCoupon_TextChanged"/>
+
+                        </Grid>
+                        <Button x:Name="applyCoupon" Content="Apply Coupon" HorizontalAlignment="Center" Margin="0,317,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Click="applyCoupon_Click"/>
+                        <Button x:Name="cancelCouponAlternate" Content="Close Keyboard" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" FontFamily="Baskerville Old Face" FontSize="30" Padding="5,1" Background="#FF701C1C" BorderBrush="#FF701C1C" Foreground="#FFACACAC" Click="cancelCoupon_Click" Visibility="Hidden"/>
+
                     </Grid>
                 </Grid>
                 <local:myKeyboard x:Name="defaultKeyboard" Margin="0,289,0,0" VerticalAlignment="Top" Width="Auto" Visibility="Hidden" IsVisibleChanged="defaultKeyboard_IsVisibleChanged"/>
