@@ -1537,8 +1537,8 @@ namespace OMS
 		/// <param name="e"></param>
 		private void cashPayment_Click(object sender, RoutedEventArgs e)
 		{
-
-		}
+            commHelper.functionSend("cashPayment");
+        }
 		/// <summary>
 		/// Notify wait stagg that customer wishes to pay with a check
 		/// </summary>
@@ -1546,8 +1546,8 @@ namespace OMS
 		/// <param name="e"></param>
 		private void checkPayment_Click(object sender, RoutedEventArgs e)
 		{
-
-		}
+            commHelper.functionSend("checkPayment");
+        }
 		#endregion
 
 		#region Service Dock

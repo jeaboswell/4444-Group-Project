@@ -198,6 +198,12 @@ namespace OMS
                         case "updateRefills":
                             employeeUI.updateRefills();
                             break;
+                        case "checkPayment":
+                            employeeUI.updatePayStatus("Waiting to pay with check.");
+                            break;
+                        case "cashPayment":
+                            employeeUI.updatePayStatus("Waiting to pay with cash.");
+                            break;
                         case "close":
                             Dispatcher.Invoke(() =>
                             {

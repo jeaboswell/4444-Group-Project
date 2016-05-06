@@ -139,6 +139,11 @@ namespace OMS
             catch (Exception) { }
         }
 
+        public void updatePayStatus(string status)
+        {
+            currentTableStatus.Content = status;
+        }
+
         public void requestHelp(IPAddress table)
         {
             foreach (ClientInfo itr in TableList)
@@ -183,6 +188,7 @@ namespace OMS
 					}
 				}
 			}
+            currentTableStatus.Content = "";
         }
 
 		public static void objectSend(ClientInfo obj)
@@ -224,7 +230,7 @@ namespace OMS
                     itr.priorStatus = itr.status;
                     itr.status = "Paid";
                     commHelper.functionSend("clientPaid");
-                    commHelper.objectSend(itr.IP.ToString());
+                    commHelper.functionSend(itr.IP.ToString());
                 }
             }
             currentTableStatus.Content = "Paid";
@@ -239,7 +245,7 @@ namespace OMS
                     itr.priorStatus = itr.status;
                     itr.status = "Paid";
                     commHelper.functionSend("clientPaid");
-                    commHelper.objectSend(itr.IP.ToString());
+                    commHelper.functionSend(itr.IP.ToString());
                 }
             }
             currentTableStatus.Content = "Paid";
