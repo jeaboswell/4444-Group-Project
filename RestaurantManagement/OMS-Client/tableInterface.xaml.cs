@@ -1637,7 +1637,13 @@ namespace OMS
 			}
 			#endregion
 
-
+			if (pass)
+			{
+				markPaid();
+				commHelper.functionSend("updatePaid");
+			}
+			else
+				MessageBox.Show(message);
 		}
 		/// <summary>
 		/// Notify wait staff that customer wishes to pay with cash
@@ -1659,10 +1665,27 @@ namespace OMS
             commHelper.functionSend("checkPayment");
 			waiterNotified.Visibility = Visibility.Visible;
 		}
-
+		/// <summary>
+		/// Remove orders from the database
+		/// </summary>
 		public void markPaid()
 		{
+			foreach (Cart c in sentOrders)
+			{
+				try
+				{
+					using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+					{
+						SqlCommand command = new SqlCommand(@"delete from dbo.Orders where Id = @id", connection);
+						command.Parameters.AddWithValue("@id", c.Order_num);
 
+						connection.Open();
+						command.ExecuteScalar();
+						connection.Close();
+					}
+				}
+				catch (Exception) { }
+			}
 		}
 		#endregion
 		#endregion

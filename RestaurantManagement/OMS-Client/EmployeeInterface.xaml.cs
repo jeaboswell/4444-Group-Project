@@ -324,8 +324,6 @@ namespace OMS
 		{
 			return MColor.FromArgb(color.A, color.R, color.G, color.B);
 		}
-
-
         /// <summary>
         /// PUll refill requests from the database 
         /// </summary>

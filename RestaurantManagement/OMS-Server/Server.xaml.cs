@@ -150,6 +150,24 @@ namespace OMS
                                 }
                             }
                             break;
+						case "updatePaid":
+							foreach (ClientInfo c in clientList.Items)
+							{
+								if (c.IP == ClientEp.Address)
+								{
+									c.priorStatus = c.status;
+									c.status = "Paid";
+								}
+							}
+
+							foreach (ClientInfo c in clientList.Items)
+							{
+								if (c.selectedPermission == "Waiter")
+								{
+									sendTables(c.IP);
+								}
+							}
+							break;
                         case "requestHelp":
                             foreach (ClientInfo iter in clientList.Items)
                             {
