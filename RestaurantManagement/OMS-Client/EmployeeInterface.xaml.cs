@@ -86,6 +86,8 @@ namespace OMS
 						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Lime));
 						break;
 					case "Help Requested":
+					case "Waiting to pay with cash":
+					case "Waiting to pay with check":
 						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Red));
 						break;
 					case "Reading Menu":
@@ -97,7 +99,16 @@ namespace OMS
 					default:
 						break;
 				}
-                Table_Grid.Children.Add(tmpButton);
+				
+				foreach (Refill thing in RefillList)
+				{
+					if (thing.ip == iter.IP.ToString())
+					{
+						tmpButton.Background = new SolidColorBrush(ToMediaColor(DColor.Red));
+					}
+				}
+
+				Table_Grid.Children.Add(tmpButton);
             }
 
         }
@@ -137,11 +148,6 @@ namespace OMS
                 }
             }
             catch (Exception) { }
-        }
-
-        public void updatePayStatus(string status)
-        {
-            currentTableStatus.Content = status;
         }
 
         public void requestHelp(IPAddress table)
@@ -184,7 +190,7 @@ namespace OMS
 						itr.status = currentTableStatus.Content.ToString();
 
 						commHelper.functionSend("recieveClient");
-						objectSend(itr);
+						commHelper.objectSend(itr);
 					}
 				}
 			}

@@ -197,7 +197,7 @@ namespace OMS
                         case "checkPayment":
 							foreach (ClientInfo iter in clientList.Items)
                             {
-								if (iter.IP == ClientEp.Address)
+								if (iter.IP.ToString() == ClientEp.Address.ToString())
 								{
 									iter.priorStatus = iter.status;
 									iter.status = "Waiting to pay with check";
@@ -212,7 +212,7 @@ namespace OMS
                         case "cashPayment":
 							foreach (ClientInfo iter in clientList.Items)
 							{
-								if (iter.IP == ClientEp.Address)
+								if (iter.IP.ToString() == ClientEp.Address.ToString())
 								{
 									iter.priorStatus = iter.status;
 									iter.status = "Waiting to pay with cash";
