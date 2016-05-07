@@ -34,22 +34,6 @@ namespace OMS
 		decimal tip = 0, adjustment = 0;
 		#endregion
 
-		public void resetStuff()
-		{
-			currentMember = new rewardMember();
-			sentOrders.Clear();
-			funGames = couponGames = 0;
-			order = new object();
-			payFirst = true; tipApplied = false; couponApplied = false; adjustmentApplied = false;
-			tip = 0m; adjustment = 0m;
-			ccNumber.Clear();
-			ccMonth.SelectedIndex = -1;
-			ccYear.SelectedIndex = -1;
-			ccCVV.Clear();
-			ccName.Clear();
-			paymentList.Items.Clear();
-			homePage.SelectedIndex = 0;
-		}
 		#region Initialization
 		/// <summary>
 		/// Interface initilization
@@ -1687,7 +1671,6 @@ namespace OMS
 						command.ExecuteScalar();
 						connection.Close();
 					}
-					resetStuff();
 				}
 				catch (Exception) { }
 			}
@@ -1714,7 +1697,7 @@ namespace OMS
 			overlay.Visibility = Visibility.Hidden;
 
 			// Reset interface
-
+			resetStuff();
 		}
 		#endregion
 		#endregion
@@ -2386,6 +2369,29 @@ namespace OMS
 				}
 			}
 			catch (Exception) { }
+		}
+		/// <summary>
+		/// Resets interface
+		/// </summary>
+		public void resetStuff()
+		{
+			currentMember = new rewardMember();
+			sentOrders.Clear();
+			funGames = couponGames = 0;
+			order = new object();
+			payFirst = true; tipApplied = false; couponApplied = false; adjustmentApplied = false;
+			tip = 0m; adjustment = 0m;
+			ccNumber.Clear();
+			ccMonth.SelectedIndex = -1;
+			ccYear.SelectedIndex = -1;
+			ccCVV.Clear();
+			ccName.Clear();
+			paymentList.Items.Clear();
+			homePage.SelectedIndex = 0;
+			welcomeGrid.Visibility = Visibility.Hidden;
+			checkInGrid.Visibility = Visibility.Hidden;
+			newAccountGrid.Visibility = Visibility.Hidden;
+			eClubHome.Visibility = Visibility.Visible;
 		}
 		#endregion
 
