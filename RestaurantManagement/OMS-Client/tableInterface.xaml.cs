@@ -44,6 +44,22 @@ namespace OMS
 		decimal tip = 0, adjustment = 0;
 		#endregion
 
+		public void resetStuff()
+		{
+			currentMember = new rewardMember();
+			sentOrders.Clear();
+			funGames = couponGames = 0;
+			order = new object();
+			payFirst = true; tipApplied = false; couponApplied = false; adjustmentApplied = false;
+			tip = 0m; adjustment = 0m;
+			ccNumber.Clear();
+			ccMonth.SelectedIndex = -1;
+			ccYear.SelectedIndex = -1;
+			ccCVV.Clear();
+			ccName.Clear();
+			paymentList.Items.Clear();
+			homePage.SelectedIndex = 0;
+		}
 		#region Initialization
 		/// <summary>
 		/// Interface initilization
@@ -1681,6 +1697,7 @@ namespace OMS
 						command.ExecuteScalar();
 						connection.Close();
 					}
+					resetStuff();
 				}
 				catch (Exception) { }
 			}
@@ -2341,5 +2358,7 @@ namespace OMS
 			catch (Exception) { }
 		}
 		#endregion
+
+
 	}
 }
