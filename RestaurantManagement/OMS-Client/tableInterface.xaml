@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="OMS.tableInterface"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OMS"
+             xmlns:Tools="clr-namespace:OMS.Tools" x:Class="OMS.tableInterface"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1272" Height="689" Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -333,7 +334,7 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                    <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
+                                                    <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true">
                                                         <ContentPresenter HorizontalAlignment="Left" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
@@ -502,6 +503,14 @@
                         </Grid>
                         <Button x:Name="applyCoupon" Content="Apply Coupon" HorizontalAlignment="Center" Margin="0,317,0,0" VerticalAlignment="Top" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" Click="applyCoupon_Click"/>
                         <Button x:Name="cancelCouponAlternate" Content="Close Keyboard" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" FontFamily="Baskerville Old Face" FontSize="30" Padding="5,1" Background="#FF701C1C" BorderBrush="#FF701C1C" Foreground="#FFACACAC" Click="cancelCoupon_Click" Visibility="Hidden"/>
+
+                    </Grid>
+                    <Grid x:Name="surveyGrid" Margin="200,125" Background="Black" Visibility="Hidden" Focusable="True">
+                        <Label x:Name="label38" Content="Rate Your Experience!" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="50"/>
+                        <Separator HorizontalAlignment="Center" Height="5" Margin="0,77,0,0" VerticalAlignment="Top" Width="462"/>
+
+                        <Tools:StarRating HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top" Width="628"/>
+                        <Button x:Name="submitSurvey" Content="Submit" HorizontalAlignment="Center" Margin="359,320,359,0" VerticalAlignment="Top" Background="#FF2D2D30" BorderBrush="#FF2D2D30" Foreground="#FFACACAC" FontFamily="Baskerville Old Face" FontSize="50" Padding="5,1" Click="submitSurvey_Click"/>
 
                     </Grid>
                 </Grid>

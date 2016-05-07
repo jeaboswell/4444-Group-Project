@@ -25,6 +25,7 @@ using System.Xml;
 
 using OMS_Library;
 using System.Reflection;
+using System.Windows.Threading;
 #endregion
 
 namespace OMS

@@ -1018,9 +1018,7 @@ namespace OMS
 		}
 		#endregion
 
-		// ToDo: Accept price adjustments
-		//		 Add survey after payment
-		//		 Submit payment (Remove orders from DB)
+		// ToDo: Add survey after payment
 		#region Payment Functions
 		/// <summary>
 		/// Updates payment tab
@@ -1607,7 +1605,7 @@ namespace OMS
 			string message = "";
 			bool pass = true;
 			// Verify the credit card number is valid
-			if (validCC(ccNumber.Text))
+			if (!validCC(ccNumber.Text))
 			{
 				message += "Invalid card number.\n";
 				pass = false;
@@ -1689,6 +1687,27 @@ namespace OMS
 			sentOrders.Clear();
 			updateBill();
 			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+
+			overlay.Visibility = Visibility.Visible;
+			surveyGrid.Visibility = Visibility.Visible;
+		}
+		/// <summary>
+		/// Close survey
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void submitSurvey_Click(object sender, RoutedEventArgs e)
+		{
+			surveyGrid.Visibility = Visibility.Hidden;
+			addedAlert.Content = "Thank You!";
+			addedAlert.Visibility = Visibility.Visible;
+			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+			Thread.Sleep(1000);
+			addedAlert.Visibility = Visibility.Hidden;
+			overlay.Visibility = Visibility.Hidden;
+
+			// Reset interface
+
 		}
 		#endregion
 		#endregion
@@ -2203,38 +2222,56 @@ namespace OMS
 				{
 					case '2': // enRoute
 						if ((number.Substring(0, 4) == "2014" || number.Substring(0, 4) == "2149") && number.Length == 15)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/enroute.jpg", UriKind.Relative));
+							return true;
+						}
 						break;
 					case '3': // American Express, Diners Club, JCB
 						if ((number[1] == '4' || number[1] == '7') && number.Length == 15)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/amex.jpg", UriKind.Relative));
+							return true;
+						}
 						else if ((number.Substring(0, 4) == "3088" || number.Substring(0, 4) == "3096" || number.Substring(0, 4) == "3112" ||
 								number.Substring(0, 4) == "3158" || number.Substring(0, 4) == "3337") && number.Length == 16)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/jcb.jpg", UriKind.Relative));
+							return true;
+						}
 						else if ((number[1] == '0' || number[1] == '6' || number[1] == '8') && number.Length == 14)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/diners.jpg", UriKind.Relative));
+							return true;
+						}
 						break;
 					case '4': // Visa
 						if (number.Length == 13 || number.Length == 16)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/visa.jpg", UriKind.Relative));
+							return true;
+						}
 						break;
 					case '5': // MasterCard
 						if (Between(Convert.ToInt32(number.Substring(1, 1)), R(1, 5)) && number.Length == 16)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/mc.jpg", UriKind.Relative));
+							return true;
+						}
 						break;
 					case '6': // Discover
 						if ((Between(Convert.ToInt32(number.Substring(0, 8)), R(60110000, 60119999)) ||
 							Between(Convert.ToInt32(number.Substring(0, 8)), R(65000000, 65009999)) ||
 							Between(Convert.ToInt32(number.Substring(0, 8)), R(62212600, 62292599))) &&
 							number.Length == 16)
+						{
 							ccLogo.Source = new BitmapImage(new Uri("Resources/CreditCards/discover.jpg", UriKind.Relative));
+							return true;
+						}
 						break;
 					default:
 						break;
 				}
-
-				if (ccLogo.Source != null)
-					return true;
 			}
 			catch (Exception) { return false; }
 
