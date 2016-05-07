@@ -249,7 +249,9 @@ namespace OMS
 							clientRequest = client.Receive(ref ClientEp);
 							string price = Encoding.ASCII.GetString(clientRequest);
 							clientRequest = client.Receive(ref ClientEp);
-							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjusted");
+							//sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjusted");
+							//sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), price);
+							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjustedToManager");
 							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), price);
 							break;
 						case "orderSubmitted":

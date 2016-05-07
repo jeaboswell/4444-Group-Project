@@ -208,6 +208,11 @@ namespace OMS
 							price = Math.Round(price, 2);
 							tableUI.setAdjustment(price);
 							break;
+						case "ticketAdjustedToManager":
+							command = server.Receive(ref serverEp);
+							decimal priceManager = Convert.ToDecimal(Encoding.ASCII.GetString(command));
+							price = Math.Round(priceManager, 2);
+							break;
 						case "close":
                             Dispatcher.Invoke(() =>
                             {

@@ -26,11 +26,6 @@ namespace OMS
             InitializeComponent();
         }
 
-        private void button_Copy_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
