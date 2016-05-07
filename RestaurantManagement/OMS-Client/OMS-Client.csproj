@@ -108,6 +108,9 @@
     <Compile Include="kitchenInterface.xaml.cs">
       <DependentUpon>kitchenInterface.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ManagerInterface.xaml.cs">
+      <DependentUpon>ManagerInterface.xaml</DependentUpon>
+    </Compile>
     <Compile Include="rewardMember.cs" />
     <Compile Include="tableInterface.xaml.cs">
       <DependentUpon>tableInterface.xaml</DependentUpon>
@@ -132,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="kitchenInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManagerInterface.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
