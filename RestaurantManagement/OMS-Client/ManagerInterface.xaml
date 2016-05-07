@@ -49,26 +49,19 @@
                         <ListBox x:Name="Discounted_Tickets_List" HorizontalAlignment="Left" Height="458" Margin="35,106,0,0" VerticalAlignment="Top" Width="405" SelectionChanged="listBox_SelectionChanged" Background="White"/>
                         <Label x:Name="Discounted_Tickets_Label" Content="Discounted Tickets" HorizontalAlignment="Left" Height="54" Margin="35,30,0,0" VerticalAlignment="Top" Width="281" FontSize="29.333" Foreground="White"/>
                         <Button x:Name="SelectTicketButton" Content="Select Ticket" HorizontalAlignment="Left" Height="54" Margin="146,594,0,0" VerticalAlignment="Top" Width="188" Click="button_Click" Background="#FF898989" Foreground="#FFEAEAEA"/>
-                        <ListBox x:Name="Discounted_Tickets_List_Copy" HorizontalAlignment="Left" Height="54" Margin="595,106,0,0" VerticalAlignment="Top" Width="284" SelectionChanged="listBox_SelectionChanged" Background="White"/>
+                        <TextBox x:Name="ticketNumber" HorizontalAlignment="Left" Height="54" Margin="595,106,0,0" VerticalAlignment="Top" Width="284" Background="White"/>
                         <Label x:Name="SelectedTicketlabel" Content="Selected Ticket Information" HorizontalAlignment="Left" Height="54" Margin="478,30,0,0" VerticalAlignment="Top" FontSize="29.333" Foreground="White" Padding="5"/>
                         <Label x:Name="Ticket__Label" Content="Ticket #" HorizontalAlignment="Left" Margin="478,106,0,0" VerticalAlignment="Top" Height="44" Width="112" Foreground="White" FontSize="25.333"/>
-                        <ListBox x:Name="Discounted_Tickets_List_Copy1" HorizontalAlignment="Left" Height="54" Margin="595,178,0,0" VerticalAlignment="Top" Width="284" SelectionChanged="listBox_SelectionChanged" Background="White"/>
+                        <TextBox x:Name="authBy" HorizontalAlignment="Left" Height="54" Margin="595,178,0,0" VerticalAlignment="Top" Width="284" Background="White"/>
                         <Label x:Name="Ticket__Label_Copy" Content="Auth by" HorizontalAlignment="Left" Margin="478,178,0,0" VerticalAlignment="Top" Height="44" Width="112" Foreground="White" FontSize="25.333"/>
-                        <ListBox x:Name="Discounted_Tickets_List_Copy2" HorizontalAlignment="Left" Height="54" Margin="595,250,0,0" VerticalAlignment="Top" Width="284" SelectionChanged="listBox_SelectionChanged" Background="White"/>
+                        <TextBox x:Name="originalAmt" HorizontalAlignment="Left" Height="54" Margin="595,250,0,0" VerticalAlignment="Top" Width="284" Background="White"/>
                         <Label x:Name="Ticket__Label_Copy1" Content="Original&#xD;&#xA;Amount" HorizontalAlignment="Left" Margin="478,234,0,0" VerticalAlignment="Top" Height="80" Width="112" Foreground="White" FontSize="25.333"/>
-                        <ListBox x:Name="Discounted_Tickets_List_Copy3" HorizontalAlignment="Left" Height="54" Margin="595,322,0,0" VerticalAlignment="Top" Width="284" SelectionChanged="listBox_SelectionChanged" Background="White"/>
+                        <TextBox x:Name="discountAmt" HorizontalAlignment="Left" Height="54" Margin="595,322,0,0" VerticalAlignment="Top" Width="284" Background="White"/>
                         <Label x:Name="Ticket__Label_Copy2" Content="Discount &#xD;&#xA;Amount" HorizontalAlignment="Left" Margin="474,310,0,0" VerticalAlignment="Top" Height="78" Width="137" Foreground="White" FontSize="25.333"/>
-                        <ListBox x:Name="Discounted_Tickets_List_Copy4" HorizontalAlignment="Left" Height="169" Margin="595,395,0,0" VerticalAlignment="Top" Width="284" SelectionChanged="listBox_SelectionChanged" Background="White"/>
+                        <TextBox x:Name="reason" HorizontalAlignment="Left" Height="169" Margin="595,395,0,0" VerticalAlignment="Top" Width="284" Background="White"/>
                         <Label x:Name="Ticket__Label_Copy3" Content="Reason" HorizontalAlignment="Left" Margin="478,395,0,0" VerticalAlignment="Top" Height="44" Width="112" Foreground="White" FontSize="25.333"/>
-                        <Button x:Name="SelectTicketButton_Copy" Content="Edit" HorizontalAlignment="Left" Height="54" Margin="478,466,0,0" VerticalAlignment="Top" Width="110" Click="button_Click" Background="#FF898989" Foreground="#FFEAEAEA"/>
-                        <Label x:Name="Discounted_Tickets_Label_Copy" Content="Edit Ticket" HorizontalAlignment="Left" Height="54" Margin="975,30,0,0" VerticalAlignment="Top" Width="221" FontSize="29.333" Foreground="White"/>
-                        <Label x:Name="Ticket__Label_Copy4" Content="Mangr&#xD;&#xA;ID #" HorizontalAlignment="Left" Margin="887,89,0,0" VerticalAlignment="Top" Height="80" Width="103" Foreground="White" FontSize="25.333"/>
-                        <Label x:Name="Ticket__Label_Copy5" Content="New&#xD;&#xA;Amount" HorizontalAlignment="Left" Margin="887,164,0,0" VerticalAlignment="Top" Height="80" Width="112" Foreground="White" FontSize="25.333"/>
-                        <Label x:Name="Ticket__Label_Copy6" Content="Reason for change:" HorizontalAlignment="Left" Margin="947,244,0,0" VerticalAlignment="Top" Height="44" Width="283" Foreground="White" FontSize="25.333"/>
-                        <Button x:Name="SelectTicketButton_Copy1" Content="Save" HorizontalAlignment="Left" Height="54" Margin="1024,594,0,0" VerticalAlignment="Top" Width="110" Click="button_Click" Background="#FF898989" Foreground="#FFEAEAEA"/>
-                        <TextBox x:Name="ManagerID_" HorizontalAlignment="Left" Height="53" Margin="990,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242" TextChanged="textBox_TextChanged"/>
-                        <TextBox x:Name="New_Amount" HorizontalAlignment="Left" Height="53" Margin="990,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242" TextChanged="textBox_TextChanged"/>
-                        <TextBox x:Name="Reason" HorizontalAlignment="Left" Height="271" Margin="913,293,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="319" TextChanged="textBox_TextChanged"/>
+                        <Button x:Name="denyBtn" Content="Deny" HorizontalAlignment="Left" Height="117" Margin="950,321,0,0" VerticalAlignment="Top" Width="247" Background="Red" Foreground="Black" BorderBrush="Red" Click="denyBtn_Click"/>
+                        <Button x:Name="approveBtn" Content="Approve" HorizontalAlignment="Left" Height="113" Margin="950,178,0,0" VerticalAlignment="Top" Width="247" Background="Lime" Foreground="Black" BorderBrush="Lime" Click="approveBtn_Click"/>
                     </Grid>
                 </TabItem>
             </TabControl>

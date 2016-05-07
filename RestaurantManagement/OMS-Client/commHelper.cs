@@ -62,7 +62,7 @@ namespace OMS
 			}
 		}
 
-		private static object ByteToObject(byte[] byteArray)
+		public static object ByteToObject(byte[] byteArray)
 		{
 			try
 			{

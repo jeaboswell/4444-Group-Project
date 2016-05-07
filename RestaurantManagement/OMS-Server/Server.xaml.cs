@@ -251,8 +251,20 @@ namespace OMS
 							clientRequest = client.Receive(ref ClientEp);
 							//sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjusted");
 							//sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), price);
-							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjustedToManager");
-							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), price);
+							foreach (ClientInfo c in clientList.Items)
+							{
+								sendCommand(c.IP, "ticketAdjustedToManager");
+								sendCommand(c.IP, Encoding.ASCII.GetString(clientRequest));
+								sendCommand(c.IP, price);
+							}
+							break;
+						case "approveAdjustment":
+							clientRequest = client.Receive(ref ClientEp);
+							string setPrice = Encoding.ASCII.GetString(clientRequest);
+							clientRequest = client.Receive(ref ClientEp);
+
+							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), "ticketAdjusted");
+							sendCommand(IPAddress.Parse(Encoding.ASCII.GetString(clientRequest)), setPrice);
 							break;
 						case "orderSubmitted":
 							foreach (ClientInfo c in clientList.Items)

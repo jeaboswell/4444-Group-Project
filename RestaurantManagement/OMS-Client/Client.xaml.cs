@@ -210,8 +210,11 @@ namespace OMS
 							break;
 						case "ticketAdjustedToManager":
 							command = server.Receive(ref serverEp);
+							string adjIP = Encoding.ASCII.GetString(command);
+							command = server.Receive(ref serverEp);
 							decimal priceManager = Convert.ToDecimal(Encoding.ASCII.GetString(command));
-							price = Math.Round(priceManager, 2);
+							priceManager = Math.Round(priceManager, 2);
+							managerUI.addBillAdjustment(adjIP, priceManager);
 							break;
 						case "close":
                             Dispatcher.Invoke(() =>
