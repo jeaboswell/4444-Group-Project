@@ -165,22 +165,22 @@ namespace OMS
 
 		private void approveBtn_Click(object sender, RoutedEventArgs e)
 		{
-			foreach(client c in clientList)
-			{
-				if (c.name == Discounted_Tickets_List.SelectedValue.ToString())
-				{
-					commHelper.functionSend("approveAdjustment");
-					commHelper.functionSend(c.adjustment.ToString());
-					commHelper.functionSend(c.ip.ToString());
+			//foreach(client c in clientList)
+			//{
+			//	if (c.name == Discounted_Tickets_List.SelectedValue.ToString())
+			//	{
+			//		commHelper.functionSend("approveAdjustment");
+			//		commHelper.functionSend(c.adjustment.ToString());
+			//		commHelper.functionSend(c.ip.ToString());
 
-					Discounted_Tickets_List.Items.Remove(c.name);
-				}
-			}
+			//		Discounted_Tickets_List.Items.Remove(c.name);
+			//	}
+			//}
 		}
 
 		private void denyBtn_Click(object sender, RoutedEventArgs e)
 		{
-			Discounted_Tickets_List.Items.Remove(Discounted_Tickets_List.SelectedValue.ToString());
+			//Discounted_Tickets_List.Items.Remove(Discounted_Tickets_List.SelectedValue.ToString());
 		}
 	}
 }
