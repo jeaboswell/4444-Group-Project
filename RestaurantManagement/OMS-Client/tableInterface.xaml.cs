@@ -31,7 +31,7 @@ namespace OMS
 		int funGames = 0, couponGames = 0;
 		object order = new object();
 		bool payFirst = true, tipApplied = false, couponApplied = false, adjustmentApplied = false;
-		decimal tip = 0, adjustment = 0;
+		decimal tip = 0, adjustment = 0, sendTotal = 0;
 		#endregion
 
 		#region Initialization
@@ -1008,7 +1008,7 @@ namespace OMS
 		}
 		#endregion
 
-		// ToDo: Reset control after survey
+		// Complete
 		#region Payment Functions
 		/// <summary>
 		/// Updates payment tab
@@ -1240,6 +1240,8 @@ namespace OMS
 				Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF000000"))
 			});
 			paymentList.Items.Add(billTotal);
+
+			sendTotal = runningTotal;
 		}
 
 		#region |   Credit Card Fields   |
@@ -1674,6 +1676,21 @@ namespace OMS
 				}
 				catch (Exception) { }
 			}
+
+			try
+			{
+				using (SqlConnection connection = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+				{
+					SqlCommand command = new SqlCommand(@"insert into dbo.DailyRevenue (Value) values (@value)", connection);
+					command.Parameters.AddWithValue("@value", sendTotal);
+
+					connection.Open();
+					command.ExecuteScalar();
+					connection.Close();
+				}
+			}
+			catch (Exception) { }
+
 			sentOrders.Clear();
 			updateBill();
 			Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
@@ -2380,7 +2397,7 @@ namespace OMS
 			funGames = couponGames = 0;
 			order = new object();
 			payFirst = true; tipApplied = false; couponApplied = false; adjustmentApplied = false;
-			tip = 0m; adjustment = 0m;
+			tip = 0m; adjustment = 0m; sendTotal = 0m;
 			ccNumber.Clear();
 			ccMonth.SelectedIndex = -1;
 			ccYear.SelectedIndex = -1;
