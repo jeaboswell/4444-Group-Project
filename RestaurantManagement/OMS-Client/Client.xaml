@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OMS"
         mc:Ignorable="d"
-        Title="OMS-Client" Height="720" Width="1280" Closing="main_Closing" Loaded="main_Loaded" Icon="Resources/clientIcon.ico" ContentRendered="main_ContentRendered">
+        Title="OMS-Client" Height="720" Width="1280" Closing="main_Closing" Loaded="main_Loaded" Icon="Resources/clientIcon.ico">
     <Grid x:Name="mainGrid">
         <Grid x:Name="permissionGrid" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Width="180">
             <Label x:Name="permLabel" Content="Waiting on server..." HorizontalAlignment="Left" Margin="69,0,0,0" VerticalAlignment="Top" Width="111"/>
@@ -15,6 +15,7 @@
         <local:tableInterface x:Name="tableUI" Width="Auto" Height="Auto" Visibility="Hidden"/>
         <local:Kitchen x:Name="kitchenUI" Width="Auto" Height="Auto" Visibility="Hidden"/>
         <local:EmployeeInterface x:Name="employeeUI" Height="Auto" Visibility="Hidden" Width="Auto"/>
+        <local:ManagerInterface x:Name="managerUI" Width="Auto" Height="Auto"/>
 
     </Grid>
 </Window>

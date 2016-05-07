@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OMS_Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,9 @@ namespace OMS
     /// <summary>
     /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class ManagerInterface : UserControl
     {
-        public Page1()
+        public ManagerInterface()
         {
             InitializeComponent();
         }
@@ -36,6 +37,16 @@ namespace OMS
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void listBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
         {
 
         }

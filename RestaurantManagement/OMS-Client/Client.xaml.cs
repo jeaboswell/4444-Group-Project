@@ -238,13 +238,15 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Hidden;
+                    managerUI.Visibility = Visibility.Hidden;
 					break;
 				case "Manager":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Hidden;
-					break;
+                    managerUI.Visibility = Visibility.Visible;
+                    break;
 				case "Waiter":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Hidden;
@@ -257,13 +259,15 @@ namespace OMS
 					tableUI.Visibility = Visibility.Hidden;
 					kitchenUI.Visibility = Visibility.Visible;
 					employeeUI.Visibility = Visibility.Hidden;
-					break;
+                    managerUI.Visibility = Visibility.Hidden;
+                    break;
 				case "Table":
 					permLabel.Content = permission;
 					tableUI.Visibility = Visibility.Visible;
 					kitchenUI.Visibility = Visibility.Hidden;
 					employeeUI.Visibility = Visibility.Hidden;
-					break;
+                    managerUI.Visibility = Visibility.Hidden;
+                    break;
 				default:
 					break;
 			}
