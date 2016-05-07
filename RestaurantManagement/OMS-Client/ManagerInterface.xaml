@@ -32,16 +32,18 @@
         </Style>
     </UserControl.Resources>
     <Viewbox Stretch="Fill">
-    <Grid Background="Black" Margin="0">
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="689" VerticalAlignment="Top" Width="1272" SelectionChanged="tabControl_SelectionChanged" Background="Black">
-            <TabItem Header="Finance Report" Margin="428,581,-428,-581" RenderTransformOrigin="2.707,8.955" Height="108" FontFamily="Arial Unicode MS" FontWeight="Bold" Background="Black" FontSize="22.667" Foreground="White" BorderBrush="White" BorderThickness="0" Width="227">
-                <Grid Background="Black" Margin="-2,-114,-5,0">
-                    <Label x:Name="DailySummaryLabel" Content="Daily Summary" HorizontalAlignment="Left" Margin="35,31,0,0" VerticalAlignment="Top" Height="53" Width="241" Foreground="White" FontSize="29.333"/>
-                    <ListBox x:Name="TotalRevenue" HorizontalAlignment="Left" Height="457" Margin="486,105,0,0" VerticalAlignment="Top" Width="361" SelectionChanged="listBox2_SelectionChanged"/>
-                    <Label x:Name="Daily_Revenue_Label" Content="Daily Revenue" HorizontalAlignment="Left" Height="130" Margin="486,31,0,0" VerticalAlignment="Top" Width="229" Foreground="White" FontSize="29.333"/>
-                    <ListBox x:Name="DailySummary" HorizontalAlignment="Left" Height="457" Margin="35,105,0,0" VerticalAlignment="Top" Width="403"/>
-                </Grid>
-            </TabItem>
+        <Grid Background="Black" Margin="0">
+            <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="689" VerticalAlignment="Top" Width="1272" SelectionChanged="tabControl_SelectionChanged" Background="Black">
+                <TabItem Header="Finance Report" Margin="428,581,-428,-581" RenderTransformOrigin="2.707,8.955" Height="108" FontFamily="Arial Unicode MS" FontWeight="Bold" Background="Black" FontSize="22.667" Foreground="White" BorderBrush="White" BorderThickness="0" Width="227">
+                    <Grid Background="Black" Margin="-2,-114,-5,0">
+                        <Label x:Name="DailySummaryLabel" Content="All Bills:" HorizontalAlignment="Left" Margin="35,31,0,0" VerticalAlignment="Top" Height="53" Width="241" Foreground="White" FontSize="29.333"/>
+                        <ListBox x:Name="TotalRevenue" HorizontalAlignment="Left" Height="73" Margin="699,293,0,0" VerticalAlignment="Top" Width="324" SelectionChanged="listBox2_SelectionChanged"/>
+                        <Label x:Name="Daily_Revenue_Label" Content="Daily Revenue" HorizontalAlignment="Left" Height="130" Margin="732,236,0,0" VerticalAlignment="Top" Width="229" Foreground="White" FontSize="29.333"/>
+                        <ListBox x:Name="DailySummary" HorizontalAlignment="Left" Height="457" Margin="35,105,0,0" VerticalAlignment="Top" Width="403"/>
+                        <Label x:Name="Daily_Revenue_Label_Copy" Content="$" HorizontalAlignment="Left" Height="60" Margin="660,306,0,0" VerticalAlignment="Top" Width="39" Foreground="White" FontSize="29.333"/>
+                        <Button x:Name="PullDailyReport" Content="Pull Report" HorizontalAlignment="Left" Height="50" Margin="95,598,0,0" VerticalAlignment="Top" Width="262" Click="PullDailyReport_Click"/>
+                    </Grid>
+                </TabItem>
                 <TabItem Header="Discounted Tickets" RenderTransformOrigin="3.879,5.818" Margin="430,581,-430,-581" Height="108" FontWeight="Bold" FontFamily="Arial Unicode MS" Background="Black" Foreground="White" FontSize="22.667" BorderBrush="White">
                     <Grid Background="Black" Margin="-3,-115,-3,1">
                         <ListBox x:Name="Discounted_Tickets_List" HorizontalAlignment="Left" Height="458" Margin="35,106,0,0" VerticalAlignment="Top" Width="405" SelectionChanged="listBox_SelectionChanged" Background="White"/>
