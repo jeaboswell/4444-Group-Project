@@ -1,29 +1,19 @@
 ﻿#region Usings
+using OMS_Library;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using OMS_Library;
 using System.Windows.Threading;
 #endregion
 
@@ -1018,7 +1008,7 @@ namespace OMS
 		}
 		#endregion
 
-		// ToDo: Add survey after payment
+		// ToDo: Reset control after survey
 		#region Payment Functions
 		/// <summary>
 		/// Updates payment tab
@@ -2111,6 +2101,7 @@ namespace OMS
 						openCon.Close();
 						commHelper.functionSend("updateOrders");
 						sentOrders.Add(order);
+						incrementTimesOrdered();
 						order = new Cart();
 						addCartItems();
 
@@ -2139,6 +2130,45 @@ namespace OMS
 		private void noSubmit_Click(object sender, RoutedEventArgs e)
 		{
 			verifyOrderSubmission.Visibility = Visibility.Hidden;
+		}
+		/// <summary>
+		/// Increases times ordered for each item submitted by 1 in the database
+		/// </summary>
+		private void incrementTimesOrdered()
+		{
+			foreach (cartItem i in ((Cart)order).Items)
+			{
+				try
+				{
+					using (SqlConnection openCon = new SqlConnection("Server=tcp:omsdb.database.windows.net,1433;Database=OMSDB;User ID=csce4444@omsdb;Password=Pineapple!;"))
+					{
+						int timesOrdered = 0;
+						using (SqlCommand querySave = new SqlCommand("select * from dbo.Menu where Id = @id", openCon))
+						{
+							querySave.Parameters.AddWithValue("@id", i.itemNumber);
+
+							openCon.Open();
+							SqlDataReader reader = querySave.ExecuteReader();
+							reader.Read();
+							timesOrdered = (int)reader[6];
+							openCon.Close();
+						}
+
+						timesOrdered++;
+
+						using (SqlCommand querySave = new SqlCommand("update dbo.Menu set TimesOrdered = @times where Id = @id", openCon))
+						{
+							querySave.Parameters.AddWithValue("@times", timesOrdered);
+							querySave.Parameters.AddWithValue("@id", i.itemNumber);
+
+							openCon.Open();
+							querySave.ExecuteScalar();
+							openCon.Close();
+						}
+					}
+				}
+				catch (Exception) { }
+			}
 		}
 		#endregion
 		#endregion
