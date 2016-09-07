@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="savedPermission" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Waiter</Value>
+      <Value Profile="(Default)">Table</Value>
     </Setting>
     <Setting Name="DatabasesConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
